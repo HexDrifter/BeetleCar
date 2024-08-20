@@ -1,0 +1,21 @@
+{
+    "name": "ClownCar.Framework",
+    "rootNamespace": "ClownCar.Framework",
+    "references": [
+        "GUID:fe6f8acd8d97a6d47bc2437ebdab3c62",
+        "GUID:c8bd7ea2c6a8ce74f8716365fb65dd88",
+        "GUID:c594b36a5636bb6498e68b85af682d1c",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

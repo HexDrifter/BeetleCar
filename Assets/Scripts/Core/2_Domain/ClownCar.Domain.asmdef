@@ -1,0 +1,16 @@
+{
+    "name": "ClownCar.Domain",
+    "rootNamespace": "ClownCar.Domain",
+    "references": [
+        "GUID:c594b36a5636bb6498e68b85af682d1c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

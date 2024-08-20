@@ -53,6 +53,24 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ShiftUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""19bb3aa4-7cc2-4ff3-b09b-2f70097ce051"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShiftDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""eac87865-661f-4838-95ed-6aedddc5b295"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -123,6 +141,39 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
+                    ""name"": ""Keyboard Arrows"",
+                    ""id"": ""c8d46d44-4f24-45eb-9ad5-8fc6cb01d9ba"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Direction"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""09bfab1c-f210-4747-b5d6-8f4f271026e3"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Direction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""cc18b7e5-972a-4f5a-9606-f0a1d34d61ef"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Direction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""50c2ed9a-72fa-4b50-b382-bac2be779e2e"",
                     ""path"": ""<Keyboard>/s"",
@@ -143,6 +194,28 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""action"": ""Acceleration"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec084fa1-12ae-4235-b391-151bb40215f2"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShiftUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb3da2f7-8cf9-4258-8ac1-b1a8d2f4509c"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShiftDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -154,6 +227,8 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Actor_Direction = m_Actor.FindAction("Direction", throwIfNotFound: true);
         m_Actor_Acceleration = m_Actor.FindAction("Acceleration", throwIfNotFound: true);
         m_Actor_Brake = m_Actor.FindAction("Brake", throwIfNotFound: true);
+        m_Actor_ShiftUp = m_Actor.FindAction("ShiftUp", throwIfNotFound: true);
+        m_Actor_ShiftDown = m_Actor.FindAction("ShiftDown", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -218,6 +293,8 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Actor_Direction;
     private readonly InputAction m_Actor_Acceleration;
     private readonly InputAction m_Actor_Brake;
+    private readonly InputAction m_Actor_ShiftUp;
+    private readonly InputAction m_Actor_ShiftDown;
     public struct ActorActions
     {
         private @GameInput m_Wrapper;
@@ -225,6 +302,8 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         public InputAction @Direction => m_Wrapper.m_Actor_Direction;
         public InputAction @Acceleration => m_Wrapper.m_Actor_Acceleration;
         public InputAction @Brake => m_Wrapper.m_Actor_Brake;
+        public InputAction @ShiftUp => m_Wrapper.m_Actor_ShiftUp;
+        public InputAction @ShiftDown => m_Wrapper.m_Actor_ShiftDown;
         public InputActionMap Get() { return m_Wrapper.m_Actor; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -243,6 +322,12 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Brake.started += instance.OnBrake;
             @Brake.performed += instance.OnBrake;
             @Brake.canceled += instance.OnBrake;
+            @ShiftUp.started += instance.OnShiftUp;
+            @ShiftUp.performed += instance.OnShiftUp;
+            @ShiftUp.canceled += instance.OnShiftUp;
+            @ShiftDown.started += instance.OnShiftDown;
+            @ShiftDown.performed += instance.OnShiftDown;
+            @ShiftDown.canceled += instance.OnShiftDown;
         }
 
         private void UnregisterCallbacks(IActorActions instance)
@@ -256,6 +341,12 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Brake.started -= instance.OnBrake;
             @Brake.performed -= instance.OnBrake;
             @Brake.canceled -= instance.OnBrake;
+            @ShiftUp.started -= instance.OnShiftUp;
+            @ShiftUp.performed -= instance.OnShiftUp;
+            @ShiftUp.canceled -= instance.OnShiftUp;
+            @ShiftDown.started -= instance.OnShiftDown;
+            @ShiftDown.performed -= instance.OnShiftDown;
+            @ShiftDown.canceled -= instance.OnShiftDown;
         }
 
         public void RemoveCallbacks(IActorActions instance)
@@ -278,5 +369,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         void OnDirection(InputAction.CallbackContext context);
         void OnAcceleration(InputAction.CallbackContext context);
         void OnBrake(InputAction.CallbackContext context);
+        void OnShiftUp(InputAction.CallbackContext context);
+        void OnShiftDown(InputAction.CallbackContext context);
     }
 }
