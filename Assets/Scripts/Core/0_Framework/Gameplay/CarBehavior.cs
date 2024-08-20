@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 namespace ClownCar.Framework
 {
@@ -18,6 +19,7 @@ namespace ClownCar.Framework
         private float _engineRPM; 
         private float _minRPM = 700f;
         private float _maxRPM = 5000f;
+        private float steerAngle;
 
         
 
@@ -31,13 +33,13 @@ namespace ClownCar.Framework
         [SerializeField] public float engineTorque;
         [SerializeField] public float brakeForce;
         [SerializeField] public float maxAngle;
+        [SerializeField] public float steerSpeed;
     
         public Vector2 inputDirection => _inputDirection;
         public float inputAcceleration => _inputAcceleration;
         public float inputBrake => _inputBrake;
         public float engineRPM => _engineRPM;
         public int currentGear => _currentGear;
-        public float maxRPM;
 
 
         [Header("Wheel Colliders")]
@@ -65,8 +67,17 @@ namespace ClownCar.Framework
 
         internal void SetCarDirection()
         {
-            frontLeftWheelCollider.steerAngle = maxAngle * _inputDirection.x;
-            frontRightWheelCollider.steerAngle = maxAngle* _inputDirection.x;
+            
+            if (maxAngle * _inputDirection.x > steerAngle)
+            {
+                steerAngle += steerSpeed;
+            }
+            else if(maxAngle * _inputDirection.x < steerAngle)
+            {
+                steerAngle -= steerSpeed;
+            }
+            frontLeftWheelCollider.steerAngle = steerAngle;
+            frontRightWheelCollider.steerAngle = steerAngle;
         }
 
         internal void SetInputAcceleration(float inputAcceleration)

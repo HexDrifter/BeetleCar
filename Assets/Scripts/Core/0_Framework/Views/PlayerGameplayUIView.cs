@@ -24,7 +24,7 @@ namespace ClownCar.Framework
                 .Rpm
                 .Subscribe((rpms) =>
                 {
-                    _text_rpm_value.text = "RPM: " + rpms.ToString();
+                    _text_rpm_value.text = "RPM: " + rpms.ToString("N1");
                     _slider_value.value  = Mathf.Clamp(rpms/5000f,0.1f,1f);
                 })
                 .AddTo(_disposables);
