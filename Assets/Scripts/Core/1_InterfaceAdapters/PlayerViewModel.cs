@@ -4,7 +4,7 @@ using UniRx;
 using UnityEngine;
 
 
-namespace ClownCar.InterfaceAdapters
+namespace Beetle.InterfaceAdapters
 {
     public class PlayerViewModel
     {

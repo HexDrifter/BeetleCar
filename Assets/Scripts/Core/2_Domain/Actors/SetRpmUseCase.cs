@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace ClownCar.Domain
+namespace Beetle.Domain
 {
-    using ClownCar.Entities;
+    using Beetle.Entities;
     public class SetRpmUseCase : SetRpm
     {
         private readonly PlayerRpmOutput _rpmOutput;

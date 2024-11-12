@@ -1547,7 +1547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9789e6585942eae4bacb5075a36eebc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  engineTorque: 800
+  engineTorque: 180
   brakeForce: 1000
   maxAngle: 45
   steerSpeed: 1

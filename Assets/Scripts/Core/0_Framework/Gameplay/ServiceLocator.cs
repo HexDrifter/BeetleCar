@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.Assertions;
 
-namespace ClownCar.SystemUtilities
+namespace Beetle.SystemUtilities
 {
     public class ServiceLocator
     {

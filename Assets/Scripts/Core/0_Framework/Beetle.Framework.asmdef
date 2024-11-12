@@ -1,10 +1,13 @@
 {
-    "name": "ClownCar.InterfaceAdapters",
-    "rootNamespace": "ClownCar.InterfaceAdapters",
+    "name": "Beetle.Framework",
+    "rootNamespace": "Beetle.Framework",
     "references": [
-        "GUID:c8bd7ea2c6a8ce74f8716365fb65dd88",
-        "GUID:c594b36a5636bb6498e68b85af682d1c",
-        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
+        "Beetle.InterfaceAdapters",
+        "Beetle.Domain",
+        "Beetle.Entities",
+        "UniRx",
+        "Unity.TextMeshPro",
+        "Unity.InputSystem"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

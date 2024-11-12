@@ -1,5 +1,5 @@
-using ClownCar.Domain;
-using ClownCar.SystemUtilities;
+using Beetle.Domain;
+using Beetle.SystemUtilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-namespace ClownCar.Framework
+namespace Beetle.Framework
 {
 
     public class CarBehavior : MonoBehaviour

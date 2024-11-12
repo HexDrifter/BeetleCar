@@ -1,4 +1,4 @@
-using ClownCar.InterfaceAdapters;
+using Beetle.InterfaceAdapters;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,7 +6,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ClownCar.Framework
+namespace Beetle.Framework
 {
     public class PlayerGameplayUIView : BaseReactiveView
     {

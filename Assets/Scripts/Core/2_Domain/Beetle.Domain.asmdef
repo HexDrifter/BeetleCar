@@ -1,0 +1,16 @@
+{
+    "name": "Beetle.Domain",
+    "rootNamespace": "Beetle.Domain",
+    "references": [
+        "GUID:6eb7160a77d5f084c96c1892ae580553"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

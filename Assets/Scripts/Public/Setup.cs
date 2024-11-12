@@ -1,8 +1,8 @@
-using ClownCar.Entities;
-using ClownCar.Domain;
-using ClownCar.Framework;
-using ClownCar.InterfaceAdapters;
-using ClownCar.SystemUtilities;
+using Beetle.Entities;
+using Beetle.Domain;
+using Beetle.Framework;
+using Beetle.InterfaceAdapters;
+using Beetle.SystemUtilities;
 using UniRx;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,6 +22,7 @@ public class Setup : MonoBehaviour
 
     void Awake()
     {
+        
         _carHandler = new CarHandler();
         var player = _carHandler.CarBehavior;
         var playerViewModel = new PlayerViewModel(player.engineRPM,player.currentGear);

@@ -1,6 +1,6 @@
 {
-    "name": "ClownCar.Entities",
-    "rootNamespace": "ClownCar.Entities",
+    "name": "Beetle.Entities",
+    "rootNamespace": "Beetle.Entities",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

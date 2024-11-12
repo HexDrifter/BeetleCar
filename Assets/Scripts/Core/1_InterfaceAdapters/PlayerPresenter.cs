@@ -1,9 +1,9 @@
-using ClownCar.Domain;
+using Beetle.Domain;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ClownCar.InterfaceAdapters
+namespace Beetle.InterfaceAdapters
 {
     public class PlayerPresenter : PlayerRpmOutput, PlayerGearOutput
     {

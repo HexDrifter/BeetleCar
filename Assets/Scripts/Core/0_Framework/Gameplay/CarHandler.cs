@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ClownCar.Framework
+namespace Beetle.Framework
 {
 
     public class CarHandler

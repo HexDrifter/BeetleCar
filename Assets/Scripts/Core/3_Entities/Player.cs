@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ClownCar.Entities
+namespace Beetle.Entities
 {
     public class Player
     {

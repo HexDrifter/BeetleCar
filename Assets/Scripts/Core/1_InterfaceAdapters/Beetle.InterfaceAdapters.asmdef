@@ -1,8 +1,10 @@
 {
-    "name": "ClownCar.Domain",
-    "rootNamespace": "ClownCar.Domain",
+    "name": "Beetle.InterfaceAdapters",
+    "rootNamespace": "Beetle.InterfaceAdapters",
     "references": [
-        "GUID:c594b36a5636bb6498e68b85af682d1c"
+        "GUID:5986792e45a19444e8f664da83999009",
+        "GUID:6eb7160a77d5f084c96c1892ae580553",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
