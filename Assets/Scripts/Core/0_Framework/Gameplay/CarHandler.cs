@@ -19,6 +19,7 @@ namespace Beetle.Framework
 
         public CarHandler()
         {
+            
             _carBehavior = GameObject.FindGameObjectWithTag("Player").GetComponent<CarBehavior>();
         }
 
@@ -42,7 +43,7 @@ namespace Beetle.Framework
             _carBehavior.SetInputDirection(_inputDirection);
             _carBehavior.SetInputAcceleration(_inputAcceleration);
             _carBehavior.SetInputBrake(_inputBrake);
-            _carBehavior.tick();
+            _carBehavior.Tick();
         }
 
         public void SetInputGearUp(bool shifting)

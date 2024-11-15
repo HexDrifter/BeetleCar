@@ -16,7 +16,6 @@ namespace Beetle.InterfaceAdapters
 
             Rpm = new FloatReactiveProperty(rpm);
             Gear = new IntReactiveProperty(gear);
-            Debug.Log(Rpm);
         }
     }
 

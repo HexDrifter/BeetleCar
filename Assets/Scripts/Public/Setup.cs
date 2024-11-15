@@ -38,6 +38,7 @@ public class Setup : MonoBehaviour
         
         _gameInput = new GameInput();
         _gameInput.Enable();
+        
 
     }
 

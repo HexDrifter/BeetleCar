@@ -10,9 +10,8 @@ namespace Beetle.Framework
 {
     public class PlayerGameplayUIView : BaseReactiveView
     {
-        [SerializeField] private TextMeshProUGUI _text_rpm_value;
         [SerializeField] private TextMeshProUGUI _text_shift_value;
-        [SerializeField] private Slider          _slider_value;
+        [SerializeField] private GaugeUIView _rpmGauge;
         private string[] _gears = {"R","N","1","2","3","4"};
         private PlayerViewModel _playerViewModel;
 
@@ -24,8 +23,7 @@ namespace Beetle.Framework
                 .Rpm
                 .Subscribe((rpms) =>
                 {
-                    _text_rpm_value.text = "RPM: " + rpms.ToString("N1");
-                    _slider_value.value  = Mathf.Clamp(rpms/5000f,0.1f,1f);
+                    _rpmGauge.SetInputValue(rpms);
                 })
                 .AddTo(_disposables);
 
@@ -33,7 +31,7 @@ namespace Beetle.Framework
                 .Gear
                 .Subscribe((gears) =>
                 {
-                    _text_shift_value.text = "Gear: "+ _gears[gears];
+                    _text_shift_value.text = _gears[gears];
                 })
                 .AddTo(_disposables);
         }

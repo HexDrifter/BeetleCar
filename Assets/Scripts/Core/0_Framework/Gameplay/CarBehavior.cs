@@ -18,7 +18,7 @@ namespace Beetle.Framework
         private float _finalDriveRatio = 4.12f;
         private float _engineRPM; 
         private float _minRPM = 700f;
-        private float _maxRPM = 5000f;
+        private float _maxRPM = 6600f;
         private float steerAngle;
 
         
@@ -195,7 +195,7 @@ namespace Beetle.Framework
             }
             ServiceLocator.Instance.GetService<SetGearUseCase>().SetGearValue(_currentGear);
         }
-        internal void tick()
+        internal void Tick()
         {
             SetCarDirection();
             SetCarAcceleration();
