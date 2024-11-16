@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Beetle.InterfaceAdapters
 {
-    public class PlayerPresenter : PlayerRpmOutput, PlayerGearOutput
+    public class PlayerPresenter : PlayerRpmOutput, PlayerGearOutput, PlayerSpeedOutput
     {
         private readonly PlayerViewModel _playerViewModel;
         public PlayerPresenter(PlayerViewModel playerViewModel)
@@ -20,5 +20,11 @@ namespace Beetle.InterfaceAdapters
         {
             _playerViewModel.Gear.Value = gear;
         }
+
+        public void ShowSpeed(float speed)
+        {
+            _playerViewModel.Speed.Value = speed;
+        }
+        
     }
 }

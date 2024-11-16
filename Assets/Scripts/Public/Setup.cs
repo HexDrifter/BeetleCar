@@ -25,7 +25,7 @@ public class Setup : MonoBehaviour
         
         _carHandler = new CarHandler();
         var player = _carHandler.CarBehavior;
-        var playerViewModel = new PlayerViewModel(player.engineRPM,player.currentGear);
+        var playerViewModel = new PlayerViewModel(player.engineRPM,player.currentGear, player.carSpeed);
         var playerPresenter = new PlayerPresenter(playerViewModel);
         var setRpmUseCase = new SetRpmUseCase(playerPresenter);
         _playerGameplayUIView.SetModel(playerViewModel);
@@ -35,6 +35,9 @@ public class Setup : MonoBehaviour
         var setGearUseCase = new SetGearUseCase(playerPresenter);
 
         ServiceLocator.Instance.RegisterService<SetGearUseCase>(setGearUseCase);
+        var setSpeedUseCase = new SetSpeedUseCase(playerPresenter);
+
+        ServiceLocator.Instance.RegisterService<SetSpeedUseCase>(setSpeedUseCase);
         
         _gameInput = new GameInput();
         _gameInput.Enable();

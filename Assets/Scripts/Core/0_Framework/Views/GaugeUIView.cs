@@ -31,17 +31,20 @@ namespace Beetle.Framework
         }
         public void SetPointerValue(float value)
         {
-            float angle = value / limit;
-            angle = -angle * (pointerMinAngle + pointerMaxAngle);
-            angle += pointerMinAngle;
+            float targetAngle = value / limit;
+            targetAngle = -targetAngle * (pointerMinAngle + pointerMaxAngle);
+            targetAngle += pointerMinAngle;
 
-            if (pointerAngle >= angle)
+            float angleDifference = Mathf.Abs(pointerAngle - targetAngle);
+
+            float adjustedSpeed = pointerSpeed * (angleDifference / (pointerMaxAngle + pointerMinAngle));
+            if (pointerAngle >= targetAngle + 1f)
             {
-                pointerAngle -= pointerSpeed * Time.deltaTime;
+                pointerAngle -= adjustedSpeed * Time.deltaTime;
             }
-            else if (pointerAngle <= angle)
+            else if (pointerAngle <= targetAngle - 1f)
             {
-                pointerAngle += pointerSpeed * Time.deltaTime;
+                pointerAngle += adjustedSpeed * Time.deltaTime;
             }
             SetPointerPosition(pointerAngle);
         }

@@ -11,7 +11,10 @@ namespace Beetle.Framework
     public class PlayerGameplayUIView : BaseReactiveView
     {
         [SerializeField] private TextMeshProUGUI _text_shift_value;
+        [SerializeField] private TextMeshProUGUI _text_speed_value;
         [SerializeField] private GaugeUIView _rpmGauge;
+        [SerializeField] private GaugeUIView _speedGauge;
+
         private string[] _gears = {"R","N","1","2","3","4"};
         private PlayerViewModel _playerViewModel;
 
@@ -34,6 +37,16 @@ namespace Beetle.Framework
                     _text_shift_value.text = _gears[gears];
                 })
                 .AddTo(_disposables);
+
+            _playerViewModel
+                .Speed
+                .Subscribe((speed) =>
+                {
+                    _speedGauge.SetInputValue(speed);
+                    _text_speed_value.text = (int)speed + " Km/h";
+                })
+                .AddTo(_disposables);
+
         }
     }
 
