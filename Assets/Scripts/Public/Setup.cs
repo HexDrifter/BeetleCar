@@ -18,11 +18,12 @@ public class Setup : MonoBehaviour
 
     private GameInput _gameInput;
     private CarHandler _carHandler;
+    private CarAnimator _carAnimator;
 
 
     void Awake()
     {
-        
+        _carAnimator = FindAnyObjectByType<CarAnimator>();
         _carHandler = new CarHandler();
         var player = _carHandler.CarBehavior;
         var playerViewModel = new PlayerViewModel(player.engineRPM,player.currentGear, player.carSpeed);
@@ -52,6 +53,7 @@ public class Setup : MonoBehaviour
         _carHandler.SetInputBrake(_gameInput.Actor.Brake.ReadValue<float>());
         _carHandler.SetInputGearUp(_gameInput.Actor.ShiftUp.triggered);
         _carHandler.SetInputGearDown(_gameInput.Actor.ShiftDown.triggered);
+        _carAnimator.OpenCloseRearHood(_gameInput.Actor.OpenRearHood.triggered);
         _carHandler.Tick();
     }
 }

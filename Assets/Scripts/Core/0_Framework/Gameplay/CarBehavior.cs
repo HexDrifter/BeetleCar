@@ -23,6 +23,7 @@ namespace Beetle.Framework
         private float _maxRPM = 6600f;
         private float steerAngle;
         private Car _car;
+        private CarAnimator _carAnimator;
         
 
 
@@ -52,17 +53,6 @@ namespace Beetle.Framework
         [SerializeField] public WheelCollider rearLeftWheelCollider;
         [SerializeField] public WheelCollider rearRightWheelCollider;
 
-        [Header("Wheel Transform")]
-        [SerializeField] public Transform frontLeftWheel;
-        [SerializeField] public Transform frontRightWheel;
-        [SerializeField] public Transform rearLeftWheel;
-        [SerializeField] public Transform rearRightWheel;
-
-        [Header("Wheel Calipers")]
-        [SerializeField] public Transform frontLeftCaliper;
-        [SerializeField] public Transform frontRightCaliper;
-        [SerializeField] public Transform rearLeftCaliper;
-        [SerializeField] public Transform rearRightCaliper;
 
         public void Awake()
         {
@@ -127,26 +117,27 @@ namespace Beetle.Framework
 
             if (_gearRatios[_currentGear] != 0f)
             {
-                if (_engineRPM < _minRPM && _inputAcceleration <= 0.2f)
+                float torque;
+                if (_engineRPM < _minRPM && _inputAcceleration <= 0.1f)
                 {
-                    float torque = (engineTorque * 0.2f * _gearRatios[_currentGear]) - 50f;
-                    rearLeftWheelCollider.motorTorque = torque;
-                    rearRightWheelCollider.motorTorque = torque;
+                    torque = (engineTorque * 0.5f * _gearRatios[_currentGear]);
                 }
                 else if(_engineRPM < _maxRPM){
-                    float torque = (engineTorque * _inputAcceleration * _gearRatios[_currentGear]) -50f;
-                    rearLeftWheelCollider.motorTorque = torque;
-                    rearRightWheelCollider.motorTorque = torque;
+                    if (_inputAcceleration >= 0.1f)
+                    {
+                        torque = (engineTorque * _inputAcceleration * _gearRatios[_currentGear]);
+                    }
+                    else
+                    {
+                        torque =  - 70f;
+                    }
                 }
                 else
                 {
-                    float torque = (engineTorque * 0 * _gearRatios[_currentGear]) -50f;
-                    rearLeftWheelCollider.motorTorque = torque;
-                    rearRightWheelCollider.motorTorque = torque;
+                    torque =-70f;
                 }
-
-                
-
+                rearLeftWheelCollider.motorTorque = torque;
+                rearRightWheelCollider.motorTorque = torque;
             }
             else
             {
@@ -169,46 +160,6 @@ namespace Beetle.Framework
         
         }
 
-        internal void AnimateWheels()
-        {
-            frontLeftWheelCollider.GetWorldPose(out Vector3 frontLeftWheelPose, out Quaternion frontLeftWheelRotation);
-            frontRightWheelCollider.GetWorldPose(out Vector3 frontRightWheelPose, out Quaternion frontRightWheelRotation);
-
-            frontLeftWheelRotation *= Quaternion.Euler(0, -90, 0);
-            frontRightWheelRotation *= Quaternion.Euler(0, 90, 0);
-        
-            frontLeftWheel.transform.rotation = frontLeftWheelRotation;
-            frontRightWheel.transform.rotation = frontRightWheelRotation;
-        
-            frontLeftWheel.transform.position = frontLeftWheelPose;
-            frontRightWheel.transform.position = frontRightWheelPose;
-        
-            frontLeftCaliper.transform.position = frontLeftWheelPose;
-            frontLeftCaliper.transform.rotation = Quaternion.Euler(0, frontLeftWheelRotation.eulerAngles.y, 0);
-
-            frontRightCaliper.transform.position = frontRightWheelPose;
-            frontRightCaliper.transform.rotation = Quaternion.Euler(0, frontRightWheelRotation.eulerAngles.y, 0);
-
-
-
-            rearLeftWheelCollider.GetWorldPose(out Vector3 rearLeftWheelPose, out Quaternion rearLeftWheelRotation);
-            rearRightWheelCollider.GetWorldPose(out Vector3 rearRightWheelPose, out Quaternion rearRightWheelRotation);
-        
-            rearLeftWheelRotation *= Quaternion.Euler(0, -90, 0);
-            rearRightWheelRotation *= Quaternion.Euler(0, 90, 0);
-        
-            rearLeftWheel.transform.rotation = rearLeftWheelRotation;
-            rearRightWheel.transform.rotation = rearRightWheelRotation;
-
-            rearLeftWheel.transform.position = rearLeftWheelPose;
-            rearRightWheel.transform.position = rearRightWheelPose;
-
-            rearLeftCaliper.transform.position = rearLeftWheelPose;
-            rearLeftCaliper.transform.rotation = Quaternion.Euler(0, rearLeftWheelRotation.eulerAngles.y, 0);
-
-            rearRightCaliper.transform.position = rearRightWheelPose;
-            rearRightCaliper.transform.rotation = Quaternion.Euler(0, rearRightWheelRotation.eulerAngles.y, 0);
-        }
 
         internal void ShiftUp()
         {
@@ -233,8 +184,10 @@ namespace Beetle.Framework
 
         internal void SetCarSpeed()
         {
+
             float frontWheelRPM = (frontLeftWheelCollider.rpm + frontRightWheelCollider.rpm) / 2f;
-            float wheelCircumference = 2 * Mathf.PI * frontLeftWheelCollider.radius;
+            //float wheelCircumference = 2 * Mathf.PI * frontLeftWheelCollider.radius;
+            float wheelCircumference = 2 * Mathf.PI * 0.41f;
             float speed = (frontWheelRPM * wheelCircumference * 60f) / 1000f;
             ServiceLocator.Instance.GetService<SetSpeedUseCase>().SetSpeedValue(speed);
         }
@@ -243,7 +196,6 @@ namespace Beetle.Framework
             SetCarDirection();
             SetCarAcceleration();
             SetCarBrake();
-            AnimateWheels();
             SetEngineRPM();
             SetCarSpeed();
         }

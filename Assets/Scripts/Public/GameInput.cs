@@ -89,6 +89,15 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenRearHood"",
+                    ""type"": ""Button"",
+                    ""id"": ""5f1bf3e6-d35b-4aa4-a7fd-bf1d1f9c8838"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -278,6 +287,17 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ea2cc743-50b5-4a05-906d-6a1231e0df7d"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenRearHood"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -293,6 +313,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Actor_ShiftDown = m_Actor.FindAction("ShiftDown", throwIfNotFound: true);
         m_Actor_RotateCamera = m_Actor.FindAction("RotateCamera", throwIfNotFound: true);
         m_Actor_Pause = m_Actor.FindAction("Pause", throwIfNotFound: true);
+        m_Actor_OpenRearHood = m_Actor.FindAction("OpenRearHood", throwIfNotFound: true);
     }
 
     ~@GameInput()
@@ -366,6 +387,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Actor_ShiftDown;
     private readonly InputAction m_Actor_RotateCamera;
     private readonly InputAction m_Actor_Pause;
+    private readonly InputAction m_Actor_OpenRearHood;
     public struct ActorActions
     {
         private @GameInput m_Wrapper;
@@ -377,6 +399,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         public InputAction @ShiftDown => m_Wrapper.m_Actor_ShiftDown;
         public InputAction @RotateCamera => m_Wrapper.m_Actor_RotateCamera;
         public InputAction @Pause => m_Wrapper.m_Actor_Pause;
+        public InputAction @OpenRearHood => m_Wrapper.m_Actor_OpenRearHood;
         public InputActionMap Get() { return m_Wrapper.m_Actor; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -407,6 +430,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @OpenRearHood.started += instance.OnOpenRearHood;
+            @OpenRearHood.performed += instance.OnOpenRearHood;
+            @OpenRearHood.canceled += instance.OnOpenRearHood;
         }
 
         private void UnregisterCallbacks(IActorActions instance)
@@ -432,6 +458,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @OpenRearHood.started -= instance.OnOpenRearHood;
+            @OpenRearHood.performed -= instance.OnOpenRearHood;
+            @OpenRearHood.canceled -= instance.OnOpenRearHood;
         }
 
         public void RemoveCallbacks(IActorActions instance)
@@ -458,5 +487,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         void OnShiftDown(InputAction.CallbackContext context);
         void OnRotateCamera(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnOpenRearHood(InputAction.CallbackContext context);
     }
 }
