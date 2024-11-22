@@ -13,6 +13,9 @@ namespace Beetle.Framework
 
     public class CarBehavior : MonoBehaviour
     {
+        protected StateMachine _stateMachine;
+
+
         private int _currentGear = 1;
         private int _maxGear = 5;
         private float[] _gearRatios = { -3.6f, 0f, 3.8f, 2.06f, 1.32f, 0.89f };
@@ -53,12 +56,13 @@ namespace Beetle.Framework
         [SerializeField] public WheelCollider rearLeftWheelCollider;
         [SerializeField] public WheelCollider rearRightWheelCollider;
 
+        protected string AtEngineState(IState from, IState to, Func<bool> condition) => _stateMachine.AddTransition(from, to, condition); 
 
-        public void Awake()
+        public virtual void Initialize()
         {
-            _car = new Car(_gearRatios, _finalDriveRatio,_minRPM,_maxRPM,0.4f);
-            
+            _stateMachine = new StateMachine();
         }
+
         internal void SetInputDirection(Vector2 inputDirection)
         {
             _inputDirection = inputDirection;
@@ -69,11 +73,11 @@ namespace Beetle.Framework
             
             if (maxAngle * _inputDirection.x > steerAngle)
             {
-                steerAngle += steerSpeed;
+                steerAngle += steerSpeed * Time.deltaTime * 10;
             }
             else if(maxAngle * _inputDirection.x < steerAngle)
             {
-                steerAngle -= steerSpeed;
+                steerAngle -= steerSpeed * Time.deltaTime * 10;
             }
             frontLeftWheelCollider.steerAngle = steerAngle;
             frontRightWheelCollider.steerAngle = steerAngle;
@@ -110,6 +114,8 @@ namespace Beetle.Framework
             }
             ServiceLocator.Instance.GetService<SetRpmUseCase>().SetRpmValue(_engineRPM);
         }
+
+
 
 
         internal void SetCarAcceleration()

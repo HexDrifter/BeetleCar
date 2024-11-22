@@ -31,6 +31,8 @@ public class TestSetup : MonoBehaviour
         ServiceLocator.Instance.RegisterService<SetRpmUseCase>(setRpmUseCase);
         var setGearUseCase = new SetGearUseCase(playerPresenter);
         ServiceLocator.Instance.RegisterService<SetGearUseCase>(setGearUseCase);
+        var setSpeedUseCase = new SetSpeedUseCase(playerPresenter);
+        ServiceLocator.Instance.RegisterService<SetSpeedUseCase>(setSpeedUseCase);
     }
     // Update is called once per frame
     void Update()

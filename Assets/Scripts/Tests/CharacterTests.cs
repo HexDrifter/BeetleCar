@@ -15,7 +15,7 @@ using UnityEngine.TestTools;
 public class CharacterTests : InputTestFixture
 {
     private PlayerGameplayUIView _playerGameplayUIView;
-    private GameObject _character = Resources.Load<GameObject>("Prefabs/Car");
+    private GameObject _character = Resources.Load<GameObject>("Prefabs/Volkswagen Beetle");
     private CarHandler _carHandler;
     private Keyboard _keyboard;
     private Gamepad _gamepad;

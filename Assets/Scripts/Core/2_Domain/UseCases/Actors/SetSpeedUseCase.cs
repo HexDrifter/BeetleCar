@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Beetle.Domain
 {
+    using Beetle.Entities;
     public class SetSpeedUseCase : SetSpeed
     {
         private readonly PlayerSpeedOutput _playerSpeedOutput;

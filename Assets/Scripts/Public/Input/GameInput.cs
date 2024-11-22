@@ -98,6 +98,15 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""StartEngine"",
+                    ""type"": ""Button"",
+                    ""id"": ""33bea883-f862-4b89-a51c-a7e9b26af6d1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -236,7 +245,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e1bcd5e3-432c-4d19-87de-7a12a2bfbbad"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -258,7 +267,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""3e78f974-23a6-49a5-a8a9-24da285a8697"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -298,6 +307,17 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""action"": ""OpenRearHood"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""da62f126-ea84-4450-b844-ef9a30fcfd33"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartEngine"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -314,6 +334,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Actor_RotateCamera = m_Actor.FindAction("RotateCamera", throwIfNotFound: true);
         m_Actor_Pause = m_Actor.FindAction("Pause", throwIfNotFound: true);
         m_Actor_OpenRearHood = m_Actor.FindAction("OpenRearHood", throwIfNotFound: true);
+        m_Actor_StartEngine = m_Actor.FindAction("StartEngine", throwIfNotFound: true);
     }
 
     ~@GameInput()
@@ -388,6 +409,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Actor_RotateCamera;
     private readonly InputAction m_Actor_Pause;
     private readonly InputAction m_Actor_OpenRearHood;
+    private readonly InputAction m_Actor_StartEngine;
     public struct ActorActions
     {
         private @GameInput m_Wrapper;
@@ -400,6 +422,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         public InputAction @RotateCamera => m_Wrapper.m_Actor_RotateCamera;
         public InputAction @Pause => m_Wrapper.m_Actor_Pause;
         public InputAction @OpenRearHood => m_Wrapper.m_Actor_OpenRearHood;
+        public InputAction @StartEngine => m_Wrapper.m_Actor_StartEngine;
         public InputActionMap Get() { return m_Wrapper.m_Actor; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -433,6 +456,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @OpenRearHood.started += instance.OnOpenRearHood;
             @OpenRearHood.performed += instance.OnOpenRearHood;
             @OpenRearHood.canceled += instance.OnOpenRearHood;
+            @StartEngine.started += instance.OnStartEngine;
+            @StartEngine.performed += instance.OnStartEngine;
+            @StartEngine.canceled += instance.OnStartEngine;
         }
 
         private void UnregisterCallbacks(IActorActions instance)
@@ -461,6 +487,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @OpenRearHood.started -= instance.OnOpenRearHood;
             @OpenRearHood.performed -= instance.OnOpenRearHood;
             @OpenRearHood.canceled -= instance.OnOpenRearHood;
+            @StartEngine.started -= instance.OnStartEngine;
+            @StartEngine.performed -= instance.OnStartEngine;
+            @StartEngine.canceled -= instance.OnStartEngine;
         }
 
         public void RemoveCallbacks(IActorActions instance)
@@ -488,5 +517,6 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         void OnRotateCamera(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnOpenRearHood(InputAction.CallbackContext context);
+        void OnStartEngine(InputAction.CallbackContext context);
     }
 }
