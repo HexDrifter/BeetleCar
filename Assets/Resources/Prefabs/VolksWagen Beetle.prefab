@@ -796,8 +796,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 779110671005570482}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.252947, y: 0.009806815, z: -0.0025641257, w: 0.9674271}
-  m_LocalPosition: {x: -0.08109701, y: 1.5974553, z: -2.3166356}
+  m_LocalRotation: {x: 0.65134615, y: 0.26344436, z: -0.25888604, w: 0.6628147}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -858,7 +857,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5d7c088409d9a40b7b09aa707777f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetOffset: {x: 0, y: 0, z: 0}
   TrackerSettings:
     BindingMode: 4
     PositionDamping: {x: 1, y: 1, z: 1}
@@ -869,33 +867,33 @@ MonoBehaviour:
   Radius: 10
   Orbits:
     Top:
-      Radius: 2
-      Height: 5
+      Radius: 2.44
+      Height: 4
     Center:
-      Radius: 4
-      Height: 2.25
+      Radius: 4.5
+      Height: 2
     Bottom:
-      Radius: 2.5
-      Height: 0.1
+      Radius: 3
+      Height: 0.2
     SplineCurvature: 0.5
   RecenteringTarget: 2
   HorizontalAxis:
-    Value: 1.1615756
+    Value: 0
     Center: 0
     Range: {x: -180, y: 180}
     Wrap: 1
     Recentering:
-      Enabled: 0
+      Enabled: 1
       Wait: 1
       Time: 2
     Restrictions: 0
   VerticalAxis:
-    Value: 17.461113
-    Center: 17.5
+    Value: 18
+    Center: 18
     Range: {x: -10, y: 45}
     Wrap: 0
     Recentering:
-      Enabled: 0
+      Enabled: 1
       Wait: 1
       Time: 2
     Restrictions: 0
@@ -905,7 +903,7 @@ MonoBehaviour:
     Range: {x: 1, y: 1}
     Wrap: 0
     Recentering:
-      Enabled: 0
+      Enabled: 1
       Wait: 1
       Time: 2
     Restrictions: 0
@@ -977,7 +975,7 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -5630151704836100654, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
         Gain: 1
-        LegacyInput: Mouse X
+        LegacyInput: 
         LegacyGain: 200
         CancelDeltaTime: 0
       InputValue: 0
@@ -990,7 +988,7 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: -5630151704836100654, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
         Gain: -1
-        LegacyInput: Mouse Y
+        LegacyInput: 
         LegacyGain: -200
         CancelDeltaTime: 0
       InputValue: -0
@@ -1003,7 +1001,7 @@ MonoBehaviour:
       Input:
         InputAction: {fileID: 5082991133974614888, guid: 1d6e640e716dc4ff6989b73d02023f2b, type: 3}
         Gain: 1
-        LegacyInput: Mouse ScrollWheel
+        LegacyInput: 
         LegacyGain: 200
         CancelDeltaTime: 0
       InputValue: 0
@@ -3986,13 +3984,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2960468963466995063}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.252947, y: 0.009806815, z: -0.0025641257, w: 0.9674271}
-  m_LocalPosition: {x: -0.08109701, y: 1.5974553, z: -2.3166356}
+  m_LocalRotation: {x: 0.61233926, y: 0.347054, z: -0.341049, w: 0.623121}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7549445565925637094}
-  m_LocalEulerAnglesHint: {x: 11.67, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &2304976402668886534
 Camera:
   m_ObjectHideFlags: 0
@@ -5552,6 +5549,7 @@ GameObject:
   - component: {fileID: 454325377705334547}
   - component: {fileID: 3330130166303007031}
   - component: {fileID: 7260224669656520346}
+  - component: {fileID: 7670410782018842949}
   m_Layer: 0
   m_Name: Left RearBumper
   m_TagString: Untagged
@@ -5628,6 +5626,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7670410782018842949
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4714775404289033299}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 453895037443724593, guid: 9a2b94fa15aacf343a3ff93ac0b56b1d, type: 3}
 --- !u!1 &4722936150342557689
 GameObject:
   m_ObjectHideFlags: 0
@@ -5687,7 +5707,7 @@ Transform:
   m_GameObject: {fileID: 5011737909814136111}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.648, z: -1.683}
+  m_LocalPosition: {x: 0, y: 0.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7187,7 +7207,67 @@ MonoBehaviour:
   engineTorque: 150
   brakeForce: 350
   maxAngle: 45
-  steerSpeed: 1
+  steerSpeed: 4
+  _torqueCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 800
+      value: 60
+      inSlope: 0.028160302
+      outSlope: 0.028160302
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.1751699
+    - serializedVersion: 3
+      time: 1500
+      value: 80
+      inSlope: 0.023752687
+      outSlope: 0.023752687
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.22432792
+      outWeight: 0.22789074
+    - serializedVersion: 3
+      time: 2500
+      value: 100
+      inSlope: 0.0165758
+      outSlope: 0.0165758
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.2917234
+      outWeight: 0.19727856
+    - serializedVersion: 3
+      time: 3500
+      value: 110
+      inSlope: 0.000036006157
+      outSlope: 0.000036006157
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 4500
+      value: 100
+      inSlope: -0.015673866
+      outSlope: -0.015673866
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.1587295
+    - serializedVersion: 3
+      time: 6000
+      value: 70
+      inSlope: -0.022588937
+      outSlope: -0.022588937
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.14966048
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   frontLeftWheelCollider: {fileID: 5944224113434982910}
   frontRightWheelCollider: {fileID: 2505591089775177363}
   rearLeftWheelCollider: {fileID: 614468273970990208}
@@ -9007,6 +9087,7 @@ GameObject:
   - component: {fileID: 5281887121858240876}
   - component: {fileID: 4272659828428432320}
   - component: {fileID: 6242036032047573066}
+  - component: {fileID: 5574131959337773273}
   m_Layer: 0
   m_Name: Right Front Bumper
   m_TagString: Untagged
@@ -9083,6 +9164,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &5574131959337773273
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7377733321878983716}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7026318390543866789, guid: 9a2b94fa15aacf343a3ff93ac0b56b1d, type: 3}
 --- !u!1 &7387143017564963350
 GameObject:
   m_ObjectHideFlags: 0
@@ -9559,6 +9662,7 @@ GameObject:
   - component: {fileID: 4447037444856546106}
   - component: {fileID: 6956104627002117855}
   - component: {fileID: 2683220415069282702}
+  - component: {fileID: 2592027782419812672}
   m_Layer: 0
   m_Name: Left Front Bumper
   m_TagString: Untagged
@@ -9635,6 +9739,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2592027782419812672
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7675586075658897069}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -4069131252463197910, guid: 9a2b94fa15aacf343a3ff93ac0b56b1d, type: 3}
 --- !u!1 &7689270960412830389
 GameObject:
   m_ObjectHideFlags: 0
@@ -10153,6 +10279,7 @@ GameObject:
   - component: {fileID: 7016236308382692424}
   - component: {fileID: 7984347446239010593}
   - component: {fileID: 358312976597345379}
+  - component: {fileID: 1783249659764101528}
   m_Layer: 0
   m_Name: Right Rear Bumper
   m_TagString: Untagged
@@ -10229,6 +10356,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1783249659764101528
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8157513329209646127}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 607362024651135154, guid: 9a2b94fa15aacf343a3ff93ac0b56b1d, type: 3}
 --- !u!1 &8224482281852659801
 GameObject:
   m_ObjectHideFlags: 0
@@ -10427,7 +10576,7 @@ Transform:
   m_GameObject: {fileID: 8377488679104907933}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

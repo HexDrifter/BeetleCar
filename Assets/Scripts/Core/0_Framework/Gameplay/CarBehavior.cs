@@ -22,11 +22,13 @@ namespace Beetle.Framework
         private float _finalDriveRatio = 4.12f;
         private float _engineRPM;
         private float _carSpeed;
-        private float _minRPM = 700f;
-        private float _maxRPM = 6600f;
+        private float _minRPM = 800f;
+        private float _maxRPM = 6000f;
         private float steerAngle;
+        private bool _inputEngineIgnition;
         private Car _car;
         private CarAnimator _carAnimator;
+
         
 
 
@@ -40,6 +42,7 @@ namespace Beetle.Framework
         [SerializeField] public float brakeForce;
         [SerializeField] public float maxAngle;
         [SerializeField] public float steerSpeed;
+        [SerializeField] private AnimationCurve _torqueCurve;
     
         public Vector2 inputDirection => _inputDirection;
         public float inputAcceleration => _inputAcceleration;
@@ -48,6 +51,12 @@ namespace Beetle.Framework
         public int currentGear => _currentGear;
         public float carSpeed => _carSpeed;
         public float maxRPM => _maxRPM;
+        public float minRPM => _minRPM;
+        public float[] gearRatios => _gearRatios;
+        public float finalDriveRatio => _finalDriveRatio;
+        public AnimationCurve torqueCurve => _torqueCurve;
+        public bool inputEngineIgnition => _inputEngineIgnition;
+
 
 
         [Header("Wheel Colliders")]
@@ -61,6 +70,15 @@ namespace Beetle.Framework
         public virtual void Initialize()
         {
             _stateMachine = new StateMachine();
+            if (_stateMachine != null)
+            {
+                Debug.Log("Maquina de estado inicializada"+ (_stateMachine != null));
+
+            }
+            else
+            {
+                Debug.Log("Maquina de estado NO inicializada");
+            }
         }
 
         internal void SetInputDirection(Vector2 inputDirection)
@@ -89,68 +107,92 @@ namespace Beetle.Framework
             _inputAcceleration = inputAcceleration;
         }
 
+        internal void SetInputEngineIgnition(bool inputEngineIgnition)
+        {
+            _inputEngineIgnition = inputEngineIgnition;
+        }
+
+        public void SetRPM(float rpm)
+        {
+            _engineRPM = rpm;
+            ServiceLocator.Instance.GetService<SetRpmUseCase>().SetRpmValue(_engineRPM);
+        }
+        public float GetRPM()
+        {
+            return _engineRPM;
+        }
+        public float GetCurrentGearRatio()
+        {
+            float gearRatio = _gearRatios[_currentGear];
+            return gearRatio;
+        }
         internal void SetEngineRPM()
         {
-            if(_gearRatios[_currentGear] != 0f)
+            if (_gearRatios[_currentGear] == 0f)//Neutro
+            {
+                if (_inputAcceleration > .1f)//Acelerando
+                {
+                    _engineRPM = Mathf.Clamp(
+                        _engineRPM + (engineTorque * _inputAcceleration * Time.deltaTime * 10),
+                        _minRPM, _maxRPM
+                        );
+                }
+                else //Decelerando
+                {
+                    _engineRPM = Mathf.Lerp(
+                        _engineRPM,
+                        _minRPM + UnityEngine.Random.Range(-50f, 50f),
+                        Time.deltaTime *2f
+                        );
+                }
+            }
+            else //Con cambio
             {
                 float wheelRPM = (rearLeftWheelCollider.rpm + rearRightWheelCollider.rpm) / 2f;
-                _engineRPM = wheelRPM * _gearRatios[_currentGear]* _finalDriveRatio;
+                float calculatedRPM = wheelRPM * _gearRatios[_currentGear] * _finalDriveRatio;
 
-            }
-            else if (_engineRPM >= _minRPM)
-            {
-                if(_engineRPM < _maxRPM)
+                
+                if (_inputAcceleration > 0.1f)// Acelerando
                 {
-                    _engineRPM +=(engineTorque * _inputAcceleration) - 50f;
+                    _engineRPM = Mathf.Lerp(
+                        _engineRPM,
+                        Mathf.Clamp(calculatedRPM + (engineTorque * _inputAcceleration), _minRPM, _maxRPM),
+                        Time.deltaTime * 5f
+                    );
                 }
-                else
+                else //Desacelerando
                 {
-                    _engineRPM -= 50f;
+                    _engineRPM = Mathf.Lerp(_engineRPM, calculatedRPM, Time.deltaTime * 3f);
                 }
-            }
-            else
-            {
-                _engineRPM = _minRPM;
             }
             ServiceLocator.Instance.GetService<SetRpmUseCase>().SetRpmValue(_engineRPM);
         }
 
-
-
-
-        internal void SetCarAcceleration()
+        public float GetWheelRPM()
         {
+            float wheelRPM = (rearLeftWheelCollider.rpm + rearRightWheelCollider.rpm) / 2f;
+            return wheelRPM; 
+        }
 
+        public void SetWheelTorque(float torque)
+        {
+            rearLeftWheelCollider.motorTorque = torque;
+            rearRightWheelCollider.motorTorque = torque;
+        }
+        /*public void SetCarAcceleration()
+        {
+            float torque;
             if (_gearRatios[_currentGear] != 0f)
             {
-                float torque;
-                if (_engineRPM < _minRPM && _inputAcceleration <= 0.1f)
-                {
-                    torque = (engineTorque * 0.5f * _gearRatios[_currentGear]);
-                }
-                else if(_engineRPM < _maxRPM){
-                    if (_inputAcceleration >= 0.1f)
-                    {
-                        torque = (engineTorque * _inputAcceleration * _gearRatios[_currentGear]);
-                    }
-                    else
-                    {
-                        torque =  - 70f;
-                    }
-                }
-                else
-                {
-                    torque =-70f;
-                }
-                rearLeftWheelCollider.motorTorque = torque;
-                rearRightWheelCollider.motorTorque = torque;
+                torque = _torqueCurve.Evaluate(_engineRPM/ _maxRPM) * _inputAcceleration * _gearRatios[_currentGear];
             }
             else
             {
-                rearLeftWheelCollider.motorTorque = 0f;
-                rearRightWheelCollider.motorTorque = 0f;
+                torque = 0;
             }
-        }
+            rearLeftWheelCollider.motorTorque = torque;
+            rearRightWheelCollider.motorTorque = torque;
+        }*/
 
         internal void SetInputBrake(float inputBrake)
         {
@@ -159,10 +201,11 @@ namespace Beetle.Framework
 
         internal void SetCarBrake()
         {
-            frontLeftWheelCollider.brakeTorque = brakeForce * _inputBrake;
-            frontRightWheelCollider.brakeTorque = brakeForce * _inputBrake;
-            rearLeftWheelCollider.brakeTorque = brakeForce * _inputBrake;
-            rearRightWheelCollider.brakeTorque = brakeForce * _inputBrake;
+            float brakeTorque = brakeForce * _inputBrake;
+            frontLeftWheelCollider.brakeTorque = brakeTorque;
+            frontRightWheelCollider.brakeTorque = brakeTorque;
+            rearLeftWheelCollider.brakeTorque = brakeTorque;
+            rearRightWheelCollider.brakeTorque = brakeTorque;
         
         }
 
@@ -172,7 +215,11 @@ namespace Beetle.Framework
             if (_currentGear < _maxGear)
             {
                 _currentGear++;
-                _engineRPM = Mathf.Clamp(_engineRPM * 0.7f, _minRPM, _maxRPM);
+                if (_gearRatios[_currentGear] != 0f)
+                {
+                    float wheelRPM = (rearLeftWheelCollider.rpm + rearRightWheelCollider.rpm ) / 2f;
+                    _engineRPM = Mathf.Clamp(wheelRPM * _gearRatios[_currentGear] * _finalDriveRatio, _minRPM, _maxRPM);
+                }
                 ServiceLocator.Instance.GetService<SetGearUseCase>().SetGearValue(_currentGear);
             }
 
@@ -182,8 +229,10 @@ namespace Beetle.Framework
         {
             if (_currentGear > 0)
             {
-                _currentGear--;
+                if(GetCurrentGearRatio() != 0)
                 _engineRPM = Mathf.Clamp(_engineRPM * 1.5f, _minRPM, _maxRPM);
+                _currentGear--;
+
             }
             ServiceLocator.Instance.GetService<SetGearUseCase>().SetGearValue(_currentGear);
         }
@@ -197,13 +246,19 @@ namespace Beetle.Framework
             float speed = (frontWheelRPM * wheelCircumference * 60f) / 1000f;
             ServiceLocator.Instance.GetService<SetSpeedUseCase>().SetSpeedValue(speed);
         }
+        internal void setGlobalSpeed()
+        {
+
+        }
         internal void Tick()
         {
             SetCarDirection();
-            SetCarAcceleration();
+            //SetCarAcceleration();
             SetCarBrake();
-            SetEngineRPM();
+            //SetEngineRPM();
             SetCarSpeed();
+            _stateMachine.Tick();
+
         }
 
     

@@ -11,6 +11,7 @@ namespace Beetle.Framework
         private Vector2 _inputDirection;
         private float _inputAcceleration;
         private float _inputBrake;
+        private bool _inputEngineIgnition;
     
         private CarBehavior _carBehavior;
 
@@ -21,6 +22,7 @@ namespace Beetle.Framework
         {
             
             _carBehavior = GameObject.FindGameObjectWithTag("Player").GetComponent<CarBehavior>();
+            //_carBehavior.Initialize();
         }
 
         public void SetInputDirection(Vector2 inputDirection)
@@ -38,11 +40,17 @@ namespace Beetle.Framework
             _inputBrake = inputBrake;
         }
 
+        public void SetEngineIgnition(bool ignition)
+        {
+            _inputEngineIgnition = ignition;
+        }
+
         public void Tick()
         {
             _carBehavior.SetInputDirection(_inputDirection);
             _carBehavior.SetInputAcceleration(_inputAcceleration);
             _carBehavior.SetInputBrake(_inputBrake);
+            _carBehavior.SetInputEngineIgnition(_inputEngineIgnition);
             _carBehavior.Tick();
         }
 
