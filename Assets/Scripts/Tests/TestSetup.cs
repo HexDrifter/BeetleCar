@@ -12,6 +12,7 @@ public class TestSetup : MonoBehaviour
     public CarHandler _carHandler;
     public GameInput _gameInput;
     public static TestSetup instance;
+    public CarAnimator _carAnimator;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -20,6 +21,7 @@ public class TestSetup : MonoBehaviour
 
     public void Init()
     {
+        _carAnimator = FindAnyObjectByType<CarAnimator>();
         _gameInput = new GameInput();
         _carHandler = new CarHandler();
         _playerGameplayUIView = GameObject.FindAnyObjectByType<PlayerGameplayUIView>();
@@ -33,6 +35,7 @@ public class TestSetup : MonoBehaviour
         ServiceLocator.Instance.RegisterService<SetGearUseCase>(setGearUseCase);
         var setSpeedUseCase = new SetSpeedUseCase(playerPresenter);
         ServiceLocator.Instance.RegisterService<SetSpeedUseCase>(setSpeedUseCase);
+        _carHandler.CarBehavior.Initialize();
     }
     // Update is called once per frame
     void Update()
@@ -44,8 +47,21 @@ public class TestSetup : MonoBehaviour
             _carHandler.SetInputBrake(_gameInput.Actor.Brake.ReadValue<float>());
             _carHandler.SetInputGearUp(_gameInput.Actor.ShiftUp.triggered);
             _carHandler.SetInputGearDown(_gameInput.Actor.ShiftDown.triggered);
+            _carHandler.SetEngineIgnition(_gameInput.Actor.StartEngine.triggered);
             _carHandler.Tick();
         }
+
+    }
+    public void TearDown()
+    {
+        try
+        { 
+            ServiceLocator.Instance.RemoveService<SetRpmUseCase>();
+            ServiceLocator.Instance.RemoveService<SetGearUseCase>();
+            ServiceLocator.Instance.RemoveService<SetSpeedUseCase>();
+        }
+        catch { }
+
 
     }
 }

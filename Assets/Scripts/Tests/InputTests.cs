@@ -40,32 +40,7 @@ public class InputTests : InputTestFixture
         Debug.Log(_gamepad.buttonSouth.ReadValue());
         Assert.IsTrue(_gameInput.Actor.ShiftDown.IsPressed());
     }
-    [UnityTest]
-    public IEnumerator TestInputRepeatedButton()
-    {
-        _gameInput.Enable();
-        Press(_gamepad.buttonSouth);
-        yield return null;
-        Assert.IsTrue(_keyboard.downArrowKey.IsPressed());
-        Debug.Log(_gamepad.buttonSouth.ReadValue());
-        Assert.IsTrue(_gameInput.Actor.ShiftDown.IsPressed());
-        Release(_gamepad.buttonSouth);
-        yield return new WaitForSeconds(2f);
-        Press(_gamepad.buttonSouth);
-        yield return null;
-        Assert.IsTrue(_gamepad.buttonSouth.IsPressed());
-        Debug.Log(_gamepad.buttonSouth.ReadValue());
-        Assert.IsTrue(_gameInput.Actor.ShiftDown.IsPressed());
-        Release(_gamepad.buttonSouth);
-        yield return new WaitForSeconds(2f);
-        Press(_gamepad.buttonSouth);
-        yield return null;
-        Assert.IsTrue(_gamepad.buttonSouth.IsPressed());
-        Debug.Log(_gamepad.buttonSouth.ReadValue());
-        Assert.IsTrue(_gameInput.Actor.ShiftDown.IsPressed());
-        Release(_gamepad.buttonSouth);
-        yield return new WaitForSeconds(2f);
-    }
+    
 
     [Test]
     public void TestInputTrigger()

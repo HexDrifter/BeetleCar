@@ -15,7 +15,7 @@ namespace Beetle.Framework
         [SerializeField] private GaugeUIView _rpmGauge;
         [SerializeField] private GaugeUIView _speedGauge;
 
-        private string[] _gears = {"R","N","1","2","3","4"};
+        private string[] _gears = {"R","N","1","2","3","4", "5", "6", "7", "8"};
         private PlayerViewModel _playerViewModel;
 
         public void SetModel(PlayerViewModel playerViewModel)
@@ -35,6 +35,7 @@ namespace Beetle.Framework
                 .Subscribe((gears) =>
                 {
                     _text_shift_value.text = _gears[gears];
+                    Debug.Log(_gears[gears]);
                 })
                 .AddTo(_disposables);
 

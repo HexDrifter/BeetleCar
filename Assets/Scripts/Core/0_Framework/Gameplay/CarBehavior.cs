@@ -222,7 +222,7 @@ namespace Beetle.Framework
                 }
                 ServiceLocator.Instance.GetService<SetGearUseCase>().SetGearValue(_currentGear);
             }
-
+            Debug.Log("Shift Up");
         }
 
         internal void ShiftDown()
@@ -230,11 +230,12 @@ namespace Beetle.Framework
             if (_currentGear > 0)
             {
                 if(GetCurrentGearRatio() != 0)
-                _engineRPM = Mathf.Clamp(_engineRPM * 1.5f, _minRPM, _maxRPM);
+                    _engineRPM = Mathf.Clamp(_engineRPM * 1.5f, _minRPM, _maxRPM);
                 _currentGear--;
 
             }
             ServiceLocator.Instance.GetService<SetGearUseCase>().SetGearValue(_currentGear);
+            Debug.Log("Shift Down");
         }
 
         internal void SetCarSpeed()
@@ -245,6 +246,14 @@ namespace Beetle.Framework
             float wheelCircumference = 2 * Mathf.PI * 0.41f;
             float speed = (frontWheelRPM * wheelCircumference * 60f) / 1000f;
             ServiceLocator.Instance.GetService<SetSpeedUseCase>().SetSpeedValue(speed);
+        }
+
+        public float GetCarSpeed()
+        {
+            float frontWheelRPM = (frontLeftWheelCollider.rpm + frontRightWheelCollider.rpm) / 2f;
+            float wheelCircumference = 2 * Mathf.PI * 0.41f;
+            float speed = (frontWheelRPM * wheelCircumference * 60f) / 1000f;
+            return speed;
         }
         internal void setGlobalSpeed()
         {
