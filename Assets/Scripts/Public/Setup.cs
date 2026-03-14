@@ -54,7 +54,11 @@ public class Setup : MonoBehaviour
         _carHandler.SetInputGearUp(_gameInput.Actor.ShiftUp.triggered);
         _carHandler.SetInputGearDown(_gameInput.Actor.ShiftDown.triggered);
         _carAnimator.OpenCloseRearHood(_gameInput.Actor.OpenRearHood.triggered);
-        _carHandler.SetEngineIgnition(_gameInput.Actor.StartEngine.triggered);
+        _carHandler.SetEngineIgnition(_gameInput.Actor.StartEngine.IsPressed());
         _carHandler.Tick();
+    }
+    private void FixedUpdate()
+    {
+        _carHandler.FixedTick();
     }
 }

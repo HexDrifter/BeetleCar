@@ -11,21 +11,22 @@ public class CarEngineOffState : CarEngineState
     {
         base.OnEnter();
         Debug.Log("Motor Apagado");
-        Owner.SetRPM(0);
-        Owner.SetWheelTorque(0);
     }
 
     public override void Tick()
     {
         base.Tick();
-        Owner.SetRPM(0);
-        Owner.SetWheelTorque(0);
+        float compressionResistance = Owner.GetFrictionTorque() * 3f;
+        Owner.SetEngineOmega(0f, -compressionResistance);
+
+        float wheelTorque = Owner.GetLoadTorque() * Owner.GetGearNetRatio();
+        Owner.SetWheelTorque(wheelTorque);
 
     }
 
     public override void OnExit()
     {
         base.OnExit();
-        Owner.SetRPM(450);
+        //Owner.SetRPM(450);
     }
 }

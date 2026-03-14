@@ -1,0 +1,11 @@
+﻿<Solution>
+  <Project Path="UniRx.csproj" />
+  <Project Path="Beetle.Framework.csproj" />
+  <Project Path="Tests.csproj" />
+  <Project Path="Beetle.Entities.csproj" />
+  <Project Path="DOTween.Modules.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="Beetle.Domain.csproj" />
+  <Project Path="Beetle.InterfaceAdapters.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+</Solution>

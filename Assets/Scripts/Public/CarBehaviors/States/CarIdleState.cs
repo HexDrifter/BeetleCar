@@ -11,13 +11,26 @@ public class CarIdleState : CarEngineState
     {
         base.OnEnter();
         Debug.Log("Ralentí");
-        //if(Owner.GetRPM()< 400)
-            Owner.SetRPM(450);
+        //Owner.SetRPM(450);
     }
 
     public override void Tick()
     {
         base.Tick();
+
+        float idleError = Owner.minRPM - Owner.engineRPM;
+        float idleTorque = 0f;
+
+        if (idleError > 0)
+        {
+            idleTorque = Mathf.Min(50f, idleError * 0.2f);
+        }
+
+        Owner.SetEngineOmegaFromIdle(idleTorque);
+
+        float wheelTorque = Owner.GetLoadTorque() * Owner.GetGearNetRatio();
+        Owner.SetWheelTorque(wheelTorque);
+        /*
         if (Owner.GetRPM() < Owner.minRPM && Owner.GetCurrentGearRatio() != 0)
         {
             float calculatedRPM = Owner.GetWheelRPM() * Owner.GetCurrentGearRatio() * Owner.finalDriveRatio;
@@ -34,10 +47,10 @@ public class CarIdleState : CarEngineState
         else
         {
             Owner.SetWheelTorque(0);
-            float rpm = Mathf.Lerp(Owner.GetRPM(), Owner.minRPM + UnityEngine.Random.Range(-50f, 50f), Time.deltaTime * 2f);
+            float rpm = Mathf.Lerp(Owner.GetRPM(), Owner.minRPM + Random.Range(-50f, 50f), Time.deltaTime * 2f);
             Owner.SetRPM(rpm);
         }
-        
+        */
 
     }
 

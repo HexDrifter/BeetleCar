@@ -17,7 +17,10 @@ public class CarAcceleratingState : CarEngineState
     public override void Tick()
     {
         base.Tick();
-        float torque;
+        
+        /*float torque;
+
+
         if (Owner.GetCurrentGearRatio() != 0f)
         {
             float calculatedRPM = Owner.GetWheelRPM() * Owner.GetCurrentGearRatio() * Owner.finalDriveRatio;
@@ -40,5 +43,11 @@ public class CarAcceleratingState : CarEngineState
             torque = 0f;
         }
         Owner.SetWheelTorque(torque);
+        */
+
+        Owner.SetEngineOmega(Owner.inputAcceleration);
+        float wheelTorque = Owner.GetLoadTorque() * Owner.GetGearNetRatio();
+        Owner.SetWheelTorque(wheelTorque);
+
     }
 }

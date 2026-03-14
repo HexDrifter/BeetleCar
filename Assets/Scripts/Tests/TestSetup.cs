@@ -13,7 +13,7 @@ public class TestSetup : MonoBehaviour
     public GameInput _gameInput;
     public static TestSetup instance;
     public CarAnimator _carAnimator;
-    // Start is called before the first frame update
+
     private void Awake()
     {
         instance = this;
@@ -37,7 +37,6 @@ public class TestSetup : MonoBehaviour
         ServiceLocator.Instance.RegisterService<SetSpeedUseCase>(setSpeedUseCase);
         _carHandler.CarBehavior.Initialize();
     }
-    // Update is called once per frame
     void Update()
     {
         if (_carHandler != null)
@@ -61,7 +60,5 @@ public class TestSetup : MonoBehaviour
             ServiceLocator.Instance.RemoveService<SetSpeedUseCase>();
         }
         catch { }
-
-
     }
 }

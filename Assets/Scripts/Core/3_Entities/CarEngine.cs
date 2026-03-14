@@ -2,18 +2,25 @@ using UnityEngine;
 
 namespace Beetle.Entities
 {
-    public class Car
+    public class CarEngine
     {
-        public float EngineRPM { get; private set; }
+        public float CurrentRPM { get; private set; }
         public int CurrentGear { get; private set; }
         public float[] GearRatios { get; }
         public float FinalDriveRatio { get; }
         public float MinRPM { get; }
         public float MaxRPM { get; }
+        public float FlyWheelAngularVelocity { get; set; }
         private float _inertia;
         private float _torque;
+        public float inertia => _inertia;
+        public CarEngine()
+        {
+            _inertia = .25f;
+            CurrentRPM = 0f;
+        }
 
-        public Car(float[] gearRatios, float finalDriveRatio, float minRPM, float maxRPM, float inertia)
+        public CarEngine(float[] gearRatios, float finalDriveRatio, float minRPM, float maxRPM, float inertia)
         {
             GearRatios = gearRatios;
             FinalDriveRatio = finalDriveRatio;
@@ -21,9 +28,10 @@ namespace Beetle.Entities
             MaxRPM = maxRPM;
             _inertia = inertia;
             CurrentGear = 1;
-            EngineRPM = minRPM;
+            CurrentRPM = minRPM;
         }
 
+        /*
         public void SetEngineRPM(float throttleInput, float gearRatio, float finalDriveRatio, float currentWheelRPM, int currentGear)
         {
             // Configuración del torque del motor
@@ -62,6 +70,6 @@ namespace Beetle.Entities
         public float GetWheelTorque()
         {
             return _torque * GearRatios[CurrentGear] * FinalDriveRatio;
-        }
+        }*/
     }
 }

@@ -1,0 +1,1925 @@
+commit 9e277141327f003c95e661cdf396b997294af6d7
+Author: HexDrifter <42625632+HexDrifter@users.noreply.github.com>
+Date:   Fri Dec 20 04:23:32 2024 -0300
+
+    Fixed tests
+
+ ...Scene76eb8a0f-eaa4-41d7-ad5a-f9ac0cd4b003.unity | 210 +++++++
+ ...6eb8a0f-eaa4-41d7-ad5a-f9ac0cd4b003.unity.meta} |   3 +-
+ ...Scene85f2c4d8-87d3-4ec6-81a5-89cd6cd9e9c8.unity | 210 +++++++
+ ...85f2c4d8-87d3-4ec6-81a5-89cd6cd9e9c8.unity.meta |   7 +
+ ...Scenef0cd59ba-4ee9-47ce-8c2e-00c7153edcfa.unity | 210 +++++++
+ ...f0cd59ba-4ee9-47ce-8c2e-00c7153edcfa.unity.meta |   7 +
+ Assets/Resources/Prefabs/VolksWagen Beetle.prefab  |   5 +-
+ .../Core/0_Framework/Gameplay/CarBehavior.cs       |  13 +-
+ .../Core/0_Framework/Views/PlayerGameplayUIView.cs |   3 +-
+ Assets/Scripts/Tests/CarTests.cs                   | 242 ++++++++
+ .../{CharacterTests.cs.meta => CarTests.cs.meta}   |   0
+ Assets/Scripts/Tests/CharacterTests.cs             |  91 ---
+ Assets/Scripts/Tests/EntityTests.cs                |   6 +
+ Assets/Scripts/Tests/EntityTests.cs.meta           |   2 +
+ Assets/Scripts/Tests/GameInput.cs.meta             |   2 +-
+ Assets/Scripts/Tests/InputTests.cs                 |  27 +-
+ Assets/Scripts/Tests/TestSetup.cs                  |  16 +
+ Assets/Scripts/Tests/Tests.asmdef                  |   3 +-
+ .../Fonts & Materials/Chathura-Bold SDF.asset      | 686 ++++++++++++++++++++-
+ Packages/manifest.json                             |   1 +
+ Packages/packages-lock.json                        |   2 +-
+ WebGLBuild/TestResults_20241220_041512.xml         | 307 +++++++++
+ 22 files changed, 1917 insertions(+), 136 deletions(-)
+
+commit 6d7cbe4ac9bb86774e5dc1d904f5fe072372be72
+Author: HexDrifter <42625632+HexDrifter@users.noreply.github.com>
+Date:   Tue Nov 26 01:58:43 2024 -0300
+
+    Improved State Machine Part 2
+
+ Assets/Configuration/Input/GameInput.inputactions  |   11 +
+ Assets/New Terrain.asset                           |  Bin 557360 -> 1958956 bytes
+ Assets/NewLayer 1.terrainlayer                     |   23 +
+ Assets/NewLayer 1.terrainlayer.meta                |    8 +
+ Assets/NewLayer 2.terrainlayer                     |   23 +
+ Assets/NewLayer 2.terrainlayer.meta                |    8 +
+ Assets/NewLayer 3.terrainlayer                     |   23 +
+ Assets/NewLayer 3.terrainlayer.meta                |    8 +
+ Assets/NewLayer 4.terrainlayer                     |   23 +
+ Assets/NewLayer 4.terrainlayer.meta                |    8 +
+ Assets/NewLayer.terrainlayer                       |   23 +
+ Assets/NewLayer.terrainlayer.meta                  |    8 +
+ Assets/Resources/Prefabs/UI.prefab                 |   16 +-
+ Assets/Resources/Prefabs/VolksWagen Beetle.prefab  |  197 ++-
+ Assets/Scenes/DebugRoom.unity                      |  553 ++++--
+ Assets/Scenes/MainWorld.unity                      | 1821 +++++++++++++++++---
+ .../Core/0_Framework/Gameplay/CarBehavior.cs       |  157 +-
+ .../Core/0_Framework/Gameplay/CarHandler.cs        |    8 +
+ Assets/Scripts/Core/0_Framework/Views/ReadRPM.cs   |   22 +
+ .../Scripts/Core/0_Framework/Views/ReadRPM.cs.meta |    2 +
+ .../CarBehaviors/States/CarAcceleratingState.cs    |   44 +
+ .../States/CarAcceleratingState.cs.meta            |    2 +
+ .../CarBehaviors/States/CarDeceleratingState.cs    |   37 +
+ .../States/CarDeceleratingState.cs.meta            |    2 +
+ .../CarBehaviors/States/CarEngineOffState.cs       |   31 +
+ .../CarBehaviors/States/CarEngineOffState.cs.meta  |    2 +
+ .../Public/CarBehaviors/States/CarEngineState.cs   |    1 -
+ .../Public/CarBehaviors/States/CarIdleState.cs     |   32 +-
+ .../Public/CarBehaviors/VWBeetleCarBehavior.cs     |   13 +
+ Assets/Scripts/Public/Input/GameInput.cs           |   11 +
+ Assets/Scripts/Public/Setup.cs                     |    3 +-
+ Assets/Scripts/Tests/GameInput.cs                  |   11 +
+ Assets/Scripts/Tests/GameInput.cs.meta             |    2 +-
+ ...Data_00e701c6-6b29-4567-829d-899b7c4330ce.asset |  Bin 0 -> 1958948 bytes
+ ...00e701c6-6b29-4567-829d-899b7c4330ce.asset.meta |    8 +
+ ...Data_01327d5b-a146-4365-bfd7-2df7f275ba73.asset |  Bin 0 -> 1958948 bytes
+ ...01327d5b-a146-4365-bfd7-2df7f275ba73.asset.meta |    8 +
+ ...Data_1a9b987a-cec6-4174-aa20-cea54fbf3ec8.asset |  Bin 0 -> 1958920 bytes
+ ...1a9b987a-cec6-4174-aa20-cea54fbf3ec8.asset.meta |    8 +
+ ...Data_236e0a94-a0f9-47bc-8b05-cb14b2c6622d.asset |  Bin 0 -> 1958920 bytes
+ ...236e0a94-a0f9-47bc-8b05-cb14b2c6622d.asset.meta |    8 +
+ ...Data_3f1b88e0-8ac2-4d4a-94f8-daa274915531.asset |  Bin 557396 -> 1958988 bytes
+ ...Data_552e5121-bcd6-4e44-b972-0de4db3c1e03.asset |  Bin 557396 -> 3357352 bytes
+ ...Data_6784d07e-234d-4527-9337-b824a130c146.asset |  Bin 557396 -> 1958992 bytes
+ ...Data_6a9d698a-b239-4980-bc50-221beeba3e4e.asset |  Bin 0 -> 1958920 bytes
+ ...6a9d698a-b239-4980-bc50-221beeba3e4e.asset.meta |    8 +
+ ...Data_795d17c3-f62b-4cf6-bc94-aeba45870eef.asset |  Bin 0 -> 1958948 bytes
+ ...795d17c3-f62b-4cf6-bc94-aeba45870eef.asset.meta |    8 +
+ ...Data_7e133774-6b69-441a-b81f-9c8ef36235bb.asset |  Bin 0 -> 1958920 bytes
+ ...7e133774-6b69-441a-b81f-9c8ef36235bb.asset.meta |    8 +
+ ...Data_7e48a60c-ab8a-43cf-890c-79755725c0f2.asset |  Bin 0 -> 1958920 bytes
+ ...7e48a60c-ab8a-43cf-890c-79755725c0f2.asset.meta |    8 +
+ ...Data_833f3197-29c1-483d-9b60-a99deb1381c7.asset |  Bin 0 -> 1958948 bytes
+ ...833f3197-29c1-483d-9b60-a99deb1381c7.asset.meta |    8 +
+ ...Data_9bc688fb-cffa-4c56-bf0f-e575e029f465.asset |  Bin 820908 -> 557396 bytes
+ ...Data_bd4e18ae-1a7f-4b7d-9de9-ca11a05f6b8b.asset |  Bin 0 -> 1958948 bytes
+ ...bd4e18ae-1a7f-4b7d-9de9-ca11a05f6b8b.asset.meta |    8 +
+ ...Data_c05e2961-6e3d-4b44-8c7c-4f9c459fa3bd.asset |  Bin 0 -> 1958948 bytes
+ ...c05e2961-6e3d-4b44-8c7c-4f9c459fa3bd.asset.meta |    8 +
+ ...Data_ea1402ba-a3b4-4921-9ca5-a37aa3a5bc11.asset |  Bin 0 -> 1958948 bytes
+ ...ea1402ba-a3b4-4921-9ca5-a37aa3a5bc11.asset.meta |    8 +
+ .../Fonts & Materials/Chathura-Bold SDF.asset      | 1261 +-------------
+ 62 files changed, 2782 insertions(+), 1708 deletions(-)
+
+commit 6cfbf38bb5983c20c0bbbd8e992b1afe300c313a
+Author: HexDrifter <42625632+HexDrifter@users.noreply.github.com>
+Date:   Fri Nov 22 00:55:19 2024 -0300
+
+    Implementing State Machine Part 1
+
+ Assets/Configuration/Input/GameInput.inputactions  |   24 +-
+ .../Input/GameInput.inputactions.meta              |    2 +-
+ Assets/IgniteCoders.meta                           |    8 +
+ Assets/IgniteCoders/Simple Water Shader.meta       |    8 +
+ Assets/IgniteCoders/Simple Water Shader/Demo.meta  |    8 +
+ Assets/IgniteCoders/Simple Water Shader/Demo.unity | 1202 +++
+ .../Simple Water Shader/Demo.unity.meta            |   14 +
+ .../Simple Water Shader/Demo/LightingData.asset    |  Bin 0 -> 17681 bytes
+ .../Demo/LightingData.asset.meta                   |    8 +
+ Assets/IgniteCoders/Simple Water Shader/Info.meta  |    8 +
+ .../Simple Water Shader/Info/Icons.meta            |    9 +
+ .../Simple Water Shader/Info/Icons/Help_Icon.png   |  Bin 0 -> 18108 bytes
+ .../Info/Icons/Help_Icon.png.meta                  |  135 +
+ .../Info/Icons/Water Shader icon.PNG               |  Bin 0 -> 122056 bytes
+ .../Info/Icons/Water Shader icon.PNG.meta          |  151 +
+ .../Simple Water Shader/Info/Readme.asset          |   34 +
+ .../Simple Water Shader/Info/Readme.asset.meta     |   15 +
+ .../Simple Water Shader/Info/Scripts.meta          |    9 +
+ .../Simple Water Shader/Info/Scripts/Editor.meta   |    9 +
+ .../Info/Scripts/Editor/ReadmeEditor.cs            |  158 +
+ .../Info/Scripts/Editor/ReadmeEditor.cs.meta       |   19 +
+ .../Simple Water Shader/Info/Scripts/Readme.cs     |   14 +
+ .../Info/Scripts/Readme.cs.meta                    |   19 +
+ .../IgniteCoders/Simple Water Shader/Prefabs.meta  |    8 +
+ .../Prefabs/WaterBlock_50m.prefab                  |   83 +
+ .../Prefabs/WaterBlock_50m.prefab.meta             |   14 +
+ .../Prefabs/WaterReflectionCamera.prefab           |  126 +
+ .../Prefabs/WaterReflectionCamera.prefab.meta      |   14 +
+ .../Simple Water Shader/Resources.meta             |    8 +
+ .../Resources/WaterBlock_50m.mesh                  |  166 +
+ .../Resources/WaterBlock_50m.mesh.meta             |   15 +
+ .../Resources/WaterReflection.cs                   |   95 +
+ .../Resources/WaterReflection.cs.meta              |   18 +
+ .../Resources/WaterReflection.renderTexture        |   39 +
+ .../Resources/WaterReflection.renderTexture.meta   |   15 +
+ .../Resources/WaterShader.shadergraph              | 7787 ++++++++++++++++++++
+ .../Resources/WaterShader.shadergraph.meta         |   17 +
+ .../Resources/WaterSurface_atlas.tif               |  Bin 0 -> 2002736 bytes
+ .../Resources/WaterSurface_atlas.tif.meta          |  163 +
+ .../Resources/WaterSurface_single.tif              |  Bin 0 -> 655032 bytes
+ .../Resources/WaterSurface_single.tif.meta         |  151 +
+ .../Simple Water Shader/Resources/Water_mat_01.mat |   85 +
+ .../Resources/Water_mat_01.mat.meta                |   15 +
+ .../Simple Water Shader/Resources/Water_mat_02.mat |   85 +
+ .../Resources/Water_mat_02.mat.meta                |   15 +
+ .../Simple Water Shader/Resources/Water_mat_03.mat |   85 +
+ .../Resources/Water_mat_03.mat.meta                |   15 +
+ Assets/New Terrain 1.asset                         |  Bin 0 -> 557364 bytes
+ Assets/New Terrain 1.asset.meta                    |    8 +
+ Assets/New Terrain.asset                           |  Bin 0 -> 557360 bytes
+ Assets/New Terrain.asset.meta                      |    8 +
+ Assets/Resources/Prefabs/VolksWagen Beetle.prefab  |   14 +-
+ Assets/Scenes/DebugRoom.unity                      |  420 +-
+ Assets/Scenes/MainWorld.unity                      |  737 ++
+ Assets/Scenes/MainWorld.unity.meta                 |    7 +
+ .../Core/0_Framework/Gameplay/CarBehavior.cs       |   16 +-
+ .../Core/0_Framework/Gameplay/StateMachine.cs      |  108 +
+ .../Core/0_Framework/Gameplay/StateMachine.cs.meta |    2 +
+ Assets/Scripts/Core/2_Domain/Gameplay.meta         |    8 +
+ Assets/Scripts/Core/2_Domain/Gameplay/IState.cs    |   12 +
+ .../Scripts/Core/2_Domain/Gameplay/IState.cs.meta  |    2 +
+ .../Core/2_Domain/Gameplay/IStateMachine.cs        |   10 +
+ .../Core/2_Domain/Gameplay/IStateMachine.cs.meta   |    2 +
+ Assets/Scripts/Core/2_Domain/UseCases.meta         |    8 +
+ .../Core/2_Domain/{ => UseCases}/Actors.meta       |    0
+ .../2_Domain/{ => UseCases}/Actors/Interfaces.meta |    0
+ .../Actors/Interfaces/PlayerGearOutput.cs          |    0
+ .../Actors/Interfaces/PlayerGearOutput.cs.meta     |    0
+ .../Actors/Interfaces/PlayerRpmOutput.cs           |    0
+ .../Actors/Interfaces/PlayerRpmOutput.cs.meta      |    0
+ .../Actors/Interfaces/PlayerSpeedOutput.cs         |    0
+ .../Actors/Interfaces/PlayerSpeedOutput.cs.meta    |    0
+ .../{ => UseCases}/Actors/Interfaces/SetGear.cs    |    0
+ .../Actors/Interfaces/SetGear.cs.meta              |    0
+ .../{ => UseCases}/Actors/Interfaces/SetRpm.cs     |    0
+ .../Actors/Interfaces/SetRpm.cs.meta               |    0
+ .../{ => UseCases}/Actors/Interfaces/SetSpeed.cs   |    0
+ .../Actors/Interfaces/SetSpeed.cs.meta             |    0
+ .../{ => UseCases}/Actors/SetGearUseCase.cs        |    0
+ .../{ => UseCases}/Actors/SetGearUseCase.cs.meta   |    0
+ .../{ => UseCases}/Actors/SetRpmUseCase.cs         |    0
+ .../{ => UseCases}/Actors/SetRpmUseCase.cs.meta    |    0
+ .../{ => UseCases}/Actors/SetSpeedUseCase.cs       |    1 +
+ .../{ => UseCases}/Actors/SetSpeedUseCase.cs.meta  |    0
+ Assets/Scripts/Public/CarBehaviors.meta            |    8 +
+ Assets/Scripts/Public/CarBehaviors/States.meta     |    8 +
+ .../Public/CarBehaviors/States/CarEngineState.cs   |   20 +
+ .../CarBehaviors/States/CarEngineState.cs.meta     |    2 +
+ .../Public/CarBehaviors/States/CarIdleState.cs     |   16 +
+ .../CarBehaviors/States/CarIdleState.cs.meta       |    2 +
+ .../Public/CarBehaviors/VWBeetleCarBehavior.cs     |   13 +
+ .../CarBehaviors/VWBeetleCarBehavior.cs.meta       |    2 +
+ Assets/Scripts/Public/GameInput.cs.meta            |   11 -
+ Assets/Scripts/Public/Input.meta                   |    8 +
+ Assets/Scripts/Public/{ => Input}/GameInput.cs     |   34 +-
+ Assets/Scripts/Public/Input/GameInput.cs.meta      |    2 +
+ Assets/Scripts/Tests/CharacterTests.cs             |    2 +-
+ Assets/Scripts/Tests/GameInput.cs                  |  134 +-
+ Assets/Scripts/Tests/GameInput.cs.meta             |   11 +-
+ Assets/Scripts/Tests/InputTests.cs                 |   45 +-
+ Assets/Scripts/Tests/TestSetup.cs                  |    2 +
+ ...Data_3f1b88e0-8ac2-4d4a-94f8-daa274915531.asset |  Bin 0 -> 557396 bytes
+ ...3f1b88e0-8ac2-4d4a-94f8-daa274915531.asset.meta |    8 +
+ ...Data_49198cf8-a1fc-4bf0-a3ca-646bd96cb641.asset |  Bin 0 -> 557396 bytes
+ ...49198cf8-a1fc-4bf0-a3ca-646bd96cb641.asset.meta |    8 +
+ ...Data_552e5121-bcd6-4e44-b972-0de4db3c1e03.asset |  Bin 0 -> 557396 bytes
+ ...552e5121-bcd6-4e44-b972-0de4db3c1e03.asset.meta |    8 +
+ ...Data_6784d07e-234d-4527-9337-b824a130c146.asset |  Bin 0 -> 557396 bytes
+ ...6784d07e-234d-4527-9337-b824a130c146.asset.meta |    8 +
+ ...Data_702b66d8-c33f-486e-86b5-ab0ab02fb7c8.asset |  Bin 0 -> 557396 bytes
+ ...702b66d8-c33f-486e-86b5-ab0ab02fb7c8.asset.meta |    8 +
+ ...Data_705378e2-e7aa-4cef-a704-68da234b31f3.asset |  Bin 0 -> 557396 bytes
+ ...705378e2-e7aa-4cef-a704-68da234b31f3.asset.meta |    8 +
+ ...Data_8645e0dc-a116-40bd-9649-f3091b307008.asset |  Bin 0 -> 557396 bytes
+ ...8645e0dc-a116-40bd-9649-f3091b307008.asset.meta |    8 +
+ ...Data_9bc688fb-cffa-4c56-bf0f-e575e029f465.asset |  Bin 0 -> 820908 bytes
+ ...9bc688fb-cffa-4c56-bf0f-e575e029f465.asset.meta |    8 +
+ ...Data_dd53fc54-c7f8-49bf-9488-b66ab804eb28.asset |  Bin 0 -> 557396 bytes
+ ...dd53fc54-c7f8-49bf-9488-b66ab804eb28.asset.meta |    8 +
+ ...Data_e6fa73e8-9125-4c0c-a95e-bb14eb619511.asset |  Bin 0 -> 557396 bytes
+ ...e6fa73e8-9125-4c0c-a95e-bb14eb619511.asset.meta |    8 +
+ .../Fonts & Materials/Chathura-Bold SDF.asset      | 1261 +++-
+ ProjectSettings/ProjectSettings.asset              |    3 +-
+ 123 files changed, 13773 insertions(+), 127 deletions(-)
+
+commit 95e5717e88d35dccd49e7d59d23f0b81671479e2
+Author: HexDrifter <42625632+HexDrifter@users.noreply.github.com>
+Date:   Mon Nov 18 05:35:51 2024 -0300
+
+    Added DOTween, URP, New Fonts
+
+ Assets/3d Models/ClownCarBeta.blend                |   Bin 1119372 -> 0 bytes
+ Assets/3d Models/ClownCarBeta.blend.meta           |   109 -
+ Assets/3d Models/ClownCarBeta.blend1               |   Bin 1125980 -> 0 bytes
+ Assets/3d Models/ClownCarBeta.fbx                  |   Bin 78236 -> 0 bytes
+ Assets/3d Models/ClownCarBeta0_2.fbx               |   Bin 155644 -> 0 bytes
+ Assets/3d Models/ClownCarBeta0_2.fbx.meta          |   109 -
+ Assets/3d Models/ClownCarBeta1.blend               |   Bin 1142988 -> 0 bytes
+ Assets/3d Models/ClownCarBeta1.blend.meta          |   109 -
+ Assets/3d Models/ClownCarBeta2.blend               |   Bin 1122468 -> 0 bytes
+ Assets/3d Models/ClownCarBeta2.blend.meta          |   109 -
+ Assets/3d Models/ClownCarBeta3.blend               |   Bin 1063128 -> 0 bytes
+ Assets/3d Models/ClownCarBeta3.blend.meta          |   109 -
+ Assets/3d Models/ClownCarBeta4.blend               |   Bin 1066332 -> 0 bytes
+ Assets/3d Models/ClownCarBeta4.blend.meta          |   109 -
+ Assets/3d Models/ClownCarBeta5.blend               |   Bin 1066332 -> 0 bytes
+ Assets/3d Models/ClownCarBeta5.blend.meta          |   109 -
+ Assets/3d Models/ClownCarBeta6.blend               |   Bin 1195392 -> 0 bytes
+ Assets/3d Models/ClownCarBeta6.blend.meta          |   109 -
+ Assets/3d Models/ClownCarBeta6.blend1              |   Bin 1187008 -> 0 bytes
+ ...CarBeta6.blend1.meta => HighQualityBeetle.meta} |     3 +-
+ Assets/3d Models/HighQualityBeetle/3d-model.fbx    |   Bin 0 -> 2294000 bytes
+ .../3d-model.fbx.meta}                             |     4 +-
+ .../HighQualityBeetle/Color_007_Fixed.mat          |   138 +
+ .../HighQualityBeetle/Color_007_Fixed.mat.meta}    |     4 +-
+ .../HighQualityBeetle/Color_A01_Fixed.mat          |   138 +
+ .../HighQualityBeetle/Color_A01_Fixed.mat.meta}    |     6 +-
+ .../HighQualityBeetle/Color_H09_Fixed.mat          |   138 +
+ .../HighQualityBeetle/Color_H09_Fixed.mat.meta     |     8 +
+ .../Materials/PP_Ground.mat                        |    73 +-
+ .../Materials/PP_Standard_Material.mat             |    71 +-
+ Assets/3d Models/textures/ColorBase.mat            |    63 +-
+ Assets/Configuration/Input/GameInput.inputactions  |    20 +
+ Assets/DefaultVolumeProfile.asset                  |   795 +
+ Assets/DefaultVolumeProfile.asset.meta             |     8 +
+ .../Demigiant.meta}                                |     3 +-
+ Assets/Plugins/Demigiant/DOTween.meta              |    21 +
+ Assets/Plugins/Demigiant/DOTween/DOTween.XML       |  3089 ++
+ Assets/Plugins/Demigiant/DOTween/DOTween.XML.meta  |    11 +
+ Assets/Plugins/Demigiant/DOTween/DOTween.dll       |   Bin 0 -> 175616 bytes
+ Assets/Plugins/Demigiant/DOTween/DOTween.dll.meta  |    29 +
+ Assets/Plugins/Demigiant/DOTween/Editor.meta       |     5 +
+ .../Demigiant/DOTween/Editor/DOTweenEditor.XML     |   144 +
+ .../DOTween/Editor/DOTweenEditor.XML.meta          |    11 +
+ .../Demigiant/DOTween/Editor/DOTweenEditor.dll     |   Bin 0 -> 70656 bytes
+ .../DOTween/Editor/DOTweenEditor.dll.meta          |    29 +
+ Assets/Plugins/Demigiant/DOTween/Editor/Imgs.meta  |     5 +
+ .../Demigiant/DOTween/Editor/Imgs/DOTweenIcon.png  |   Bin 0 -> 1565 bytes
+ .../DOTween/Editor/Imgs/DOTweenIcon.png.meta       |    54 +
+ .../DOTween/Editor/Imgs/DOTweenMiniIcon.png        |   Bin 0 -> 319 bytes
+ .../DOTween/Editor/Imgs/DOTweenMiniIcon.png.meta   |    75 +
+ .../Demigiant/DOTween/Editor/Imgs/Footer.png       |   Bin 0 -> 4409 bytes
+ .../Demigiant/DOTween/Editor/Imgs/Footer.png.meta  |    54 +
+ .../Demigiant/DOTween/Editor/Imgs/Footer_dark.png  |   Bin 0 -> 4429 bytes
+ .../DOTween/Editor/Imgs/Footer_dark.png.meta       |    54 +
+ .../Demigiant/DOTween/Editor/Imgs/Header.jpg       |   Bin 0 -> 22787 bytes
+ .../Demigiant/DOTween/Editor/Imgs/Header.jpg.meta  |    54 +
+ Assets/Plugins/Demigiant/DOTween/Modules.meta      |     5 +
+ .../DOTween/Modules/DOTween.Modules.asmdef         |     3 +
+ .../DOTween/Modules/DOTween.Modules.asmdef.meta    |     7 +
+ .../DOTween/Modules/DOTweenModuleAudio.cs          |   198 +
+ .../DOTween/Modules/DOTweenModuleAudio.cs.meta     |    15 +
+ .../DOTween/Modules/DOTweenModuleEPOOutline.cs     |   146 +
+ .../Modules/DOTweenModuleEPOOutline.cs.meta        |    19 +
+ .../DOTween/Modules/DOTweenModulePhysics.cs        |   216 +
+ .../DOTween/Modules/DOTweenModulePhysics.cs.meta   |    15 +
+ .../DOTween/Modules/DOTweenModulePhysics2D.cs      |   193 +
+ .../DOTween/Modules/DOTweenModulePhysics2D.cs.meta |    15 +
+ .../DOTween/Modules/DOTweenModuleSprite.cs         |    93 +
+ .../DOTween/Modules/DOTweenModuleSprite.cs.meta    |    15 +
+ .../Demigiant/DOTween/Modules/DOTweenModuleUI.cs   |   662 +
+ .../DOTween/Modules/DOTweenModuleUI.cs.meta        |    15 +
+ .../DOTween/Modules/DOTweenModuleUnityVersion.cs   |   389 +
+ .../Modules/DOTweenModuleUnityVersion.cs.meta      |    15 +
+ .../DOTween/Modules/DOTweenModuleUtils.cs          |   167 +
+ .../DOTween/Modules/DOTweenModuleUtils.cs.meta     |    15 +
+ Assets/Plugins/Demigiant/DOTween/readme.txt        |    29 +
+ Assets/Plugins/Demigiant/DOTween/readme.txt.meta   |    11 +
+ Assets/Resources/DOTweenSettings.asset             |    54 +
+ Assets/Resources/DOTweenSettings.asset.meta        |     8 +
+ Assets/Resources/Prefabs/Car.prefab                |  1061 +-
+ Assets/Resources/Prefabs/UI.prefab                 |    24 +-
+ Assets/Resources/Prefabs/VolksWagen Beetle.prefab  | 11581 ++++++
+ .../Prefabs/VolksWagen Beetle.prefab.meta          |     7 +
+ Assets/Resources/Sound/Audio.mixer                 |   138 +
+ .../Sound/{SFX.mixer.meta => Audio.mixer.meta}     |     0
+ Assets/Resources/Sound/Music.mixer                 |    65 -
+ Assets/Resources/Sound/SFX.mixer                   |    65 -
+ Assets/Scenes/DebugRoom.unity                      |   189 +-
+ Assets/Scenes/Level 1.unity                        |   482 +-
+ Assets/Scenes/MainScene.unity                      |   598 +-
+ Assets/Scenes/TestingRoom.unity                    |     2 +-
+ .../Core/0_Framework/Gameplay/Car Animator.cs      |    95 +
+ .../Core/0_Framework/Gameplay/Car Animator.cs.meta |     2 +
+ .../Core/0_Framework/Gameplay/CarBehavior.cs       |    84 +-
+ Assets/Scripts/Public/GameInput.cs                 |    30 +
+ Assets/Scripts/Public/Setup.cs                     |     4 +-
+ Assets/Settings.meta                               |     8 +
+ Assets/Settings/High_PipelineAsset.asset           |   136 +
+ Assets/Settings/High_PipelineAsset.asset.meta      |     8 +
+ .../High_PipelineAsset_ForwardRenderer.asset       |    53 +
+ .../High_PipelineAsset_ForwardRenderer.asset.meta  |     8 +
+ Assets/Settings/Low_PipelineAsset.asset            |   136 +
+ Assets/Settings/Low_PipelineAsset.asset.meta       |     8 +
+ .../Low_PipelineAsset_ForwardRenderer.asset        |    53 +
+ .../Low_PipelineAsset_ForwardRenderer.asset.meta   |     8 +
+ Assets/Settings/Medium_PipelineAsset.asset         |   136 +
+ Assets/Settings/Medium_PipelineAsset.asset.meta    |     8 +
+ .../Medium_PipelineAsset_ForwardRenderer.asset     |    53 +
+ ...Medium_PipelineAsset_ForwardRenderer.asset.meta |     8 +
+ Assets/Settings/Ultra_PipelineAsset.asset          |   136 +
+ Assets/Settings/Ultra_PipelineAsset.asset.meta     |     8 +
+ .../Ultra_PipelineAsset_ForwardRenderer.asset      |    53 +
+ .../Ultra_PipelineAsset_ForwardRenderer.asset.meta |     8 +
+ Assets/Settings/Very High_PipelineAsset.asset      |   136 +
+ Assets/Settings/Very High_PipelineAsset.asset.meta |     8 +
+ .../Very High_PipelineAsset_ForwardRenderer.asset  |    53 +
+ ...y High_PipelineAsset_ForwardRenderer.asset.meta |     8 +
+ Assets/Settings/Very Low_PipelineAsset.asset       |   136 +
+ Assets/Settings/Very Low_PipelineAsset.asset.meta  |     8 +
+ .../Very Low_PipelineAsset_ForwardRenderer.asset   |    53 +
+ ...ry Low_PipelineAsset_ForwardRenderer.asset.meta |     8 +
+ Assets/TerrainData/New Terrain 1.asset             |   Bin 557364 -> 557364 bytes
+ ...Data_37b873aa-54f9-4b91-b3d5-3607f2fa4264.asset |   Bin 1958988 -> 1958892 bytes
+ ...DF - Fallback.asset => Chathura-Bold SDF.asset} |   459 +-
+ .../Fonts & Materials/Chathura-Bold SDF.asset.meta |     8 +
+ .../Resources/Fonts & Materials/Chathura.meta      |     8 +
+ .../Fonts & Materials/Chathura/Chathura-Bold.ttf   |   Bin 0 -> 321048 bytes
+ .../Chathura/Chathura-Bold.ttf.meta                |    21 +
+ .../Chathura/Chathura-ExtraBold.ttf                |   Bin 0 -> 321080 bytes
+ .../Chathura/Chathura-ExtraBold.ttf.meta           |    21 +
+ .../Fonts & Materials/Chathura/Chathura-Light.ttf  |   Bin 0 -> 332980 bytes
+ .../Chathura/Chathura-Light.ttf.meta               |    21 +
+ .../Chathura/Chathura-Regular.ttf                  |   Bin 0 -> 323108 bytes
+ .../Chathura/Chathura-Regular.ttf.meta             |    21 +
+ .../Fonts & Materials/Chathura/Chathura-Thin.ttf   |   Bin 0 -> 336700 bytes
+ .../Chathura/Chathura-Thin.ttf.meta                |    21 +
+ .../Resources/Fonts & Materials/Chathura/OFL.txt   |    91 +
+ .../Fonts & Materials/Chathura/OFL.txt.meta        |     7 +
+ .../LiberationSans SDF - Drop Shadow.mat           |   106 -
+ .../LiberationSans SDF - Fallback.asset.meta       |     8 -
+ .../LiberationSans SDF - Outline.mat               |   104 -
+ .../LiberationSans SDF - Outline.mat.meta          |     8 -
+ .../Fonts & Materials/LiberationSans SDF.asset     |  8095 -----
+ .../LiberationSans SDF.asset.meta                  |     8 -
+ .../Fonts & Materials/Playwrite_GB_S.meta          |     8 +
+ .../Fonts & Materials/Playwrite_GB_S/OFL.txt       |    93 +
+ .../Fonts & Materials/Playwrite_GB_S/OFL.txt.meta  |     7 +
+ .../PlaywriteGBS-Italic-VariableFont_wght.ttf      |   Bin 0 -> 347696 bytes
+ .../PlaywriteGBS-Italic-VariableFont_wght.ttf.meta |    21 +
+ .../PlaywriteGBS-VariableFont_wght.ttf             |   Bin 0 -> 343276 bytes
+ .../PlaywriteGBS-VariableFont_wght.ttf.meta        |    21 +
+ .../Fonts & Materials/Playwrite_GB_S/README.txt    |    71 +
+ .../Playwrite_GB_S/README.txt.meta                 |     7 +
+ .../Fonts & Materials/Playwrite_GB_S/static.meta   |     8 +
+ .../static/PlaywriteGBS-ExtraLight.ttf             |   Bin 0 -> 232344 bytes
+ .../static/PlaywriteGBS-ExtraLight.ttf.meta        |    21 +
+ .../static/PlaywriteGBS-ExtraLightItalic.ttf       |   Bin 0 -> 235536 bytes
+ .../static/PlaywriteGBS-ExtraLightItalic.ttf.meta  |    21 +
+ .../Playwrite_GB_S/static/PlaywriteGBS-Italic.ttf  |   Bin 0 -> 235140 bytes
+ .../static/PlaywriteGBS-Italic.ttf.meta            |    21 +
+ .../Playwrite_GB_S/static/PlaywriteGBS-Light.ttf   |   Bin 0 -> 232196 bytes
+ .../static/PlaywriteGBS-Light.ttf.meta             |    21 +
+ .../static/PlaywriteGBS-LightItalic.ttf            |   Bin 0 -> 235488 bytes
+ .../static/PlaywriteGBS-LightItalic.ttf.meta       |    21 +
+ .../static/PlaywriteGBS-Regular SDF.asset          | 35197 +++++++++++++++++++
+ .../static/PlaywriteGBS-Regular SDF.asset.meta     |     8 +
+ .../Playwrite_GB_S/static/PlaywriteGBS-Regular.ttf |   Bin 0 -> 231940 bytes
+ .../static/PlaywriteGBS-Regular.ttf.meta           |    21 +
+ .../Playwrite_GB_S/static/PlaywriteGBS-Thin.ttf    |   Bin 0 -> 232000 bytes
+ .../static/PlaywriteGBS-Thin.ttf.meta              |    21 +
+ .../static/PlaywriteGBS-ThinItalic.ttf             |   Bin 0 -> 235216 bytes
+ .../static/PlaywriteGBS-ThinItalic.ttf.meta        |    21 +
+ Assets/UniversalRenderPipelineGlobalSettings.asset |   258 +
+ ...niversalRenderPipelineGlobalSettings.asset.meta |     8 +
+ Packages/manifest.json                             |     1 +
+ Packages/packages-lock.json                        |    98 +
+ ProjectSettings/EditorBuildSettings.asset          |     3 +-
+ ProjectSettings/GraphicsSettings.asset             |    23 +-
+ ProjectSettings/InputManager.asset                 |   116 +-
+ ProjectSettings/ProjectSettings.asset              |    95 +-
+ ProjectSettings/QualitySettings.asset              |    42 +-
+ ProjectSettings/ShaderGraphSettings.asset          |    18 +
+ ProjectSettings/TimeManager.asset                  |     6 +-
+ ProjectSettings/URPProjectSettings.asset           |    15 +
+ WebGLBuild/Build/WebGLBuild.data.gz                |   Bin 10150506 -> 14233851 bytes
+ WebGLBuild/Build/WebGLBuild.framework.js.gz        |   Bin 89971 -> 91667 bytes
+ WebGLBuild/Build/WebGLBuild.loader.js              |     2 +-
+ WebGLBuild/Build/WebGLBuild.wasm.gz                |   Bin 10180544 -> 12198800 bytes
+ 188 files changed, 57670 insertions(+), 11580 deletions(-)
+
+commit c7b37bc7b3dfc35e7d969294738702940f7aa890
+Author: HexDrifter <42625632+HexDrifter@users.noreply.github.com>
+Date:   Sat Nov 16 06:15:23 2024 -0300
+
+    Added SpeedGauge, and engine sound
+
+ Assets/Resources/Graphics/Speed_Gauge.png          | Bin 0 -> 7476 bytes
+ Assets/Resources/Graphics/Speed_Gauge.png.meta     | 130 ++++++++
+ Assets/Resources/Prefabs/Car.prefab                | 154 ++++++++-
+ Assets/Resources/Prefabs/UI.prefab                 | 348 ++++++++++++++++++++-
+ Assets/Resources/Sound.meta                        |   8 +
+ Assets/Resources/Sound/Engines.meta                |   8 +
+ Assets/Resources/Sound/Engines/Engines SFX.meta    |   9 +
+ .../Sound/Engines/Engines SFX/Engine_01.wav        | Bin 0 -> 246158 bytes
+ .../Sound/Engines/Engines SFX/Engine_01.wav.meta   |  30 ++
+ .../Sound/Engines/Engines SFX/Engine_02.wav        | Bin 0 -> 193312 bytes
+ .../Sound/Engines/Engines SFX/Engine_02.wav.meta   |  30 ++
+ .../Sound/Engines/Engines SFX/Engine_03.wav        | Bin 0 -> 247124 bytes
+ .../Sound/Engines/Engines SFX/Engine_03.wav.meta   |  30 ++
+ .../Sound/Engines/Engines SFX/Engine_04.wav        | Bin 0 -> 372378 bytes
+ .../Sound/Engines/Engines SFX/Engine_04.wav.meta   |  30 ++
+ .../Sound/Engines/Engines SFX/Engine_05.wav        | Bin 0 -> 220004 bytes
+ .../Sound/Engines/Engines SFX/Engine_05.wav.meta   |  30 ++
+ .../Sound/Engines/Engines SFX/Engine_06.wav        | Bin 0 -> 177248 bytes
+ .../Sound/Engines/Engines SFX/Engine_06.wav.meta   |  30 ++
+ .../Sound/Engines/Engines SFX/Engine_07.wav        | Bin 0 -> 172858 bytes
+ .../Sound/Engines/Engines SFX/Engine_07.wav.meta   |  30 ++
+ .../Sound/Engines/Engines SFX/Engine_08.wav        | Bin 0 -> 163448 bytes
+ .../Sound/Engines/Engines SFX/Engine_08.wav.meta   |  30 ++
+ Assets/Resources/Sound/Engines/Misc SFX.meta       |   9 +
+ .../Sound/Engines/Misc SFX/Carn Horn 1.wav         | Bin 0 -> 72164 bytes
+ .../Sound/Engines/Misc SFX/Carn Horn 1.wav.meta    |  30 ++
+ .../Sound/Engines/Misc SFX/Carn Horn 2.wav         | Bin 0 -> 66908 bytes
+ .../Sound/Engines/Misc SFX/Carn Horn 2.wav.meta    |  30 ++
+ .../Resources/Sound/Engines/Misc SFX/Pounding.wav  | Bin 0 -> 187358 bytes
+ .../Sound/Engines/Misc SFX/Pounding.wav.meta       |  30 ++
+ .../Sound/Engines/Misc SFX/Screwdriver.wav         | Bin 0 -> 119518 bytes
+ .../Sound/Engines/Misc SFX/Screwdriver.wav.meta    |  30 ++
+ .../Sound/Engines/Misc SFX/Smashed_Window_01.wav   | Bin 0 -> 476714 bytes
+ .../Engines/Misc SFX/Smashed_Window_01.wav.meta    |  30 ++
+ .../Sound/Engines/Misc SFX/Smashed_Window_02.wav   | Bin 0 -> 505102 bytes
+ .../Engines/Misc SFX/Smashed_Window_02.wav.meta    |  30 ++
+ Assets/Resources/Sound/Engines/Misc SFX/Wrench.wav | Bin 0 -> 56366 bytes
+ .../Sound/Engines/Misc SFX/Wrench.wav.meta         |  30 ++
+ Assets/Resources/Sound/Music.mixer                 |  65 ++++
+ Assets/Resources/Sound/Music.mixer.meta            |   8 +
+ Assets/Resources/Sound/SFX.mixer                   |  65 ++++
+ Assets/Resources/Sound/SFX.mixer.meta              |   8 +
+ .../Core/0_Framework/Gameplay/CarBehavior.cs       |  66 +++-
+ .../0_Framework/Gameplay/SoundEngineController.cs  |  24 ++
+ .../Gameplay/SoundEngineController.cs.meta         |   2 +
+ .../Scripts/Core/0_Framework/Views/GaugeUIView.cs  |  17 +-
+ .../Core/0_Framework/Views/PlayerGameplayUIView.cs |  13 +
+ .../Core/1_InterfaceAdapters/PlayerPresenter.cs    |   8 +-
+ .../Core/1_InterfaceAdapters/PlayerViewModel.cs    |   5 +-
+ .../Actors/Interfaces/PlayerSpeedOutput.cs         |  11 +
+ .../Actors/Interfaces/PlayerSpeedOutput.cs.meta    |   2 +
+ .../Core/2_Domain/Actors/Interfaces/SetSpeed.cs    |  11 +
+ .../2_Domain/Actors/Interfaces/SetSpeed.cs.meta    |   2 +
+ .../Core/2_Domain/Actors/SetSpeedUseCase.cs        |  21 ++
+ .../Core/2_Domain/Actors/SetSpeedUseCase.cs.meta   |   2 +
+ Assets/Scripts/Core/3_Entities/Car.cs              |  60 +++-
+ Assets/Scripts/Public/Setup.cs                     |   5 +-
+ Assets/Scripts/Tests/TestSetup.cs                  |   2 +-
+ WebGLBuild/Build/WebGLBuild.data.gz                | Bin 8376470 -> 10150506 bytes
+ WebGLBuild/Build/WebGLBuild.framework.js.gz        | Bin 0 -> 89971 bytes
+ WebGLBuild/Build/WebGLBuild.loader.js              |   1 +
+ WebGLBuild/Build/WebGLBuild.wasm.gz                | Bin 0 -> 10180544 bytes
+ WebGLBuild/TemplateData/MemoryProfiler.png         | Bin 0 -> 665 bytes
+ WebGLBuild/TemplateData/favicon.ico                | Bin 0 -> 2305 bytes
+ WebGLBuild/TemplateData/fullscreen-button.png      | Bin 0 -> 175 bytes
+ .../TemplateData/progress-bar-empty-dark.png       | Bin 0 -> 96 bytes
+ .../TemplateData/progress-bar-empty-light.png      | Bin 0 -> 109 bytes
+ WebGLBuild/TemplateData/progress-bar-full-dark.png | Bin 0 -> 74 bytes
+ .../TemplateData/progress-bar-full-light.png       | Bin 0 -> 84 bytes
+ WebGLBuild/TemplateData/style.css                  |  16 +
+ WebGLBuild/TemplateData/unity-logo-dark.png        | Bin 0 -> 3042 bytes
+ WebGLBuild/TemplateData/unity-logo-light.png       | Bin 0 -> 3077 bytes
+ .../TemplateData/unity-logo-title-footer.png       | Bin 0 -> 1151 bytes
+ WebGLBuild/TemplateData/webmemd-icon.png           | Bin 0 -> 1670 bytes
+ WebGLBuild/WebGL.zip                               | Bin 0 -> 20093947 bytes
+ WebGLBuild/index.html                              | 127 ++++++++
+ 76 files changed, 1605 insertions(+), 52 deletions(-)
+
+commit 4b5ae945c3a9f50617dd197617caefb849d0cc3d
+Author: HexDrifter <42625632+HexDrifter@users.noreply.github.com>
+Date:   Fri Nov 15 03:12:10 2024 -0300
+
+    Added new RPM Gauges to UI
+
+ Assets/Configuration/Input/GameInput.inputactions  |   112 +-
+ Assets/Resources/Graphics.meta                     |     8 +
+ Assets/Resources/Graphics/RPM_Gauge.png            |   Bin 0 -> 5567 bytes
+ Assets/Resources/Graphics/RPM_Gauge.png.meta       |   130 +
+ Assets/Resources/Graphics/RPM_Gauge_Pointer.png    |   Bin 0 -> 2783 bytes
+ .../Resources/Graphics/RPM_Gauge_Pointer.png.meta  |   130 +
+ Assets/Resources/Prefabs/Car.prefab                |   327 +-
+ Assets/Resources/Prefabs/UI.prefab                 |   441 +-
+ Assets/Scenes/DebugRoom.unity                      |    63 +-
+ Assets/Scenes/TestingRoom.unity                    |    67 +-
+ .../Core/0_Framework/Gameplay/CarBehavior.cs       |     4 +-
+ .../Core/0_Framework/Gameplay/CarHandler.cs        |     3 +-
+ .../Scripts/Core/0_Framework/Views/GaugeUIView.cs  |    55 +
+ .../Core/0_Framework/Views/GaugeUIView.cs.meta     |     2 +
+ .../Core/0_Framework/Views/PlayerGameplayUIView.cs |     8 +-
+ .../Core/1_InterfaceAdapters/PlayerViewModel.cs    |     1 -
+ Assets/Scripts/Core/3_Entities/Car.cs              |     9 +
+ Assets/Scripts/Core/3_Entities/Car.cs.meta         |     2 +
+ Assets/Scripts/Public/GameInput.cs                 |   139 +-
+ Assets/Scripts/Public/Setup.cs                     |     1 +
+ Assets/Scripts/Tests/CharacterTests.cs             |    61 +-
+ Assets/Scripts/Tests/GameInput.cs                  |   143 +-
+ Assets/Scripts/Tests/GameInput.cs.meta             |     2 +-
+ Assets/Scripts/Tests/InputTests.cs                 |    83 +
+ Assets/Scripts/Tests/InputTests.cs.meta            |    11 +
+ Assets/Scripts/Tests/TestSetup.cs                  |    49 +
+ Assets/Scripts/Tests/TestSetup.cs.meta             |    11 +
+ Assets/TerrainData/New Terrain 2.asset             |   Bin 1959028 -> 1958916 bytes
+ .../LiberationSans SDF - Fallback.asset            |    16 +-
+ .../Fonts & Materials/LiberationSans SDF.asset     |   129 +-
+ .../Style Sheets/Default Style Sheet.asset         |    23 +-
+ Assets/TextMesh Pro/Resources/TMP Settings.asset   |    17 +-
+ Assets/TextMesh Pro/Shaders/SDFFunctions.hlsl      |   178 +
+ Assets/TextMesh Pro/Shaders/SDFFunctions.hlsl.meta |    10 +
+ .../Shaders/TMP_Bitmap-Custom-Atlas.shader         |    72 +-
+ .../TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader  |    52 +-
+ Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader      |    62 +-
+ Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader |    83 +-
+ Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader     |    95 +-
+ .../Shaders/TMP_SDF-HDRP LIT.shadergraph           | 12074 +++++++++++++++++++
+ .../Shaders/TMP_SDF-HDRP LIT.shadergraph.meta      |    10 +
+ .../Shaders/TMP_SDF-HDRP UNLIT.shadergraph         | 11759 ++++++++++++++++++
+ .../Shaders/TMP_SDF-HDRP UNLIT.shadergraph.meta    |    10 +
+ .../Shaders/TMP_SDF-Mobile Masking.shader          |    77 +-
+ .../Shaders/TMP_SDF-Mobile Overlay.shader          |    68 +-
+ .../TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader |     6 +-
+ .../Shaders/TMP_SDF-Mobile-2-Pass.shader           |   389 +
+ .../Shaders/TMP_SDF-Mobile-2-Pass.shader.meta      |     9 +
+ Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader  |    26 +-
+ .../Shaders/TMP_SDF-Surface-Mobile.shader          |     9 +-
+ Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader |    11 +-
+ .../Shaders/TMP_SDF-URP Lit.shadergraph            | 11932 ++++++++++++++++++
+ .../Shaders/TMP_SDF-URP Lit.shadergraph.meta       |    10 +
+ .../Shaders/TMP_SDF-URP Unlit.shadergraph          | 11629 ++++++++++++++++++
+ .../Shaders/TMP_SDF-URP Unlit.shadergraph.meta     |    10 +
+ Assets/TextMesh Pro/Shaders/TMP_SDF.shader         |    81 +-
+ Assets/TextMesh Pro/Shaders/TMP_Sprite.shader      |    77 +-
+ Assets/TextMesh Pro/Shaders/TMPro.cginc.meta       |     2 +-
+ Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc     |    32 +-
+ Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc |     5 -
+ Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc    |    10 +-
+ Packages/manifest.json                             |    23 +-
+ Packages/packages-lock.json                        |    90 +-
+ ProjectSettings/MultiplayerManager.asset           |     7 +
+ ProjectSettings/ProjectVersion.txt                 |     4 +-
+ ProjectSettings/SceneTemplateSettings.json         |     5 +
+ WebGLBuild/Build/WebGLBuild.data.gz                |   Bin 0 -> 8376470 bytes
+ 67 files changed, 49973 insertions(+), 991 deletions(-)
+
+commit ffb2897da52dd1adacd7b7982c9cb51daf125c35
+Author: HexDrifter <42625632+HexDrifter@users.noreply.github.com>
+Date:   Tue Nov 12 04:16:09 2024 -0300
+
+    Improved Testing
+
+ Assets/3d Models/ClownCarBeta6.blend               |  Bin 1187008 -> 1195392 bytes
+ Assets/3d Models/ClownCarBeta6.blend1              |  Bin 0 -> 1187008 bytes
+ Assets/3d Models/ClownCarBeta6.blend1.meta         |    7 +
+ Assets/3d Models/textures/ColorBase.mat            |    4 +-
+ .../textures/New Render Texture.renderTexture      |    2 +-
+ Assets/InputSystem.inputsettings.asset             |   36 +
+ Assets/InputSystem.inputsettings.asset.meta        |    8 +
+ Assets/Resources.meta                              |    8 +
+ Assets/{ => Resources}/Prefabs.meta                |    0
+ Assets/{ => Resources}/Prefabs/Car.prefab          |    2 +-
+ Assets/{ => Resources}/Prefabs/Car.prefab.meta     |    0
+ Assets/{ => Resources}/Prefabs/Setup.prefab        |    0
+ Assets/{ => Resources}/Prefabs/Setup.prefab.meta   |    0
+ Assets/{ => Resources}/Prefabs/UI.prefab           |    0
+ Assets/{ => Resources}/Prefabs/UI.prefab.meta      |    0
+ Assets/Scenes/DebugRoom.unity                      |   36 +
+ Assets/Scenes/Level 1.unity                        | 4564 +++++++++++++-------
+ Assets/Scenes/MainScene.unity                      |  778 ++--
+ Assets/Scenes/TestingRoom.unity                    |  423 ++
+ Assets/Scenes/TestingRoom.unity.meta               |    7 +
+ .../Core/0_Framework/Beetle.Framework.asmdef       |   21 +
+ .../Beetle.Framework.asmdef.meta}                  |    2 +-
+ .../Core/0_Framework/ClownCar.Framework.asmdef     |   21 -
+ .../Core/0_Framework/Gameplay/CarBehavior.cs       |    6 +-
+ .../Core/0_Framework/Gameplay/CarHandler.cs        |    2 +-
+ .../Core/0_Framework/Gameplay/ServiceLocator.cs    |    2 +-
+ .../Core/0_Framework/Views/BaseReactiveView.cs     |    2 +-
+ .../Core/0_Framework/Views/PlayerGameplayUIView.cs |    4 +-
+ ...ters.asmdef => Beetle.InterfaceAdapters.asmdef} |    8 +-
+ .../Beetle.InterfaceAdapters.asmdef.meta}          |    2 +-
+ .../Core/1_InterfaceAdapters/PlayerPresenter.cs    |    4 +-
+ .../Core/1_InterfaceAdapters/PlayerViewModel.cs    |    2 +-
+ .../2_Domain/Actors/Interfaces/PlayerGearOutput.cs |    2 +-
+ .../2_Domain/Actors/Interfaces/PlayerRpmOutput.cs  |    2 +-
+ .../Core/2_Domain/Actors/Interfaces/SetGear.cs     |    2 +-
+ .../Core/2_Domain/Actors/Interfaces/SetRpm.cs      |    2 +-
+ .../Scripts/Core/2_Domain/Actors/SetGearUseCase.cs |    2 +-
+ .../Scripts/Core/2_Domain/Actors/SetRpmUseCase.cs  |    4 +-
+ ...ClownCar.Domain.asmdef => Beetle.Domain.asmdef} |    6 +-
+ .../Beetle.Domain.asmdef.meta}                     |    2 +-
+ ...nCar.Entities.asmdef => Beetle.Entities.asmdef} |    4 +-
+ ...ies.asmdef.meta => Beetle.Entities.asmdef.meta} |    2 +-
+ Assets/Scripts/Core/3_Entities/Player.cs           |    2 +-
+ Assets/Scripts/Public/Setup.cs                     |   11 +-
+ Assets/Scripts/Tests.meta                          |    8 +
+ Assets/Scripts/Tests/CharacterTests.cs             |   72 +
+ Assets/Scripts/Tests/CharacterTests.cs.meta        |   11 +
+ Assets/Scripts/Tests/GameInput.cs                  |  375 ++
+ Assets/Scripts/Tests/GameInput.cs.meta             |   11 +
+ Assets/Scripts/Tests/Tests.asmdef                  |   28 +
+ Assets/Scripts/Tests/Tests.asmdef.meta             |    7 +
+ Assets/TerrainData.meta                            |    8 +
+ Assets/{ => TerrainData}/New Terrain 1.asset       |  Bin
+ Assets/{ => TerrainData}/New Terrain 1.asset.meta  |    0
+ Assets/{ => TerrainData}/New Terrain 2.asset       |  Bin 1959028 -> 1959028 bytes
+ Assets/{ => TerrainData}/New Terrain 2.asset.meta  |    0
+ Assets/TerrainData/New Terrain 3.asset             |  Bin 0 -> 557364 bytes
+ Assets/TerrainData/New Terrain 3.asset.meta        |    8 +
+ Assets/{ => TerrainData}/New Terrain.asset         |  Bin
+ Assets/{ => TerrainData}/New Terrain.asset.meta    |    0
+ Assets/{ => TerrainData}/NewBrush.brush            |    0
+ Assets/{ => TerrainData}/NewBrush.brush.meta       |    0
+ Assets/{ => TerrainData}/NewLayer 1.terrainlayer   |    0
+ .../{ => TerrainData}/NewLayer 1.terrainlayer.meta |    0
+ Assets/{ => TerrainData}/NewLayer 2.terrainlayer   |    0
+ .../{ => TerrainData}/NewLayer 2.terrainlayer.meta |    0
+ Assets/{ => TerrainData}/NewLayer 3.terrainlayer   |    0
+ .../{ => TerrainData}/NewLayer 3.terrainlayer.meta |    0
+ Assets/{ => TerrainData}/NewLayer.terrainlayer     |    0
+ .../{ => TerrainData}/NewLayer.terrainlayer.meta   |    0
+ Assets/TerrainData/Portada.png                     |  Bin 0 -> 617563 bytes
+ Assets/TerrainData/Portada.png.meta                |  114 +
+ ...Data_0c28a57d-1f5b-4ab7-a8e1-2a415ea0b612.asset |  Bin
+ ...0c28a57d-1f5b-4ab7-a8e1-2a415ea0b612.asset.meta |    0
+ ...Data_143f14c9-18be-43a0-b6ca-71c1cef7037a.asset |  Bin
+ ...143f14c9-18be-43a0-b6ca-71c1cef7037a.asset.meta |    0
+ ...Data_29563fc9-db6c-4df8-a060-ece2d036ace4.asset |  Bin 1959032 -> 1959060 bytes
+ ...29563fc9-db6c-4df8-a060-ece2d036ace4.asset.meta |    0
+ ...Data_2ab59bc6-10f1-434f-b34f-afb8a0fe96a0.asset |  Bin 1959060 -> 1959060 bytes
+ ...2ab59bc6-10f1-434f-b34f-afb8a0fe96a0.asset.meta |    0
+ ...Data_37b873aa-54f9-4b91-b3d5-3607f2fa4264.asset |  Bin 1958988 -> 1958988 bytes
+ ...37b873aa-54f9-4b91-b3d5-3607f2fa4264.asset.meta |    0
+ ...Data_55ab24b4-d903-46f5-add0-3b2d1a0a246d.asset |  Bin
+ ...55ab24b4-d903-46f5-add0-3b2d1a0a246d.asset.meta |    0
+ ...Data_611b1874-5a75-4154-b834-adefb47d6db2.asset |  Bin
+ ...611b1874-5a75-4154-b834-adefb47d6db2.asset.meta |    0
+ ...Data_7b3607eb-6295-48f5-88ae-6d9f52f00bcb.asset |  Bin
+ ...7b3607eb-6295-48f5-88ae-6d9f52f00bcb.asset.meta |    0
+ ...Data_97bb70c6-2ff0-4dde-8eaf-5cb4d92824b0.asset |  Bin
+ ...97bb70c6-2ff0-4dde-8eaf-5cb4d92824b0.asset.meta |    0
+ ...Data_98c838f1-4831-43fa-a37d-9d5e3a908622.asset |  Bin 1959032 -> 1959032 bytes
+ ...98c838f1-4831-43fa-a37d-9d5e3a908622.asset.meta |    0
+ ...Data_a2093f0e-e7df-4824-8e56-d332e139840a.asset |  Bin
+ ...a2093f0e-e7df-4824-8e56-d332e139840a.asset.meta |    0
+ ...Data_a26684f6-4dd7-48d1-8e4c-7f3ce6a2dc90.asset |  Bin
+ ...a26684f6-4dd7-48d1-8e4c-7f3ce6a2dc90.asset.meta |    0
+ ...Data_a3f5c553-263b-4497-b17c-32282b792a54.asset |  Bin 1959032 -> 1959032 bytes
+ ...a3f5c553-263b-4497-b17c-32282b792a54.asset.meta |    0
+ ...Data_a93f2618-6bf1-4a43-94ed-cad1e0eb148a.asset |  Bin
+ ...a93f2618-6bf1-4a43-94ed-cad1e0eb148a.asset.meta |    0
+ ...Data_ade9260f-5865-4f82-a2ac-cf489f2d2a27.asset |  Bin
+ ...ade9260f-5865-4f82-a2ac-cf489f2d2a27.asset.meta |    0
+ ...Data_bd268943-d6a5-4da4-962d-412842bb0a6d.asset |  Bin
+ ...bd268943-d6a5-4da4-962d-412842bb0a6d.asset.meta |    0
+ ...Data_c71db69d-4ad5-454f-9f97-a9d53376664c.asset |  Bin
+ ...c71db69d-4ad5-454f-9f97-a9d53376664c.asset.meta |    0
+ ...Data_dc5b902b-37af-4a91-b795-b24e5561010e.asset |  Bin 1959032 -> 1959032 bytes
+ ...dc5b902b-37af-4a91-b795-b24e5561010e.asset.meta |    0
+ ...Data_e864d6f1-b9d9-4455-8be9-cb27a7d6d991.asset |  Bin
+ ...e864d6f1-b9d9-4455-8be9-cb27a7d6d991.asset.meta |    0
+ ...Data_f93f7dd3-639b-4ecc-970a-01145bb6ec8b.asset |  Bin
+ ...f93f7dd3-639b-4ecc-970a-01145bb6ec8b.asset.meta |    0
+ .../Fonts & Materials/LiberationSans SDF.asset     |  281 +-
+ Packages/manifest.json                             |    5 +-
+ Packages/packages-lock.json                        |    2 +-
+ ProjectSettings/EditorBuildSettings.asset          |    5 +-
+ ProjectSettings/ProjectSettings.asset              |    6 +-
+ 117 files changed, 5075 insertions(+), 1858 deletions(-)
+
+commit 2666cb7597929470678e86e0eb6ba8539f4c18fb
+Author: HexDrifter <42625632+HexDrifter@users.noreply.github.com>
+Date:   Tue Aug 20 12:18:41 2024 -0400
+
+    Added Level
+
+ Assets/3d Models/BeetleCarModel.fbx                |  Bin 0 -> 135004 bytes
+ Assets/3d Models/BeetleCarModel.fbx.meta           |  109 +
+ Assets/3d Models/ClownCarBeta1.blend               |  Bin 0 -> 1142988 bytes
+ Assets/3d Models/ClownCarBeta1.blend.meta          |  109 +
+ Assets/3d Models/ClownCarBeta2.blend               |  Bin 0 -> 1122468 bytes
+ Assets/3d Models/ClownCarBeta2.blend.meta          |  109 +
+ Assets/3d Models/ClownCarBeta3.blend               |  Bin 0 -> 1063128 bytes
+ Assets/3d Models/ClownCarBeta3.blend.meta          |  109 +
+ Assets/3d Models/ClownCarBeta4.blend               |  Bin 0 -> 1066332 bytes
+ Assets/3d Models/ClownCarBeta4.blend.meta          |  109 +
+ Assets/3d Models/ClownCarBeta5.blend               |  Bin 0 -> 1066332 bytes
+ Assets/3d Models/ClownCarBeta5.blend.meta          |  109 +
+ Assets/3d Models/ClownCarBeta6.blend               |  Bin 0 -> 1187008 bytes
+ Assets/3d Models/ClownCarBeta6.blend.meta          |  109 +
+ Assets/3d Models/Pure Poly.meta                    |    8 +
+ .../Pure Poly/Free Low Poly Nature Pack.meta       |    8 +
+ .../Free Low Poly Nature Pack/Materials.meta       |    8 +
+ .../Materials/PP_Ground.mat                        |   77 +
+ .../Materials/PP_Ground.mat.meta                   |    8 +
+ .../Materials/PP_Standard_Material.mat             |   77 +
+ .../Materials/PP_Standard_Material.mat.meta        |    8 +
+ .../Free Low Poly Nature Pack/Meshes.meta          |    8 +
+ .../Meshes/PP_Birch_Tree_05.fbx                    |  Bin 0 -> 81228 bytes
+ .../Meshes/PP_Birch_Tree_05.fbx.meta               |   97 +
+ .../Meshes/PP_Birch_Tree_06.fbx                    |  Bin 0 -> 97932 bytes
+ .../Meshes/PP_Birch_Tree_06.fbx.meta               |   97 +
+ .../Meshes/PP_Daffodil_03.fbx                      |  Bin 0 -> 55772 bytes
+ .../Meshes/PP_Daffodil_03.fbx.meta                 |   97 +
+ .../Meshes/PP_Forest_Mountain_Moss_01.fbx          |  Bin 0 -> 94556 bytes
+ .../Meshes/PP_Forest_Mountain_Moss_01.fbx.meta     |   97 +
+ .../Meshes/PP_Forest_Mountain_Moss_02.fbx          |  Bin 0 -> 98540 bytes
+ .../Meshes/PP_Forest_Mountain_Moss_02.fbx.meta     |   97 +
+ .../Meshes/PP_Grass_11.fbx                         |  Bin 0 -> 36924 bytes
+ .../Meshes/PP_Grass_11.fbx.meta                    |   97 +
+ .../Meshes/PP_Grass_15.fbx                         |  Bin 0 -> 41116 bytes
+ .../Meshes/PP_Grass_15.fbx.meta                    |   97 +
+ .../Meshes/PP_Hyacinth_04.fbx                      |  Bin 0 -> 99388 bytes
+ .../Meshes/PP_Hyacinth_04.fbx.meta                 |   97 +
+ .../Meshes/PP_Lake_Ground_04.fbx                   |  Bin 0 -> 93148 bytes
+ .../Meshes/PP_Lake_Ground_04.fbx.meta              |   97 +
+ .../Meshes/PP_Meadow_07.fbx                        |  Bin 0 -> 76460 bytes
+ .../Meshes/PP_Meadow_07.fbx.meta                   |   97 +
+ .../Meshes/PP_Meadow_08.fbx                        |  Bin 0 -> 93340 bytes
+ .../Meshes/PP_Meadow_08.fbx.meta                   |   97 +
+ .../Meshes/PP_Meadow_Path_05.fbx                   |  Bin 0 -> 39900 bytes
+ .../Meshes/PP_Meadow_Path_05.fbx.meta              |   97 +
+ .../Meshes/PP_Mushroom_Fantasy_Orange_09.fbx       |  Bin 0 -> 44028 bytes
+ .../Meshes/PP_Mushroom_Fantasy_Orange_09.fbx.meta  |   97 +
+ .../Meshes/PP_Mushroom_Fantasy_Orange_10.fbx       |  Bin 0 -> 46604 bytes
+ .../Meshes/PP_Mushroom_Fantasy_Orange_10.fbx.meta  |   97 +
+ .../Meshes/PP_Mushroom_Fantasy_Purple_05.fbx       |  Bin 0 -> 45516 bytes
+ .../Meshes/PP_Mushroom_Fantasy_Purple_05.fbx.meta  |   97 +
+ .../Meshes/PP_Mushroom_Fantasy_Purple_08.fbx       |  Bin 0 -> 36524 bytes
+ .../Meshes/PP_Mushroom_Fantasy_Purple_08.fbx.meta  |   97 +
+ .../Meshes/PP_Rock_Moss_Grown_09.fbx               |  Bin 0 -> 39500 bytes
+ .../Meshes/PP_Rock_Moss_Grown_09.fbx.meta          |   97 +
+ .../Meshes/PP_Rock_Moss_Grown_11.fbx               |  Bin 0 -> 34396 bytes
+ .../Meshes/PP_Rock_Moss_Grown_11.fbx.meta          |   97 +
+ .../Meshes/PP_Rock_Pile_Forest_Moss_05.fbx         |  Bin 0 -> 43580 bytes
+ .../Meshes/PP_Rock_Pile_Forest_Moss_05.fbx.meta    |   97 +
+ .../Meshes/PP_Rock_Pile_Forest_Moss_10.fbx         |  Bin 0 -> 40940 bytes
+ .../Meshes/PP_Rock_Pile_Forest_Moss_10.fbx.meta    |   97 +
+ .../Meshes/PP_Sunflower_04.fbx                     |  Bin 0 -> 87148 bytes
+ .../Meshes/PP_Sunflower_04.fbx.meta                |   97 +
+ .../Meshes/PP_Tree_02.fbx                          |  Bin 0 -> 89436 bytes
+ .../Meshes/PP_Tree_02.fbx.meta                     |   97 +
+ .../Meshes/PP_Tree_10.fbx                          |  Bin 0 -> 84252 bytes
+ .../Meshes/PP_Tree_10.fbx.meta                     |   97 +
+ .../Free Low Poly Nature Pack/Prefabs.meta         |    8 +
+ .../Prefabs/PP_Birch_Tree_05.prefab                |   96 +
+ .../Prefabs/PP_Birch_Tree_05.prefab.meta           |    7 +
+ .../Prefabs/PP_Birch_Tree_06.prefab                |   96 +
+ .../Prefabs/PP_Birch_Tree_06.prefab.meta           |    7 +
+ .../Prefabs/PP_Daffodil_03.prefab                  |   96 +
+ .../Prefabs/PP_Daffodil_03.prefab.meta             |    7 +
+ .../Prefabs/PP_Forest_Mountain_Moss_01.prefab      |   96 +
+ .../Prefabs/PP_Forest_Mountain_Moss_01.prefab.meta |    7 +
+ .../Prefabs/PP_Forest_Mountain_Moss_02.prefab      |   97 +
+ .../Prefabs/PP_Forest_Mountain_Moss_02.prefab.meta |    7 +
+ .../Prefabs/PP_Grass_11.prefab                     |   96 +
+ .../Prefabs/PP_Grass_11.prefab.meta                |    7 +
+ .../Prefabs/PP_Grass_15.prefab                     |   97 +
+ .../Prefabs/PP_Grass_15.prefab.meta                |    7 +
+ .../Prefabs/PP_Hyacinth_04.prefab                  |   96 +
+ .../Prefabs/PP_Hyacinth_04.prefab.meta             |    7 +
+ .../Prefabs/PP_Lake_Ground_04.prefab               |  191 +
+ .../Prefabs/PP_Lake_Ground_04.prefab.meta          |    7 +
+ .../Prefabs/PP_Meadow_07.prefab                    |   96 +
+ .../Prefabs/PP_Meadow_07.prefab.meta               |    7 +
+ .../Prefabs/PP_Meadow_08.prefab                    |   96 +
+ .../Prefabs/PP_Meadow_08.prefab.meta               |    7 +
+ .../Prefabs/PP_Meadow_Path_05.prefab               |   96 +
+ .../Prefabs/PP_Meadow_Path_05.prefab.meta          |    7 +
+ .../Prefabs/PP_Mushroom_Fantasy_Orange_09.prefab   |   97 +
+ .../PP_Mushroom_Fantasy_Orange_09.prefab.meta      |    7 +
+ .../Prefabs/PP_Mushroom_Fantasy_Orange_10.prefab   |   97 +
+ .../PP_Mushroom_Fantasy_Orange_10.prefab.meta      |    7 +
+ .../Prefabs/PP_Mushroom_Fantasy_Purple_05.prefab   |   96 +
+ .../PP_Mushroom_Fantasy_Purple_05.prefab.meta      |    7 +
+ .../Prefabs/PP_Mushroom_Fantasy_Purple_08.prefab   |   96 +
+ .../PP_Mushroom_Fantasy_Purple_08.prefab.meta      |    7 +
+ .../Prefabs/PP_Rock_Moss_Grown_09.prefab           |   96 +
+ .../Prefabs/PP_Rock_Moss_Grown_09.prefab.meta      |    7 +
+ .../Prefabs/PP_Rock_Moss_Grown_11.prefab           |   97 +
+ .../Prefabs/PP_Rock_Moss_Grown_11.prefab.meta      |    7 +
+ .../Prefabs/PP_Rock_Pile_Forest_Moss_05.prefab     |   96 +
+ .../PP_Rock_Pile_Forest_Moss_05.prefab.meta        |    7 +
+ .../Prefabs/PP_Rock_Pile_Forest_Moss_10.prefab     |   97 +
+ .../PP_Rock_Pile_Forest_Moss_10.prefab.meta        |    7 +
+ .../Prefabs/PP_Sunflower_04.prefab                 |   96 +
+ .../Prefabs/PP_Sunflower_04.prefab.meta            |    7 +
+ .../Prefabs/PP_Tree_02.prefab                      |   96 +
+ .../Prefabs/PP_Tree_02.prefab.meta                 |    7 +
+ .../Prefabs/PP_Tree_10.prefab                      |   97 +
+ .../Prefabs/PP_Tree_10.prefab.meta                 |    7 +
+ .../Free Low Poly Nature Pack/Read Me.pdf          |  Bin 0 -> 297191 bytes
+ .../Free Low Poly Nature Pack/Read Me.pdf.meta     |    7 +
+ .../Free Low Poly Nature Pack/Textures.meta        |    8 +
+ .../Textures/PP_Color_Palette.png                  |  Bin 0 -> 5034 bytes
+ .../Textures/PP_Color_Palette.png.meta             |   92 +
+ Assets/3d Models/textures.meta                     |    8 +
+ Assets/3d Models/textures/ColorBase.mat            |   83 +
+ Assets/3d Models/textures/ColorBase.mat.meta       |    8 +
+ Assets/3d Models/textures/Material Color base.png  |  Bin 0 -> 1543209 bytes
+ .../textures/Material Color base.png.meta          |  114 +
+ .../textures/New Render Texture.renderTexture      |   40 +
+ .../textures/New Render Texture.renderTexture.meta |    8 +
+ Assets/Handpainted_Grass_and_Ground_Textures.meta  |    8 +
+ .../Textures.meta                                  |    8 +
+ .../Textures/Dirt.meta                             |    8 +
+ .../Textures/Dirt/dirt_clay.meta                   |    8 +
+ .../Textures/Dirt/dirt_clay/dirt_clay_down.png     |  Bin 0 -> 509374 bytes
+ .../Dirt/dirt_clay/dirt_clay_down.png.meta         |   96 +
+ .../Textures/Dirt/dirt_clay/dirt_clay_left.png     |  Bin 0 -> 501916 bytes
+ .../Dirt/dirt_clay/dirt_clay_left.png.meta         |   96 +
+ .../Textures/Dirt/dirt_clay/dirt_clay_right.png    |  Bin 0 -> 502823 bytes
+ .../Dirt/dirt_clay/dirt_clay_right.png.meta        |   96 +
+ .../Textures/Dirt/dirt_clay/dirt_clay_up.png       |  Bin 0 -> 441176 bytes
+ .../Textures/Dirt/dirt_clay/dirt_clay_up.png.meta  |   96 +
+ .../Textures/Dirt/dirt_claydarked.meta             |    8 +
+ .../Dirt/dirt_claydarked/dirt_claydarked_down.png  |  Bin 0 -> 359123 bytes
+ .../dirt_claydarked/dirt_claydarked_down.png.meta  |   96 +
+ .../Dirt/dirt_claydarked/dirt_claydarked_left.png  |  Bin 0 -> 354649 bytes
+ .../dirt_claydarked/dirt_claydarked_left.png.meta  |   96 +
+ .../Dirt/dirt_claydarked/dirt_claydarked_right.png |  Bin 0 -> 355500 bytes
+ .../dirt_claydarked/dirt_claydarked_right.png.meta |   96 +
+ .../Dirt/dirt_claydarked/dirt_claydarked_up.png    |  Bin 0 -> 312866 bytes
+ .../dirt_claydarked/dirt_claydarked_up.png.meta    |   96 +
+ .../Textures/Dirt/dirt_corrupted.meta              |    8 +
+ .../Dirt/dirt_corrupted/dirt_corrupted_down.png    |  Bin 0 -> 489096 bytes
+ .../dirt_corrupted/dirt_corrupted_down.png.meta    |   96 +
+ .../Dirt/dirt_corrupted/dirt_corrupted_left.png    |  Bin 0 -> 482523 bytes
+ .../dirt_corrupted/dirt_corrupted_left.png.meta    |   96 +
+ .../Dirt/dirt_corrupted/dirt_corrupted_right.png   |  Bin 0 -> 483914 bytes
+ .../dirt_corrupted/dirt_corrupted_right.png.meta   |   96 +
+ .../Dirt/dirt_corrupted/dirt_corrupted_up.png      |  Bin 0 -> 431624 bytes
+ .../Dirt/dirt_corrupted/dirt_corrupted_up.png.meta |   96 +
+ .../Textures/Dirt/dirt_corrupted_lighted.meta      |    8 +
+ .../dirt_corrupted_lighted_down.png                |  Bin 0 -> 515929 bytes
+ .../dirt_corrupted_lighted_down.png.meta           |   96 +
+ .../dirt_corrupted_lighted_left.png                |  Bin 0 -> 508956 bytes
+ .../dirt_corrupted_lighted_left.png.meta           |   96 +
+ .../dirt_corrupted_lighted_right.png               |  Bin 0 -> 508476 bytes
+ .../dirt_corrupted_lighted_right.png.meta          |   96 +
+ .../dirt_corrupted_lighted_up.png                  |  Bin 0 -> 451069 bytes
+ .../dirt_corrupted_lighted_up.png.meta             |   96 +
+ .../Textures/Dirt/dirt_desatured.meta              |    8 +
+ .../Dirt/dirt_desatured/dirt_desatured_down.png    |  Bin 0 -> 623441 bytes
+ .../dirt_desatured/dirt_desatured_down.png.meta    |   96 +
+ .../Dirt/dirt_desatured/dirt_desatured_left.png    |  Bin 0 -> 617155 bytes
+ .../dirt_desatured/dirt_desatured_left.png.meta    |   96 +
+ .../Dirt/dirt_desatured/dirt_desatured_right.png   |  Bin 0 -> 619299 bytes
+ .../dirt_desatured/dirt_desatured_right.png.meta   |   96 +
+ .../Dirt/dirt_desatured/dirt_desatured_up.png      |  Bin 0 -> 540552 bytes
+ .../Dirt/dirt_desatured/dirt_desatured_up.png.meta |   96 +
+ .../Textures/Dirt/dirt_desatured_rocks.meta        |    8 +
+ .../dirt_desatured_rocks_down.png                  |  Bin 0 -> 971490 bytes
+ .../dirt_desatured_rocks_down.png.meta             |   96 +
+ .../dirt_desatured_rocks_left.png                  |  Bin 0 -> 971134 bytes
+ .../dirt_desatured_rocks_left.png.meta             |   96 +
+ .../dirt_desatured_rocks_right.png                 |  Bin 0 -> 971739 bytes
+ .../dirt_desatured_rocks_right.png.meta            |   96 +
+ .../dirt_desatured_rocks_up.png                    |  Bin 0 -> 853870 bytes
+ .../dirt_desatured_rocks_up.png.meta               |   96 +
+ .../Textures/Dirt/dirt_lighted.meta                |    8 +
+ .../Dirt/dirt_lighted/dirt_lighted_down.png        |  Bin 0 -> 668436 bytes
+ .../Dirt/dirt_lighted/dirt_lighted_down.png.meta   |   96 +
+ .../Dirt/dirt_lighted/dirt_lighted_left.png        |  Bin 0 -> 662622 bytes
+ .../Dirt/dirt_lighted/dirt_lighted_left.png.meta   |   96 +
+ .../Dirt/dirt_lighted/dirt_lighted_right.png       |  Bin 0 -> 664117 bytes
+ .../Dirt/dirt_lighted/dirt_lighted_right.png.meta  |   96 +
+ .../Textures/Dirt/dirt_lighted/dirt_lighted_up.png |  Bin 0 -> 578885 bytes
+ .../Dirt/dirt_lighted/dirt_lighted_up.png.meta     |   96 +
+ .../Textures/Dirt/dirt_lighted_rocks.meta          |    8 +
+ .../dirt_lighted_rocks/dirt_lighted_rocks_down.png |  Bin 0 -> 1064866 bytes
+ .../dirt_lighted_rocks_down.png.meta               |   96 +
+ .../dirt_lighted_rocks/dirt_lighted_rocks_left.png |  Bin 0 -> 1068113 bytes
+ .../dirt_lighted_rocks_left.png.meta               |   96 +
+ .../dirt_lighted_rocks_right.png                   |  Bin 0 -> 1068377 bytes
+ .../dirt_lighted_rocks_right.png.meta              |   96 +
+ .../dirt_lighted_rocks/dirt_lighted_rocks_up.png   |  Bin 0 -> 925648 bytes
+ .../dirt_lighted_rocks_up.png.meta                 |   96 +
+ .../Textures/Dirt/dirt_normal.meta                 |    8 +
+ .../Textures/Dirt/dirt_normal/dirt_normal_down.png |  Bin 0 -> 653734 bytes
+ .../Dirt/dirt_normal/dirt_normal_down.png.meta     |   96 +
+ .../Textures/Dirt/dirt_normal/dirt_normal_left.png |  Bin 0 -> 646786 bytes
+ .../Dirt/dirt_normal/dirt_normal_left.png.meta     |   96 +
+ .../Dirt/dirt_normal/dirt_normal_right.png         |  Bin 0 -> 648322 bytes
+ .../Dirt/dirt_normal/dirt_normal_right.png.meta    |   96 +
+ .../Textures/Dirt/dirt_normal/dirt_normal_up.png   |  Bin 0 -> 565523 bytes
+ .../Dirt/dirt_normal/dirt_normal_up.png.meta       |   96 +
+ .../Textures/Dirt/dirt_overcorrupted.meta          |    8 +
+ .../dirt_overcorrupted/dirt_overcorrupted_down.png |  Bin 0 -> 535280 bytes
+ .../dirt_overcorrupted_down.png.meta               |   96 +
+ .../dirt_overcorrupted/dirt_overcorrupted_left.png |  Bin 0 -> 529342 bytes
+ .../dirt_overcorrupted_left.png.meta               |   96 +
+ .../dirt_overcorrupted_right.png                   |  Bin 0 -> 531060 bytes
+ .../dirt_overcorrupted_right.png.meta              |   96 +
+ .../dirt_overcorrupted/dirt_overcorrupted_up.png   |  Bin 0 -> 470661 bytes
+ .../dirt_overcorrupted_up.png.meta                 |   96 +
+ .../Textures/Dirt/dirt_overdesatured.meta          |    8 +
+ .../dirt_overdesatured/dirt_overdesatured_down.png |  Bin 0 -> 483343 bytes
+ .../dirt_overdesatured_down.png.meta               |   96 +
+ .../dirt_overdesatured/dirt_overdesatured_left.png |  Bin 0 -> 477131 bytes
+ .../dirt_overdesatured_left.png.meta               |   96 +
+ .../dirt_overdesatured_right.png                   |  Bin 0 -> 478114 bytes
+ .../dirt_overdesatured_right.png.meta              |   96 +
+ .../dirt_overdesatured/dirt_overdesatured_up.png   |  Bin 0 -> 418245 bytes
+ .../dirt_overdesatured_up.png.meta                 |   96 +
+ .../Textures/Grass.meta                            |    8 +
+ .../Textures/Grass/Grass_bluetint.meta             |    8 +
+ .../Grass/Grass_bluetint/Grass_bluetint_down.png   |  Bin 0 -> 1464551 bytes
+ .../Grass_bluetint/Grass_bluetint_down.png.meta    |   96 +
+ .../Grass/Grass_bluetint/Grass_bluetint_left.png   |  Bin 0 -> 1476641 bytes
+ .../Grass_bluetint/Grass_bluetint_left.png.meta    |   96 +
+ .../Grass/Grass_bluetint/Grass_bluetint_right.png  |  Bin 0 -> 1477508 bytes
+ .../Grass_bluetint/Grass_bluetint_right.png.meta   |   96 +
+ .../Grass/Grass_bluetint/Grass_bluetint_up.png     |  Bin 0 -> 1464128 bytes
+ .../Grass_bluetint/Grass_bluetint_up.png.meta      |   96 +
+ .../Textures/Grass/Grass_corrupted.meta            |    8 +
+ .../Grass/Grass_corrupted/Grass_corrupted_down.png |  Bin 0 -> 1657972 bytes
+ .../Grass_corrupted/Grass_corrupted_down.png.meta  |   96 +
+ .../Grass/Grass_corrupted/Grass_corrupted_left.png |  Bin 0 -> 1670092 bytes
+ .../Grass_corrupted/Grass_corrupted_left.png.meta  |   96 +
+ .../Grass_corrupted/Grass_corrupted_right.png      |  Bin 0 -> 1669672 bytes
+ .../Grass_corrupted/Grass_corrupted_right.png.meta |   96 +
+ .../Grass/Grass_corrupted/Grass_corrupted_up.png   |  Bin 0 -> 1488147 bytes
+ .../Grass_corrupted/Grass_corrupted_up.png.meta    |   96 +
+ .../Textures/Grass/Grass_darked.meta               |    8 +
+ .../Grass/Grass_darked/Grass_darked_down.png       |  Bin 0 -> 1683009 bytes
+ .../Grass/Grass_darked/Grass_darked_down.png.meta  |   96 +
+ .../Grass/Grass_darked/Grass_darked_left.png       |  Bin 0 -> 1702981 bytes
+ .../Grass/Grass_darked/Grass_darked_left.png.meta  |   96 +
+ .../Grass/Grass_darked/Grass_darked_right.png      |  Bin 0 -> 1702532 bytes
+ .../Grass/Grass_darked/Grass_darked_right.png.meta |   96 +
+ .../Grass/Grass_darked/Grass_darked_up.png         |  Bin 0 -> 1460755 bytes
+ .../Grass/Grass_darked/Grass_darked_up.png.meta    |   96 +
+ .../Textures/Grass/Grass_desatured.meta            |    8 +
+ .../Grass/Grass_desatured/Grass_desatured_down.png |  Bin 0 -> 1555515 bytes
+ .../Grass_desatured/Grass_desatured_down.png.meta  |   96 +
+ .../Grass/Grass_desatured/Grass_desatured_left.png |  Bin 0 -> 1580380 bytes
+ .../Grass_desatured/Grass_desatured_left.png.meta  |   96 +
+ .../Grass_desatured/Grass_desatured_right.png      |  Bin 0 -> 1581493 bytes
+ .../Grass_desatured/Grass_desatured_right.png.meta |   96 +
+ .../Grass/Grass_desatured/Grass_desatured_up.png   |  Bin 0 -> 1362966 bytes
+ .../Grass_desatured/Grass_desatured_up.png.meta    |   96 +
+ .../Textures/Grass/Grass_lighted.meta              |    8 +
+ .../Grass/Grass_lighted/Grass_lighted_down.png     |  Bin 0 -> 1826118 bytes
+ .../Grass_lighted/Grass_lighted_down.png.meta      |   96 +
+ .../Grass/Grass_lighted/Grass_lighted_left.png     |  Bin 0 -> 1826118 bytes
+ .../Grass_lighted/Grass_lighted_left.png.meta      |   96 +
+ .../Grass/Grass_lighted/Grass_lighted_right.png    |  Bin 0 -> 1826118 bytes
+ .../Grass_lighted/Grass_lighted_right.png.meta     |   96 +
+ .../Grass/Grass_lighted/Grass_lighted_up.png       |  Bin 0 -> 1808370 bytes
+ .../Grass/Grass_lighted/Grass_lighted_up.png.meta  |   96 +
+ .../Textures/Grass/Grass_normal.meta               |    8 +
+ .../Grass/Grass_normal/Grass_normal_down.png       |  Bin 0 -> 1747504 bytes
+ .../Grass/Grass_normal/Grass_normal_down.png.meta  |   96 +
+ .../Grass/Grass_normal/Grass_normal_left.png       |  Bin 0 -> 1771799 bytes
+ .../Grass/Grass_normal/Grass_normal_left.png.meta  |   96 +
+ .../Grass/Grass_normal/Grass_normal_right.png      |  Bin 0 -> 1772785 bytes
+ .../Grass/Grass_normal/Grass_normal_right.png.meta |   96 +
+ .../Grass/Grass_normal/Grass_normal_up.png         |  Bin 0 -> 1518824 bytes
+ .../Grass/Grass_normal/Grass_normal_up.png.meta    |   96 +
+ .../Textures/Grass/Grass_overcorrupted.meta        |    8 +
+ .../Grass_overcorrupted_down.png                   |  Bin 0 -> 1731328 bytes
+ .../Grass_overcorrupted_down.png.meta              |   96 +
+ .../Grass_overcorrupted_left.png                   |  Bin 0 -> 1731328 bytes
+ .../Grass_overcorrupted_left.png.meta              |   96 +
+ .../Grass_overcorrupted_right.png                  |  Bin 0 -> 1748528 bytes
+ .../Grass_overcorrupted_right.png.meta             |   96 +
+ .../Grass_overcorrupted/Grass_overcorrupted_up.png |  Bin 0 -> 1520292 bytes
+ .../Grass_overcorrupted_up.png.meta                |   96 +
+ .../Textures/Grass/Grass_swamp_dark.meta           |    8 +
+ .../Grass_swamp_dark/Grass_swamp_dark_down.png     |  Bin 0 -> 1693885 bytes
+ .../Grass_swamp_dark_down.png.meta                 |   98 +
+ .../Grass_swamp_dark/Grass_swamp_dark_left.png     |  Bin 0 -> 1712307 bytes
+ .../Grass_swamp_dark_left.png.meta                 |   98 +
+ .../Grass_swamp_dark/Grass_swamp_dark_right.png    |  Bin 0 -> 1712346 bytes
+ .../Grass_swamp_dark_right.png.meta                |   98 +
+ .../Grass/Grass_swamp_dark/Grass_swamp_dark_up.png |  Bin 0 -> 1468713 bytes
+ .../Grass_swamp_dark/Grass_swamp_dark_up.png.meta  |   98 +
+ .../Textures/Grass/Grass_swamp_lighted.meta        |    8 +
+ .../Grass_swamp_lighted_down.png                   |  Bin 0 -> 1881617 bytes
+ .../Grass_swamp_lighted_down.png.meta              |   98 +
+ .../Grass_swamp_lighted_left.png                   |  Bin 0 -> 1891563 bytes
+ .../Grass_swamp_lighted_left.png.meta              |   98 +
+ .../Grass_swamp_lighted_right.png                  |  Bin 0 -> 1893211 bytes
+ .../Grass_swamp_lighted_right.png.meta             |   98 +
+ .../Grass_swamp_lighted/Grass_swamp_lighted_up.png |  Bin 0 -> 1668834 bytes
+ .../Grass_swamp_lighted_up.png.meta                |   98 +
+ .../Textures/Grass/Grass_swamp_normal.meta         |    8 +
+ .../Grass_swamp_normal/Grass_swamp_normal_down.png |  Bin 0 -> 1817502 bytes
+ .../Grass_swamp_normal_down.png.meta               |   98 +
+ .../Grass_swamp_normal/Grass_swamp_normal_left.png |  Bin 0 -> 1839856 bytes
+ .../Grass_swamp_normal_left.png.meta               |   98 +
+ .../Grass_swamp_normal_right.png                   |  Bin 0 -> 1839813 bytes
+ .../Grass_swamp_normal_right.png.meta              |   98 +
+ .../Grass_swamp_normal/Grass_swamp_normal_up.png   |  Bin 0 -> 1588275 bytes
+ .../Grass_swamp_normal_up.png.meta                 |   98 +
+ .../Textures/Snow.meta                             |    8 +
+ .../Textures/Snow/snow_dark.png                    |  Bin 0 -> 1562993 bytes
+ .../Textures/Snow/snow_dark.png.meta               |   98 +
+ .../Textures/Snow/snow_dark_step_001.png           |  Bin 0 -> 1232171 bytes
+ .../Textures/Snow/snow_dark_step_001.png.meta      |   98 +
+ .../Textures/Snow/snow_dark_step_002.png           |  Bin 0 -> 1226587 bytes
+ .../Textures/Snow/snow_dark_step_002.png.meta      |   98 +
+ .../Textures/Snow/snow_dark_step_003.png           |  Bin 0 -> 1614284 bytes
+ .../Textures/Snow/snow_dark_step_003.png.meta      |   98 +
+ .../Textures/Snow/snow_dark_step_004.png           |  Bin 0 -> 1626141 bytes
+ .../Textures/Snow/snow_dark_step_004.png.meta      |   98 +
+ .../Textures/Snow/snow_dark_step_005.png           |  Bin 0 -> 1604844 bytes
+ .../Textures/Snow/snow_dark_step_005.png.meta      |   98 +
+ .../Textures/Snow/snow_dark_step_006.png           |  Bin 0 -> 1596836 bytes
+ .../Textures/Snow/snow_dark_step_006.png.meta      |   98 +
+ .../Textures/Snow/snow_dark_step_007.png           |  Bin 0 -> 1599936 bytes
+ .../Textures/Snow/snow_dark_step_007.png.meta      |   98 +
+ .../Textures/Snow/snow_dark_step_008.png           |  Bin 0 -> 1596977 bytes
+ .../Textures/Snow/snow_dark_step_008.png.meta      |   98 +
+ .../Textures/Snow/snow_normal.png                  |  Bin 0 -> 1265645 bytes
+ .../Textures/Snow/snow_normal.png.meta             |   98 +
+ .../Textures/Snow/snow_step_001.png                |  Bin 0 -> 1324661 bytes
+ .../Textures/Snow/snow_step_001.png.meta           |   98 +
+ .../Textures/Snow/snow_step_002.png                |  Bin 0 -> 1314130 bytes
+ .../Textures/Snow/snow_step_002.png.meta           |   98 +
+ .../Textures/Snow/snow_step_003.png                |  Bin 0 -> 1323063 bytes
+ .../Textures/Snow/snow_step_003.png.meta           |   98 +
+ .../Textures/Snow/snow_step_004.png                |  Bin 0 -> 1311999 bytes
+ .../Textures/Snow/snow_step_004.png.meta           |   98 +
+ .../Textures/Snow/snow_step_005.png                |  Bin 0 -> 1313145 bytes
+ .../Textures/Snow/snow_step_005.png.meta           |   98 +
+ .../Textures/Snow/snow_step_006.png                |  Bin 0 -> 1298365 bytes
+ .../Textures/Snow/snow_step_006.png.meta           |   98 +
+ .../Textures/Snow/snow_step_007.png                |  Bin 0 -> 1305561 bytes
+ .../Textures/Snow/snow_step_007.png.meta           |   98 +
+ .../Textures/Snow/snow_step_008.png                |  Bin 0 -> 1297638 bytes
+ .../Textures/Snow/snow_step_008.png.meta           |   98 +
+ .../Textures/Snow/snow_super_dark.png              |  Bin 0 -> 1694369 bytes
+ .../Textures/Snow/snow_super_dark.png.meta         |   98 +
+ .../Textures/Snow/snow_super_dark_step_001.png     |  Bin 0 -> 1761202 bytes
+ .../Snow/snow_super_dark_step_001.png.meta         |   98 +
+ .../Textures/Snow/snow_super_dark_step_002.png     |  Bin 0 -> 1794176 bytes
+ .../Snow/snow_super_dark_step_002.png.meta         |   98 +
+ .../Textures/Snow/snow_super_dark_step_003.png     |  Bin 0 -> 1755974 bytes
+ .../Snow/snow_super_dark_step_003.png.meta         |   98 +
+ .../Textures/Snow/snow_super_dark_step_004.png     |  Bin 0 -> 1794012 bytes
+ .../Snow/snow_super_dark_step_004.png.meta         |   98 +
+ .../Textures/Snow/snow_super_dark_step_005.png     |  Bin 0 -> 1750080 bytes
+ .../Snow/snow_super_dark_step_005.png.meta         |   98 +
+ .../Textures/Snow/snow_super_dark_step_006.png     |  Bin 0 -> 1736601 bytes
+ .../Snow/snow_super_dark_step_006.png.meta         |   98 +
+ .../Textures/Snow/snow_super_dark_step_007.png     |  Bin 0 -> 1741306 bytes
+ .../Snow/snow_super_dark_step_007.png.meta         |   98 +
+ .../Textures/Snow/snow_super_dark_step_008.png     |  Bin 0 -> 1738297 bytes
+ .../Snow/snow_super_dark_step_008.png.meta         |   98 +
+ Assets/New Terrain 2.asset                         |  Bin 0 -> 1959028 bytes
+ Assets/New Terrain 2.asset.meta                    |    8 +
+ Assets/NewBrush.brush                              |   43 +
+ Assets/NewBrush.brush.meta                         |    8 +
+ Assets/NewLayer 1.terrainlayer                     |   22 +
+ Assets/NewLayer 1.terrainlayer.meta                |    8 +
+ Assets/NewLayer 2.terrainlayer                     |   22 +
+ Assets/NewLayer 2.terrainlayer.meta                |    8 +
+ Assets/NewLayer 3.terrainlayer                     |   22 +
+ Assets/NewLayer 3.terrainlayer.meta                |    8 +
+ Assets/NewLayer.terrainlayer                       |   22 +
+ Assets/NewLayer.terrainlayer.meta                  |    8 +
+ Assets/Prefabs.meta                                |    8 +
+ Assets/Prefabs/Car.prefab                          | 3863 ++++++++++++++++++++
+ Assets/Prefabs/Car.prefab.meta                     |    7 +
+ Assets/Prefabs/Setup.prefab                        |   47 +
+ Assets/Prefabs/Setup.prefab.meta                   |    7 +
+ Assets/Prefabs/UI.prefab                           |  701 ++++
+ Assets/Prefabs/UI.prefab.meta                      |    7 +
+ Assets/Scenes/DebugRoom.unity                      | 3448 ++---------------
+ Assets/Scenes/Level 1.unity                        | 2423 +++++++++++-
+ .../Core/0_Framework/Gameplay/CarBehavior.cs       |   17 +-
+ .../Core/0_Framework/Views/PlayerGameplayUIView.cs |    2 +-
+ ...Data_0c28a57d-1f5b-4ab7-a8e1-2a415ea0b612.asset |  Bin 0 -> 1958988 bytes
+ ...0c28a57d-1f5b-4ab7-a8e1-2a415ea0b612.asset.meta |    8 +
+ ...Data_143f14c9-18be-43a0-b6ca-71c1cef7037a.asset |  Bin 0 -> 1958988 bytes
+ ...143f14c9-18be-43a0-b6ca-71c1cef7037a.asset.meta |    8 +
+ ...Data_29563fc9-db6c-4df8-a060-ece2d036ace4.asset |  Bin 0 -> 1959032 bytes
+ ...29563fc9-db6c-4df8-a060-ece2d036ace4.asset.meta |    8 +
+ ...Data_2ab59bc6-10f1-434f-b34f-afb8a0fe96a0.asset |  Bin 0 -> 1959060 bytes
+ ...2ab59bc6-10f1-434f-b34f-afb8a0fe96a0.asset.meta |    8 +
+ ...Data_37b873aa-54f9-4b91-b3d5-3607f2fa4264.asset |  Bin 0 -> 1958988 bytes
+ ...37b873aa-54f9-4b91-b3d5-3607f2fa4264.asset.meta |    8 +
+ ...Data_55ab24b4-d903-46f5-add0-3b2d1a0a246d.asset |  Bin 0 -> 1958988 bytes
+ ...55ab24b4-d903-46f5-add0-3b2d1a0a246d.asset.meta |    8 +
+ ...Data_611b1874-5a75-4154-b834-adefb47d6db2.asset |  Bin 0 -> 1958988 bytes
+ ...611b1874-5a75-4154-b834-adefb47d6db2.asset.meta |    8 +
+ ...Data_7b3607eb-6295-48f5-88ae-6d9f52f00bcb.asset |  Bin 0 -> 1958988 bytes
+ ...7b3607eb-6295-48f5-88ae-6d9f52f00bcb.asset.meta |    8 +
+ ...Data_97bb70c6-2ff0-4dde-8eaf-5cb4d92824b0.asset |  Bin 0 -> 1958988 bytes
+ ...97bb70c6-2ff0-4dde-8eaf-5cb4d92824b0.asset.meta |    8 +
+ ...Data_98c838f1-4831-43fa-a37d-9d5e3a908622.asset |  Bin 0 -> 1959032 bytes
+ ...98c838f1-4831-43fa-a37d-9d5e3a908622.asset.meta |    8 +
+ ...Data_a2093f0e-e7df-4824-8e56-d332e139840a.asset |  Bin 0 -> 1958988 bytes
+ ...a2093f0e-e7df-4824-8e56-d332e139840a.asset.meta |    8 +
+ ...Data_a26684f6-4dd7-48d1-8e4c-7f3ce6a2dc90.asset |  Bin 0 -> 1958988 bytes
+ ...a26684f6-4dd7-48d1-8e4c-7f3ce6a2dc90.asset.meta |    8 +
+ ...Data_a3f5c553-263b-4497-b17c-32282b792a54.asset |  Bin 0 -> 1959032 bytes
+ ...a3f5c553-263b-4497-b17c-32282b792a54.asset.meta |    8 +
+ ...Data_a93f2618-6bf1-4a43-94ed-cad1e0eb148a.asset |  Bin 0 -> 1958988 bytes
+ ...a93f2618-6bf1-4a43-94ed-cad1e0eb148a.asset.meta |    8 +
+ ...Data_ade9260f-5865-4f82-a2ac-cf489f2d2a27.asset |  Bin 0 -> 1958988 bytes
+ ...ade9260f-5865-4f82-a2ac-cf489f2d2a27.asset.meta |    8 +
+ ...Data_bd268943-d6a5-4da4-962d-412842bb0a6d.asset |  Bin 0 -> 1958988 bytes
+ ...bd268943-d6a5-4da4-962d-412842bb0a6d.asset.meta |    8 +
+ ...Data_c71db69d-4ad5-454f-9f97-a9d53376664c.asset |  Bin 0 -> 1958988 bytes
+ ...c71db69d-4ad5-454f-9f97-a9d53376664c.asset.meta |    8 +
+ ...Data_dc5b902b-37af-4a91-b795-b24e5561010e.asset |  Bin 0 -> 1959032 bytes
+ ...dc5b902b-37af-4a91-b795-b24e5561010e.asset.meta |    8 +
+ ...Data_e864d6f1-b9d9-4455-8be9-cb27a7d6d991.asset |  Bin 0 -> 1959032 bytes
+ ...e864d6f1-b9d9-4455-8be9-cb27a7d6d991.asset.meta |    8 +
+ ...Data_f93f7dd3-639b-4ecc-970a-01145bb6ec8b.asset |  Bin 0 -> 1959032 bytes
+ ...f93f7dd3-639b-4ecc-970a-01145bb6ec8b.asset.meta |    8 +
+ Packages/manifest.json                             |    1 +
+ Packages/packages-lock.json                        |   11 +-
+ ProjectSettings/InputManager.asset                 |    4 +-
+ ProjectSettings/TimeManager.asset                  |    2 +-
+ 442 files changed, 24694 insertions(+), 3178 deletions(-)
+
+commit 453011ba8875b6092453ba9aa49fc5ea3ec676d3
+Author: HexDrifter <42625632+HexDrifter@users.noreply.github.com>
+Date:   Tue Aug 20 05:35:26 2024 -0400
+
+    Fixed Car model, Gear Systems and integrated Clean Architecture
+
+ Assets/3d Models/ClownCarBeta.blend                |  Bin 1001376 -> 1119372 bytes
+ Assets/3d Models/ClownCarBeta.blend1               |  Bin 1002156 -> 1125980 bytes
+ Assets/3d Models/ClownCarBeta0_2.fbx               |  Bin 0 -> 155644 bytes
+ Assets/3d Models/ClownCarBeta0_2.fbx.meta          |  109 ++
+ Assets/Configuration/Input/GameInput.inputactions  |   73 ++
+ Assets/Plugins.meta                                |    8 +
+ Assets/Plugins/UniRx.meta                          |    8 +
+ Assets/Plugins/UniRx/Scripts.meta                  |    9 +
+ Assets/Plugins/UniRx/Scripts/Asynchronous.meta     |    9 +
+ .../Scripts/Asynchronous/WebRequestExtensions.cs   |   61 +
+ .../Asynchronous/WebRequestExtensions.cs.meta      |   12 +
+ Assets/Plugins/UniRx/Scripts/Disposables.meta      |    9 +
+ .../UniRx/Scripts/Disposables/BooleanDisposable.cs |   25 +
+ .../Scripts/Disposables/BooleanDisposable.cs.meta  |   12 +
+ .../Scripts/Disposables/CancellationDisposable.cs  |   67 ++
+ .../Disposables/CancellationDisposable.cs.meta     |   12 +
+ .../Scripts/Disposables/CompositeDisposable.cs     |  283 +++++
+ .../Disposables/CompositeDisposable.cs.meta        |   12 +
+ .../Scripts/Disposables/DictionaryDisposable.cs    |  255 +++++
+ .../Disposables/DictionaryDisposable.cs.meta       |   12 +
+ .../UniRx/Scripts/Disposables/Disposable.cs        |   76 ++
+ .../UniRx/Scripts/Disposables/Disposable.cs.meta   |   12 +
+ .../Scripts/Disposables/DisposableExtensions.cs    |   20 +
+ .../Disposables/DisposableExtensions.cs.meta       |   12 +
+ .../UniRx/Scripts/Disposables/ICancelable.cs       |   11 +
+ .../UniRx/Scripts/Disposables/ICancelable.cs.meta  |   12 +
+ .../Disposables/MultipleAssignmentDisposable.cs    |   69 ++
+ .../MultipleAssignmentDisposable.cs.meta           |   12 +
+ .../Scripts/Disposables/RefCountDisposable.cs      |  152 +++
+ .../Scripts/Disposables/RefCountDisposable.cs.meta |   12 +
+ .../Scripts/Disposables/ScheduledDisposable.cs     |   46 +
+ .../Disposables/ScheduledDisposable.cs.meta        |   12 +
+ .../UniRx/Scripts/Disposables/SerialDisposable.cs  |   64 ++
+ .../Scripts/Disposables/SerialDisposable.cs.meta   |   12 +
+ .../Disposables/SingleAssignmentDisposable.cs      |   68 ++
+ .../Disposables/SingleAssignmentDisposable.cs.meta |   12 +
+ .../Disposables/StableCompositeDisposable.cs       |  277 +++++
+ .../Disposables/StableCompositeDisposable.cs.meta  |   12 +
+ Assets/Plugins/UniRx/Scripts/EventPattern.cs       |  140 +++
+ Assets/Plugins/UniRx/Scripts/EventPattern.cs.meta  |   12 +
+ Assets/Plugins/UniRx/Scripts/InternalUtil.meta     |    9 +
+ .../UniRx/Scripts/InternalUtil/AscynLock.cs        |   85 ++
+ .../UniRx/Scripts/InternalUtil/AscynLock.cs.meta   |   12 +
+ .../CancellableTaskCompletionSource.cs             |   23 +
+ .../CancellableTaskCompletionSource.cs.meta        |   11 +
+ .../Scripts/InternalUtil/ExceptionExtensions.cs    |   15 +
+ .../InternalUtil/ExceptionExtensions.cs.meta       |   12 +
+ .../UniRx/Scripts/InternalUtil/ImmutableList.cs    |   61 +
+ .../Scripts/InternalUtil/ImmutableList.cs.meta     |   12 +
+ .../UniRx/Scripts/InternalUtil/ListObserver.cs     |  134 +++
+ .../Scripts/InternalUtil/ListObserver.cs.meta      |   12 +
+ .../UniRx/Scripts/InternalUtil/MicroCoroutine.cs   |  170 +++
+ .../Scripts/InternalUtil/MicroCoroutine.cs.meta    |   12 +
+ .../UniRx/Scripts/InternalUtil/PriorityQueue.cs    |  149 +++
+ .../Scripts/InternalUtil/PriorityQueue.cs.meta     |   12 +
+ .../UniRx/Scripts/InternalUtil/PromiseHelper.cs    |   26 +
+ .../Scripts/InternalUtil/PromiseHelper.cs.meta     |   11 +
+ .../UniRx/Scripts/InternalUtil/ScheduledItem.cs    |  257 +++++
+ .../Scripts/InternalUtil/ScheduledItem.cs.meta     |   12 +
+ .../Scripts/InternalUtil/ThreadSafeQueueWorker.cs  |  112 ++
+ .../InternalUtil/ThreadSafeQueueWorker.cs.meta     |   12 +
+ .../Scripts/InternalUtil/UnityEqualityComparer.cs  |  271 +++++
+ .../InternalUtil/UnityEqualityComparer.cs.meta     |   11 +
+ Assets/Plugins/UniRx/Scripts/Notification.cs       |  678 +++++++++++
+ Assets/Plugins/UniRx/Scripts/Notification.cs.meta  |   12 +
+ Assets/Plugins/UniRx/Scripts/Notifiers.meta        |    9 +
+ .../UniRx/Scripts/Notifiers/BooleanNotifier.cs     |   73 ++
+ .../Scripts/Notifiers/BooleanNotifier.cs.meta      |   12 +
+ .../UniRx/Scripts/Notifiers/CountNotifier.cs       |   97 ++
+ .../UniRx/Scripts/Notifiers/CountNotifier.cs.meta  |   12 +
+ .../UniRx/Scripts/Notifiers/MessageBroker.cs       |  209 ++++
+ .../UniRx/Scripts/Notifiers/MessageBroker.cs.meta  |   12 +
+ .../UniRx/Scripts/Notifiers/ScheduledNotifier.cs   |   72 ++
+ .../Scripts/Notifiers/ScheduledNotifier.cs.meta    |   12 +
+ .../Plugins/UniRx/Scripts/Observable.Aggregate.cs  |   35 +
+ .../UniRx/Scripts/Observable.Aggregate.cs.meta     |   12 +
+ Assets/Plugins/UniRx/Scripts/Observable.Awaiter.cs |  133 +++
+ .../UniRx/Scripts/Observable.Awaiter.cs.meta       |   12 +
+ Assets/Plugins/UniRx/Scripts/Observable.Binding.cs |   76 ++
+ .../UniRx/Scripts/Observable.Binding.cs.meta       |   12 +
+ .../Plugins/UniRx/Scripts/Observable.Blocking.cs   |   17 +
+ .../UniRx/Scripts/Observable.Blocking.cs.meta      |   12 +
+ .../UniRx/Scripts/Observable.Concatenate.cs        |  320 ++++++
+ .../UniRx/Scripts/Observable.Concatenate.cs.meta   |   12 +
+ .../UniRx/Scripts/Observable.Concurrency.cs        |   71 ++
+ .../UniRx/Scripts/Observable.Concurrency.cs.meta   |   12 +
+ .../UniRx/Scripts/Observable.Conversions.cs        |   74 ++
+ .../UniRx/Scripts/Observable.Conversions.cs.meta   |   12 +
+ .../Plugins/UniRx/Scripts/Observable.Creation.cs   |  375 ++++++
+ .../UniRx/Scripts/Observable.Creation.cs.meta      |   12 +
+ .../UniRx/Scripts/Observable.ErrorHandling.cs      |  134 +++
+ .../UniRx/Scripts/Observable.ErrorHandling.cs.meta |   12 +
+ Assets/Plugins/UniRx/Scripts/Observable.Events.cs  |   34 +
+ .../UniRx/Scripts/Observable.Events.cs.meta        |   12 +
+ .../Plugins/UniRx/Scripts/Observable.FromAsync.cs  |  127 +++
+ .../UniRx/Scripts/Observable.FromAsync.cs.meta     |   12 +
+ Assets/Plugins/UniRx/Scripts/Observable.Joins.cs   |   10 +
+ .../Plugins/UniRx/Scripts/Observable.Joins.cs.meta |   12 +
+ Assets/Plugins/UniRx/Scripts/Observable.Paging.cs  |  327 ++++++
+ .../UniRx/Scripts/Observable.Paging.cs.meta        |   12 +
+ Assets/Plugins/UniRx/Scripts/Observable.Time.cs    |  140 +++
+ .../Plugins/UniRx/Scripts/Observable.Time.cs.meta  |   12 +
+ Assets/Plugins/UniRx/Scripts/Observable.cs         |  292 +++++
+ Assets/Plugins/UniRx/Scripts/Observable.cs.meta    |   12 +
+ Assets/Plugins/UniRx/Scripts/Observer.cs           |  524 +++++++++
+ Assets/Plugins/UniRx/Scripts/Observer.cs.meta      |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators.meta        |    9 +
+ .../Plugins/UniRx/Scripts/Operators/Aggregate.cs   |  207 ++++
+ .../UniRx/Scripts/Operators/Aggregate.cs.meta      |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Amb.cs      |  182 +++
+ Assets/Plugins/UniRx/Scripts/Operators/Amb.cs.meta |   12 +
+ .../UniRx/Scripts/Operators/AsObservable.cs        |   45 +
+ .../UniRx/Scripts/Operators/AsObservable.cs.meta   |   12 +
+ .../Scripts/Operators/AsSingleUnitObservable.cs    |   46 +
+ .../Operators/AsSingleUnitObservable.cs.meta       |   12 +
+ .../UniRx/Scripts/Operators/AsUnitObservable.cs    |   45 +
+ .../Scripts/Operators/AsUnitObservable.cs.meta     |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Buffer.cs   |  624 ++++++++++
+ .../Plugins/UniRx/Scripts/Operators/Buffer.cs.meta |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Cast.cs     |   57 +
+ .../Plugins/UniRx/Scripts/Operators/Cast.cs.meta   |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Catch.cs    |  217 ++++
+ .../Plugins/UniRx/Scripts/Operators/Catch.cs.meta  |   12 +
+ .../UniRx/Scripts/Operators/CombineLatest.cs       | 1010 +++++++++++++++++
+ .../UniRx/Scripts/Operators/CombineLatest.cs.meta  |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Concat.cs   |  142 +++
+ .../Plugins/UniRx/Scripts/Operators/Concat.cs.meta |   12 +
+ .../UniRx/Scripts/Operators/ContinueWith.cs        |   77 ++
+ .../UniRx/Scripts/Operators/ContinueWith.cs.meta   |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Create.cs   |  156 +++
+ .../Plugins/UniRx/Scripts/Operators/Create.cs.meta |   12 +
+ .../UniRx/Scripts/Operators/DefaultIfEmpty.cs      |   58 +
+ .../UniRx/Scripts/Operators/DefaultIfEmpty.cs.meta |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Defer.cs    |   64 ++
+ .../Plugins/UniRx/Scripts/Operators/Defer.cs.meta  |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Delay.cs    |  227 ++++
+ .../Plugins/UniRx/Scripts/Operators/Delay.cs.meta  |   12 +
+ .../UniRx/Scripts/Operators/DelaySubscription.cs   |   56 +
+ .../Scripts/Operators/DelaySubscription.cs.meta    |   12 +
+ .../UniRx/Scripts/Operators/Dematerialize.cs       |   66 ++
+ .../UniRx/Scripts/Operators/Dematerialize.cs.meta  |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Distinct.cs |  133 +++
+ .../UniRx/Scripts/Operators/Distinct.cs.meta       |   12 +
+ .../Scripts/Operators/DistinctUntilChanged.cs      |  165 +++
+ .../Scripts/Operators/DistinctUntilChanged.cs.meta |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Do.cs       |  477 ++++++++
+ Assets/Plugins/UniRx/Scripts/Operators/Do.cs.meta  |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Empty.cs    |   83 ++
+ .../Plugins/UniRx/Scripts/Operators/Empty.cs.meta  |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Finally.cs  |   68 ++
+ .../UniRx/Scripts/Operators/Finally.cs.meta        |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/First.cs    |  166 +++
+ .../Plugins/UniRx/Scripts/Operators/First.cs.meta  |   12 +
+ .../UniRx/Scripts/Operators/ForEachAsync.cs        |  116 ++
+ .../UniRx/Scripts/Operators/ForEachAsync.cs.meta   |   12 +
+ .../Plugins/UniRx/Scripts/Operators/FromEvent.cs   |  323 ++++++
+ .../UniRx/Scripts/Operators/FromEvent.cs.meta      |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/GroupBy.cs  |  196 ++++
+ .../UniRx/Scripts/Operators/GroupBy.cs.meta        |   12 +
+ .../UniRx/Scripts/Operators/IgnoreElements.cs      |   44 +
+ .../UniRx/Scripts/Operators/IgnoreElements.cs.meta |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Last.cs     |  165 +++
+ .../Plugins/UniRx/Scripts/Operators/Last.cs.meta   |   12 +
+ .../Plugins/UniRx/Scripts/Operators/Materialize.cs |   53 +
+ .../UniRx/Scripts/Operators/Materialize.cs.meta    |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Merge.cs    |  264 +++++
+ .../Plugins/UniRx/Scripts/Operators/Merge.cs.meta  |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Never.cs    |   32 +
+ .../Plugins/UniRx/Scripts/Operators/Never.cs.meta  |   12 +
+ .../Plugins/UniRx/Scripts/Operators/ObserveOn.cs   |  210 ++++
+ .../UniRx/Scripts/Operators/ObserveOn.cs.meta      |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/OfType.cs   |   47 +
+ .../Plugins/UniRx/Scripts/Operators/OfType.cs.meta |   12 +
+ .../Scripts/Operators/OperatorObservableBase.cs    |   42 +
+ .../Operators/OperatorObservableBase.cs.meta       |   12 +
+ .../Scripts/Operators/OperatorObserverBase.cs      |   33 +
+ .../Scripts/Operators/OperatorObserverBase.cs.meta |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/PairWise.cs |  120 ++
+ .../UniRx/Scripts/Operators/PairWise.cs.meta       |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Range.cs    |   89 ++
+ .../Plugins/UniRx/Scripts/Operators/Range.cs.meta  |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/RefCount.cs |   77 ++
+ .../UniRx/Scripts/Operators/RefCount.cs.meta       |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Repeat.cs   |   99 ++
+ .../Plugins/UniRx/Scripts/Operators/Repeat.cs.meta |   12 +
+ .../Plugins/UniRx/Scripts/Operators/RepeatSafe.cs  |  138 +++
+ .../UniRx/Scripts/Operators/RepeatSafe.cs.meta     |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Return.cs   |  205 ++++
+ .../Plugins/UniRx/Scripts/Operators/Return.cs.meta |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Sample.cs   |  241 ++++
+ .../Plugins/UniRx/Scripts/Operators/Sample.cs.meta |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Scan.cs     |  139 +++
+ .../Plugins/UniRx/Scripts/Operators/Scan.cs.meta   |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Select.cs   |  146 +++
+ .../Plugins/UniRx/Scripts/Operators/Select.cs.meta |   12 +
+ .../Plugins/UniRx/Scripts/Operators/SelectMany.cs  |  910 +++++++++++++++
+ .../UniRx/Scripts/Operators/SelectMany.cs.meta     |   12 +
+ .../Plugins/UniRx/Scripts/Operators/SelectWhere.cs |   77 ++
+ .../UniRx/Scripts/Operators/SelectWhere.cs.meta    |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Single.cs   |  182 +++
+ .../Plugins/UniRx/Scripts/Operators/Single.cs.meta |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Skip.cs     |  138 +++
+ .../Plugins/UniRx/Scripts/Operators/Skip.cs.meta   |   12 +
+ .../Plugins/UniRx/Scripts/Operators/SkipUntil.cs   |  119 ++
+ .../UniRx/Scripts/Operators/SkipUntil.cs.meta      |   12 +
+ .../Plugins/UniRx/Scripts/Operators/SkipWhile.cs   |  130 +++
+ .../UniRx/Scripts/Operators/SkipWhile.cs.meta      |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Start.cs    |  101 ++
+ .../Plugins/UniRx/Scripts/Operators/Start.cs.meta  |   12 +
+ .../Plugins/UniRx/Scripts/Operators/StartWith.cs   |   82 ++
+ .../UniRx/Scripts/Operators/StartWith.cs.meta      |   12 +
+ .../Plugins/UniRx/Scripts/Operators/SubscribeOn.cs |   32 +
+ .../UniRx/Scripts/Operators/SubscribeOn.cs.meta    |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Switch.cs   |  130 +++
+ .../Plugins/UniRx/Scripts/Operators/Switch.cs.meta |   12 +
+ .../Plugins/UniRx/Scripts/Operators/Synchronize.cs |   57 +
+ .../UniRx/Scripts/Operators/Synchronize.cs.meta    |   12 +
+ .../Scripts/Operators/SynchronizedObserver.cs      |   40 +
+ .../Scripts/Operators/SynchronizedObserver.cs.meta |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Take.cs     |  150 +++
+ .../Plugins/UniRx/Scripts/Operators/Take.cs.meta   |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/TakeLast.cs |  140 +++
+ .../UniRx/Scripts/Operators/TakeLast.cs.meta       |   12 +
+ .../Plugins/UniRx/Scripts/Operators/TakeUntil.cs   |  128 +++
+ .../UniRx/Scripts/Operators/TakeUntil.cs.meta      |   12 +
+ .../Plugins/UniRx/Scripts/Operators/TakeWhile.cs   |  134 +++
+ .../UniRx/Scripts/Operators/TakeWhile.cs.meta      |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Throttle.cs |  106 ++
+ .../UniRx/Scripts/Operators/Throttle.cs.meta       |   12 +
+ .../UniRx/Scripts/Operators/ThrottleFirst.cs       |   87 ++
+ .../UniRx/Scripts/Operators/ThrottleFirst.cs.meta  |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Throw.cs    |   69 ++
+ .../Plugins/UniRx/Scripts/Operators/Throw.cs.meta  |   12 +
+ .../UniRx/Scripts/Operators/TimeInterval.cs        |   56 +
+ .../UniRx/Scripts/Operators/TimeInterval.cs.meta   |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Timeout.cs  |  198 ++++
+ .../UniRx/Scripts/Operators/Timeout.cs.meta        |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Timer.cs    |  124 ++
+ .../Plugins/UniRx/Scripts/Operators/Timer.cs.meta  |   12 +
+ .../Plugins/UniRx/Scripts/Operators/Timestamp.cs   |   50 +
+ .../UniRx/Scripts/Operators/Timestamp.cs.meta      |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/ToArray.cs  |   66 ++
+ .../UniRx/Scripts/Operators/ToArray.cs.meta        |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/ToList.cs   |   55 +
+ .../Plugins/UniRx/Scripts/Operators/ToList.cs.meta |   12 +
+ .../UniRx/Scripts/Operators/ToObservable.cs        |  138 +++
+ .../UniRx/Scripts/Operators/ToObservable.cs.meta   |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Wait.cs     |   63 ++
+ .../Plugins/UniRx/Scripts/Operators/Wait.cs.meta   |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/WhenAll.cs  |  485 ++++++++
+ .../UniRx/Scripts/Operators/WhenAll.cs.meta        |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Where.cs    |  147 +++
+ .../Plugins/UniRx/Scripts/Operators/Where.cs.meta  |   12 +
+ .../Plugins/UniRx/Scripts/Operators/WhereSelect.cs |   77 ++
+ .../UniRx/Scripts/Operators/WhereSelect.cs.meta    |   12 +
+ .../UniRx/Scripts/Operators/WithLatestFrom.cs      |  149 +++
+ .../UniRx/Scripts/Operators/WithLatestFrom.cs.meta |   12 +
+ Assets/Plugins/UniRx/Scripts/Operators/Zip.cs      | 1004 ++++++++++++++++
+ Assets/Plugins/UniRx/Scripts/Operators/Zip.cs.meta |   12 +
+ .../Plugins/UniRx/Scripts/Operators/ZipLatest.cs   |  992 ++++++++++++++++
+ .../UniRx/Scripts/Operators/ZipLatest.cs.meta      |   12 +
+ Assets/Plugins/UniRx/Scripts/Pair.cs               |   59 +
+ Assets/Plugins/UniRx/Scripts/Pair.cs.meta          |   12 +
+ Assets/Plugins/UniRx/Scripts/Schedulers.meta       |    9 +
+ .../Scripts/Schedulers/CurrentThreadScheduler.cs   |  135 +++
+ .../Schedulers/CurrentThreadScheduler.cs.meta      |   12 +
+ .../Plugins/UniRx/Scripts/Schedulers/IScheduler.cs |   30 +
+ .../UniRx/Scripts/Schedulers/IScheduler.cs.meta    |   12 +
+ .../UniRx/Scripts/Schedulers/ImmediateScheduler.cs |   43 +
+ .../Scripts/Schedulers/ImmediateScheduler.cs.meta  |   12 +
+ .../Plugins/UniRx/Scripts/Schedulers/Scheduler.cs  |  235 ++++
+ .../UniRx/Scripts/Schedulers/Scheduler.cs.meta     |   12 +
+ .../Scripts/Schedulers/ThreadPoolScheduler.cs      |  197 ++++
+ .../Scripts/Schedulers/ThreadPoolScheduler.cs.meta |   12 +
+ Assets/Plugins/UniRx/Scripts/Subjects.meta         |    9 +
+ .../Plugins/UniRx/Scripts/Subjects/AsyncSubject.cs |  328 ++++++
+ .../UniRx/Scripts/Subjects/AsyncSubject.cs.meta    |   12 +
+ .../UniRx/Scripts/Subjects/BehaviorSubject.cs      |  204 ++++
+ .../UniRx/Scripts/Subjects/BehaviorSubject.cs.meta |   12 +
+ .../Scripts/Subjects/ConnectableObservable.cs      |   71 ++
+ .../Scripts/Subjects/ConnectableObservable.cs.meta |   12 +
+ Assets/Plugins/UniRx/Scripts/Subjects/ISubject.cs  |   14 +
+ .../UniRx/Scripts/Subjects/ISubject.cs.meta        |   12 +
+ .../UniRx/Scripts/Subjects/ReplaySubject.cs        |  251 ++++
+ .../UniRx/Scripts/Subjects/ReplaySubject.cs.meta   |   12 +
+ Assets/Plugins/UniRx/Scripts/Subjects/Subject.cs   |  169 +++
+ .../Plugins/UniRx/Scripts/Subjects/Subject.cs.meta |   12 +
+ .../UniRx/Scripts/Subjects/SubjectExtensions.cs    |   61 +
+ .../Scripts/Subjects/SubjectExtensions.cs.meta     |   12 +
+ Assets/Plugins/UniRx/Scripts/System.meta           |    9 +
+ Assets/Plugins/UniRx/Scripts/System/IObservable.cs |   23 +
+ .../UniRx/Scripts/System/IObservable.cs.meta       |   12 +
+ Assets/Plugins/UniRx/Scripts/System/IObserver.cs   |   17 +
+ .../Plugins/UniRx/Scripts/System/IObserver.cs.meta |   12 +
+ .../UniRx/Scripts/System/IOptimizedObservable.cs   |   27 +
+ .../Scripts/System/IOptimizedObservable.cs.meta    |   12 +
+ Assets/Plugins/UniRx/Scripts/System/IProgress.cs   |   30 +
+ .../Plugins/UniRx/Scripts/System/IProgress.cs.meta |   12 +
+ Assets/Plugins/UniRx/Scripts/System/Tuple.cs       | 1195 ++++++++++++++++++++
+ Assets/Plugins/UniRx/Scripts/System/Tuple.cs.meta  |   12 +
+ Assets/Plugins/UniRx/Scripts/System/Unit.cs        |   41 +
+ Assets/Plugins/UniRx/Scripts/System/Unit.cs.meta   |   12 +
+ Assets/Plugins/UniRx/Scripts/Tasks.meta            |    9 +
+ .../Scripts/Tasks/TaskObservableExtensions.cs      |  367 ++++++
+ .../Scripts/Tasks/TaskObservableExtensions.cs.meta |   12 +
+ Assets/Plugins/UniRx/Scripts/TimeInterval.cs       |  117 ++
+ Assets/Plugins/UniRx/Scripts/TimeInterval.cs.meta  |   12 +
+ Assets/Plugins/UniRx/Scripts/Timestamped.cs        |  135 +++
+ Assets/Plugins/UniRx/Scripts/Timestamped.cs.meta   |   12 +
+ Assets/Plugins/UniRx/Scripts/UniRx.asmdef          |   12 +
+ Assets/Plugins/UniRx/Scripts/UniRx.asmdef.meta     |    7 +
+ .../Plugins/UniRx/Scripts/UnityEngineBridge.meta   |    9 +
+ .../UnityEngineBridge/AsyncOperationExtensions.cs  |   75 ++
+ .../AsyncOperationExtensions.cs.meta               |   12 +
+ .../Scripts/UnityEngineBridge/CancellationToken.cs |   40 +
+ .../UnityEngineBridge/CancellationToken.cs.meta    |   12 +
+ .../UnityEngineBridge/CoroutineAsyncBridge.cs      |  125 ++
+ .../UnityEngineBridge/CoroutineAsyncBridge.cs.meta |   12 +
+ .../Scripts/UnityEngineBridge/Diagnostics.meta     |    9 +
+ .../UnityEngineBridge/Diagnostics/LogEntry.cs      |   50 +
+ .../UnityEngineBridge/Diagnostics/LogEntry.cs.meta |   12 +
+ .../Diagnostics/LogEntryExtensions.cs              |   14 +
+ .../Diagnostics/LogEntryExtensions.cs.meta         |   12 +
+ .../UnityEngineBridge/Diagnostics/Logger.cs        |  139 +++
+ .../UnityEngineBridge/Diagnostics/Logger.cs.meta   |   12 +
+ .../Diagnostics/ObservableDebugExtensions.cs       |   42 +
+ .../Diagnostics/ObservableDebugExtensions.cs.meta  |   12 +
+ .../Diagnostics/ObservableLogger.cs                |   31 +
+ .../Diagnostics/ObservableLogger.cs.meta           |   12 +
+ .../Diagnostics/UnityDebugSink.cs                  |   73 ++
+ .../Diagnostics/UnityDebugSink.cs.meta             |   12 +
+ .../Scripts/UnityEngineBridge/FrameInterval.cs     |  111 ++
+ .../UnityEngineBridge/FrameInterval.cs.meta        |   12 +
+ .../InspectableReactiveProperty.cs                 |  325 ++++++
+ .../InspectableReactiveProperty.cs.meta            |   12 +
+ .../UnityEngineBridge/InspectorDisplayDrawer.cs    |  306 +++++
+ .../InspectorDisplayDrawer.cs.meta                 |   12 +
+ .../LifetimeDisposableExtensions.cs                |   90 ++
+ .../LifetimeDisposableExtensions.cs.meta           |   12 +
+ .../UnityEngineBridge/MainThreadDispatcher.cs      |  683 +++++++++++
+ .../UnityEngineBridge/MainThreadDispatcher.cs.meta |   12 +
+ .../UnityEngineBridge/MainThreadScheduler.cs       |  579 ++++++++++
+ .../UnityEngineBridge/MainThreadScheduler.cs.meta  |   12 +
+ .../Scripts/UnityEngineBridge/Observable.Unity.cs  | 1168 +++++++++++++++++++
+ .../UnityEngineBridge/Observable.Unity.cs.meta     |   12 +
+ .../Scripts/UnityEngineBridge/ObservableWWW.cs     |  442 ++++++++
+ .../UnityEngineBridge/ObservableWWW.cs.meta        |   12 +
+ .../Scripts/UnityEngineBridge/ObserveExtensions.cs |  264 +++++
+ .../UnityEngineBridge/ObserveExtensions.cs.meta    |   12 +
+ .../UniRx/Scripts/UnityEngineBridge/Operators.meta |    9 +
+ .../UnityEngineBridge/Operators/BatchFrame.cs      |  282 +++++
+ .../UnityEngineBridge/Operators/BatchFrame.cs.meta |   12 +
+ .../UnityEngineBridge/Operators/DelayFrame.cs      |  260 +++++
+ .../UnityEngineBridge/Operators/DelayFrame.cs.meta |   12 +
+ .../Operators/DelayFrameSubscription.cs            |   37 +
+ .../Operators/DelayFrameSubscription.cs.meta       |   12 +
+ .../UnityEngineBridge/Operators/FrameInterval.cs   |   52 +
+ .../Operators/FrameInterval.cs.meta                |   12 +
+ .../Operators/FrameTimeInterval.cs                 |   60 +
+ .../Operators/FrameTimeInterval.cs.meta            |   12 +
+ .../UnityEngineBridge/Operators/FromCoroutine.cs   |  141 +++
+ .../Operators/FromCoroutine.cs.meta                |   12 +
+ .../UnityEngineBridge/Operators/RepeatUntil.cs     |  178 +++
+ .../Operators/RepeatUntil.cs.meta                  |   12 +
+ .../UnityEngineBridge/Operators/SampleFrame.cs     |  132 +++
+ .../Operators/SampleFrame.cs.meta                  |   12 +
+ .../Operators/SubscribeOnMainThread.cs             |   31 +
+ .../Operators/SubscribeOnMainThread.cs.meta        |   12 +
+ .../Operators/ThrottleFirstFrame.cs                |  123 ++
+ .../Operators/ThrottleFirstFrame.cs.meta           |   12 +
+ .../UnityEngineBridge/Operators/ThrottleFrame.cs   |  129 +++
+ .../Operators/ThrottleFrame.cs.meta                |   12 +
+ .../UnityEngineBridge/Operators/TimeoutFrame.cs    |  142 +++
+ .../Operators/TimeoutFrame.cs.meta                 |   12 +
+ .../UnityEngineBridge/ReactiveCollection.cs        |  333 ++++++
+ .../UnityEngineBridge/ReactiveCollection.cs.meta   |   12 +
+ .../Scripts/UnityEngineBridge/ReactiveCommand.cs   |  487 ++++++++
+ .../UnityEngineBridge/ReactiveCommand.cs.meta      |   12 +
+ .../UnityEngineBridge/ReactiveDictionary.cs        |  520 +++++++++
+ .../UnityEngineBridge/ReactiveDictionary.cs.meta   |   12 +
+ .../Scripts/UnityEngineBridge/ReactiveProperty.cs  |  610 ++++++++++
+ .../UnityEngineBridge/ReactiveProperty.cs.meta     |   12 +
+ .../UnityEngineBridge/ScenePlaybackDetector.cs     |   84 ++
+ .../ScenePlaybackDetector.cs.meta                  |   12 +
+ .../UniRx/Scripts/UnityEngineBridge/Toolkit.meta   |    9 +
+ .../UnityEngineBridge/Toolkit/ObjectPool.cs        |  474 ++++++++
+ .../UnityEngineBridge/Toolkit/ObjectPool.cs.meta   |   12 +
+ .../UniRx/Scripts/UnityEngineBridge/Triggers.meta  |    9 +
+ .../Triggers/ObservableAnimatorTrigger.cs          |   49 +
+ .../Triggers/ObservableAnimatorTrigger.cs.meta     |   12 +
+ .../Triggers/ObservableBeginDragTrigger.cs         |   36 +
+ .../Triggers/ObservableBeginDragTrigger.cs.meta    |   12 +
+ .../Triggers/ObservableCancelTrigger.cs            |   36 +
+ .../Triggers/ObservableCancelTrigger.cs.meta       |   12 +
+ .../ObservableCanvasGroupChangedTrigger.cs         |   36 +
+ .../ObservableCanvasGroupChangedTrigger.cs.meta    |   12 +
+ .../Triggers/ObservableCollision2DTrigger.cs       |   67 ++
+ .../Triggers/ObservableCollision2DTrigger.cs.meta  |   12 +
+ .../Triggers/ObservableCollisionTrigger.cs         |   67 ++
+ .../Triggers/ObservableCollisionTrigger.cs.meta    |   12 +
+ .../Triggers/ObservableDeselectTrigger.cs          |   36 +
+ .../Triggers/ObservableDeselectTrigger.cs.meta     |   12 +
+ .../Triggers/ObservableDestroyTrigger.cs           |   67 ++
+ .../Triggers/ObservableDestroyTrigger.cs.meta      |   12 +
+ .../Triggers/ObservableDragTrigger.cs              |   36 +
+ .../Triggers/ObservableDragTrigger.cs.meta         |   12 +
+ .../Triggers/ObservableDropTrigger.cs              |   36 +
+ .../Triggers/ObservableDropTrigger.cs.meta         |   12 +
+ .../Triggers/ObservableEnableTrigger.cs            |   49 +
+ .../Triggers/ObservableEnableTrigger.cs.meta       |   12 +
+ .../Triggers/ObservableEndDragTrigger.cs           |   36 +
+ .../Triggers/ObservableEndDragTrigger.cs.meta      |   12 +
+ .../Triggers/ObservableEventTrigger.cs             |  359 ++++++
+ .../Triggers/ObservableEventTrigger.cs.meta        |   12 +
+ .../Triggers/ObservableFixedUpdateTrigger.cs       |   31 +
+ .../Triggers/ObservableFixedUpdateTrigger.cs.meta  |   12 +
+ .../ObservableInitializePotentialDragTrigger.cs    |   36 +
+ ...bservableInitializePotentialDragTrigger.cs.meta |   12 +
+ .../Triggers/ObservableJointTrigger.cs             |   47 +
+ .../Triggers/ObservableJointTrigger.cs.meta        |   11 +
+ .../Triggers/ObservableLateUpdateTrigger.cs        |   31 +
+ .../Triggers/ObservableLateUpdateTrigger.cs.meta   |   12 +
+ .../Triggers/ObservableMouseTrigger.cs             |  143 +++
+ .../Triggers/ObservableMouseTrigger.cs.meta        |   12 +
+ .../Triggers/ObservableMoveTrigger.cs              |   36 +
+ .../Triggers/ObservableMoveTrigger.cs.meta         |   12 +
+ .../Triggers/ObservableParticleTrigger.cs          |   56 +
+ .../Triggers/ObservableParticleTrigger.cs.meta     |   12 +
+ .../Triggers/ObservablePointerClickTrigger.cs      |   36 +
+ .../Triggers/ObservablePointerClickTrigger.cs.meta |   12 +
+ .../Triggers/ObservablePointerDownTrigger.cs       |   36 +
+ .../Triggers/ObservablePointerDownTrigger.cs.meta  |   12 +
+ .../Triggers/ObservablePointerEnterTrigger.cs      |   36 +
+ .../Triggers/ObservablePointerEnterTrigger.cs.meta |   12 +
+ .../Triggers/ObservablePointerExitTrigger.cs       |   36 +
+ .../Triggers/ObservablePointerExitTrigger.cs.meta  |   12 +
+ .../Triggers/ObservablePointerUpTrigger.cs         |   36 +
+ .../Triggers/ObservablePointerUpTrigger.cs.meta    |   12 +
+ .../Triggers/ObservableRectTransformTrigger.cs     |   55 +
+ .../ObservableRectTransformTrigger.cs.meta         |   12 +
+ .../Triggers/ObservableScrollTrigger.cs            |   36 +
+ .../Triggers/ObservableScrollTrigger.cs.meta       |   12 +
+ .../Triggers/ObservableSelectTrigger.cs            |   36 +
+ .../Triggers/ObservableSelectTrigger.cs.meta       |   12 +
+ .../Triggers/ObservableStateMachineTrigger.cs      |  143 +++
+ .../Triggers/ObservableStateMachineTrigger.cs.meta |   12 +
+ .../Triggers/ObservableSubmitTrigger.cs            |   36 +
+ .../Triggers/ObservableSubmitTrigger.cs.meta       |   12 +
+ .../Triggers/ObservableTransformChangedTrigger.cs  |   72 ++
+ .../ObservableTransformChangedTrigger.cs.meta      |   12 +
+ .../Triggers/ObservableTrigger2DTrigger.cs         |   67 ++
+ .../Triggers/ObservableTrigger2DTrigger.cs.meta    |   12 +
+ .../Triggers/ObservableTriggerBase.cs              |   65 ++
+ .../Triggers/ObservableTriggerBase.cs.meta         |   12 +
+ .../ObservableTriggerExtensions.Component.cs       |  461 ++++++++
+ .../ObservableTriggerExtensions.Component.cs.meta  |   12 +
+ .../Triggers/ObservableTriggerExtensions.cs        |  361 ++++++
+ .../Triggers/ObservableTriggerExtensions.cs.meta   |   12 +
+ .../Triggers/ObservableTriggerTrigger.cs           |   67 ++
+ .../Triggers/ObservableTriggerTrigger.cs.meta      |   12 +
+ .../Triggers/ObservableUpdateSelectedTrigger.cs    |   36 +
+ .../ObservableUpdateSelectedTrigger.cs.meta        |   12 +
+ .../Triggers/ObservableUpdateTrigger.cs            |   31 +
+ .../Triggers/ObservableUpdateTrigger.cs.meta       |   12 +
+ .../Triggers/ObservableVisibleTrigger.cs           |   49 +
+ .../Triggers/ObservableVisibleTrigger.cs.meta      |   12 +
+ .../UnityEngineBridge/UnityEventExtensions.cs      |   58 +
+ .../UnityEngineBridge/UnityEventExtensions.cs.meta |   12 +
+ .../UnityEngineBridge/UnityGraphicExtensions.cs    |   44 +
+ .../UnityGraphicExtensions.cs.meta                 |   12 +
+ .../UnityUIComponentExtensions.cs                  |  123 ++
+ .../UnityUIComponentExtensions.cs.meta             |   12 +
+ .../UnityEngineBridge/YieldInstructionCache.cs     |   10 +
+ .../YieldInstructionCache.cs.meta                  |   12 +
+ Assets/Plugins/UniRx/Scripts/UnityWinRTBridge.meta |    9 +
+ .../UniRx/Scripts/UnityWinRTBridge/Thread.cs       |   26 +
+ .../UniRx/Scripts/UnityWinRTBridge/Thread.cs.meta  |   12 +
+ .../ThreadPoolScheduler_UnityWinRT.cs              |  100 ++
+ .../ThreadPoolScheduler_UnityWinRT.cs.meta         |   12 +
+ Assets/Scenes/MainScene.unity                      |   14 +-
+ Assets/Scripts/CarBehavior.cs                      |  126 ---
+ .../Core/{Framework.meta => 0_Framework.meta}      |    0
+ .../Core/0_Framework/ClownCar.Framework.asmdef     |   21 +
+ .../0_Framework/ClownCar.Framework.asmdef.meta     |    7 +
+ Assets/Scripts/Core/0_Framework/Gameplay.meta      |    8 +
+ .../Core/0_Framework/Gameplay/CarBehavior.cs       |  199 ++++
+ .../0_Framework/Gameplay}/CarBehavior.cs.meta      |    0
+ .../Core/0_Framework/Gameplay/CarHandler.cs        |   65 ++
+ .../Gameplay}/CarHandler.cs.meta                   |    0
+ .../Core/0_Framework/Gameplay/ServiceLocator.cs    |   58 +
+ .../0_Framework/Gameplay/ServiceLocator.cs.meta    |   11 +
+ Assets/Scripts/Core/0_Framework/Views.meta         |    8 +
+ .../Core/0_Framework/Views/BaseReactiveView.cs     |   22 +
+ .../0_Framework/Views/BaseReactiveView.cs.meta     |   11 +
+ .../Core/0_Framework/Views/PlayerGameplayUIView.cs |   42 +
+ .../0_Framework/Views/PlayerGameplayUIView.cs.meta |   11 +
+ Assets/Scripts/Core/1_InterfaceAdapters.meta       |    8 +
+ .../ClownCar.InterfaceAdapters.asmdef              |   18 +
+ .../ClownCar.InterfaceAdapters.asmdef.meta         |    7 +
+ .../Core/1_InterfaceAdapters/PlayerPresenter.cs    |   24 +
+ .../1_InterfaceAdapters/PlayerPresenter.cs.meta    |   11 +
+ .../Core/1_InterfaceAdapters/PlayerViewModel.cs    |   23 +
+ .../1_InterfaceAdapters/PlayerViewModel.cs.meta    |   11 +
+ Assets/Scripts/Core/2_Domain.meta                  |    8 +
+ Assets/Scripts/Core/2_Domain/Actors.meta           |    8 +
+ .../Scripts/Core/2_Domain/Actors/Interfaces.meta   |    8 +
+ .../2_Domain/Actors/Interfaces/PlayerGearOutput.cs |   11 +
+ .../Actors/Interfaces/PlayerGearOutput.cs.meta     |   11 +
+ .../2_Domain/Actors/Interfaces/PlayerRpmOutput.cs  |   11 +
+ .../Actors/Interfaces/PlayerRpmOutput.cs.meta      |   11 +
+ .../Core/2_Domain/Actors/Interfaces/SetGear.cs     |   11 +
+ .../2_Domain/Actors/Interfaces/SetGear.cs.meta     |   11 +
+ .../Core/2_Domain/Actors/Interfaces/SetRpm.cs      |   11 +
+ .../Core/2_Domain/Actors/Interfaces/SetRpm.cs.meta |   11 +
+ .../Scripts/Core/2_Domain/Actors/SetGearUseCase.cs |   25 +
+ .../Core/2_Domain/Actors/SetGearUseCase.cs.meta    |   11 +
+ .../Scripts/Core/2_Domain/Actors/SetRpmUseCase.cs  |   23 +
+ .../Core/2_Domain/Actors/SetRpmUseCase.cs.meta     |   11 +
+ .../Scripts/Core/2_Domain/ClownCar.Domain.asmdef   |   16 +
+ .../Core/2_Domain/ClownCar.Domain.asmdef.meta      |    7 +
+ Assets/Scripts/Core/2_Domain/Player.meta           |    8 +
+ Assets/Scripts/Core/3_Entities.meta                |    8 +
+ .../Core/3_Entities/ClownCar.Entities.asmdef       |   14 +
+ .../Core/3_Entities/ClownCar.Entities.asmdef.meta  |    7 +
+ Assets/Scripts/Core/3_Entities/Player.cs           |   26 +
+ Assets/Scripts/Core/3_Entities/Player.cs.meta      |   11 +
+ Assets/Scripts/Core/Framework/CarHandler.cs        |   39 -
+ Assets/Scripts/Public/GameInput.cs                 |   93 ++
+ Assets/Scripts/{ => Public}/GameManager.cs         |    0
+ Assets/Scripts/{ => Public}/GameManager.cs.meta    |    0
+ Assets/Scripts/Public/Setup.cs                     |   26 +-
+ ProjectSettings/InputManager.asset                 |  116 +-
+ 532 files changed, 40198 insertions(+), 169 deletions(-)
+
+commit e2a4e7ac8643d30c36fcdc81a85aa7bbddf6e290
+Author: HexDrifter <42625632+HexDrifter@users.noreply.github.com>
+Date:   Mon Aug 19 03:23:26 2024 -0400
+
+    Added Car behavior and 3D Model
+
+ Assets/3d Models/ClownCarBeta.blend                |  Bin 950152 -> 1001376 bytes
+ Assets/3d Models/ClownCarBeta.blend1               |  Bin 950160 -> 1002156 bytes
+ Assets/3d Models/ClownCarBeta.fbx                  |  Bin 0 -> 78236 bytes
+ Assets/3d Models/ClownCarBeta.fbx.meta             |  109 +
+ Assets/3d Models/Simple Drift Tyres.meta           |    8 +
+ Assets/3d Models/Simple Drift Tyres/Models.meta    |    8 +
+ .../Simple Drift Tyres/Models/Tyre_Type_1.fbx      |  Bin 0 -> 338460 bytes
+ .../Simple Drift Tyres/Models/Tyre_Type_1.fbx.meta |  102 +
+ .../Simple Drift Tyres/Models/Tyre_Type_10.fbx     |  Bin 0 -> 334252 bytes
+ .../Models/Tyre_Type_10.fbx.meta                   |  102 +
+ .../Simple Drift Tyres/Models/Tyre_Type_2.fbx      |  Bin 0 -> 307804 bytes
+ .../Simple Drift Tyres/Models/Tyre_Type_2.fbx.meta |  102 +
+ .../Simple Drift Tyres/Models/Tyre_Type_3.fbx      |  Bin 0 -> 330044 bytes
+ .../Simple Drift Tyres/Models/Tyre_Type_3.fbx.meta |  102 +
+ .../Simple Drift Tyres/Models/Tyre_Type_4.fbx      |  Bin 0 -> 358124 bytes
+ .../Simple Drift Tyres/Models/Tyre_Type_4.fbx.meta |  102 +
+ .../Simple Drift Tyres/Models/Tyre_Type_5.fbx      |  Bin 0 -> 362444 bytes
+ .../Simple Drift Tyres/Models/Tyre_Type_5.fbx.meta |  102 +
+ .../Simple Drift Tyres/Models/Tyre_Type_6.fbx      |  Bin 0 -> 319660 bytes
+ .../Simple Drift Tyres/Models/Tyre_Type_6.fbx.meta |  102 +
+ .../Simple Drift Tyres/Models/Tyre_Type_7.fbx      |  Bin 0 -> 319660 bytes
+ .../Simple Drift Tyres/Models/Tyre_Type_7.fbx.meta |  102 +
+ .../Simple Drift Tyres/Models/Tyre_Type_8.fbx      |  Bin 0 -> 327948 bytes
+ .../Simple Drift Tyres/Models/Tyre_Type_8.fbx.meta |  102 +
+ .../Simple Drift Tyres/Models/Tyre_Type_9.fbx      |  Bin 0 -> 313436 bytes
+ .../Simple Drift Tyres/Models/Tyre_Type_9.fbx.meta |  102 +
+ Assets/3d Models/Simple Drift Tyres/Prefabs.meta   |    8 +
+ .../Simple Drift Tyres/Prefabs/Tyre_Type_1.prefab  |  525 ++
+ .../Prefabs/Tyre_Type_1.prefab.meta                |    7 +
+ .../Simple Drift Tyres/Prefabs/Tyre_Type_10.prefab |  525 ++
+ .../Prefabs/Tyre_Type_10.prefab.meta               |    7 +
+ .../Simple Drift Tyres/Prefabs/Tyre_Type_2.prefab  |  525 ++
+ .../Prefabs/Tyre_Type_2.prefab.meta                |    7 +
+ .../Simple Drift Tyres/Prefabs/Tyre_Type_3.prefab  |  525 ++
+ .../Prefabs/Tyre_Type_3.prefab.meta                |    7 +
+ .../Simple Drift Tyres/Prefabs/Tyre_Type_4.prefab  |  525 ++
+ .../Prefabs/Tyre_Type_4.prefab.meta                |    7 +
+ .../Simple Drift Tyres/Prefabs/Tyre_Type_5.prefab  |  525 ++
+ .../Prefabs/Tyre_Type_5.prefab.meta                |    7 +
+ .../Simple Drift Tyres/Prefabs/Tyre_Type_6.prefab  |  525 ++
+ .../Prefabs/Tyre_Type_6.prefab.meta                |    7 +
+ .../Simple Drift Tyres/Prefabs/Tyre_Type_7.prefab  |  525 ++
+ .../Prefabs/Tyre_Type_7.prefab.meta                |    7 +
+ .../Simple Drift Tyres/Prefabs/Tyre_Type_8.prefab  |  525 ++
+ .../Prefabs/Tyre_Type_8.prefab.meta                |    7 +
+ .../Simple Drift Tyres/Prefabs/Tyre_Type_9.prefab  |  525 ++
+ .../Prefabs/Tyre_Type_9.prefab.meta                |    7 +
+ Assets/3d Models/Simple Drift Tyres/Textures.meta  |    8 +
+ .../Simple Drift Tyres/Textures/Disctex.png        |  Bin 0 -> 262796 bytes
+ .../Simple Drift Tyres/Textures/Disctex.png.meta   |   96 +
+ .../Simple Drift Tyres/Textures/DisctexNorm.png    |  Bin 0 -> 365559 bytes
+ .../Textures/DisctexNorm.png.meta                  |   96 +
+ .../Simple Drift Tyres/Textures/Tyre_D.png         |  Bin 0 -> 440877 bytes
+ .../Simple Drift Tyres/Textures/Tyre_D.png.meta    |   96 +
+ .../Simple Drift Tyres/Textures/Tyre_Normal.png    |  Bin 0 -> 1462637 bytes
+ .../Textures/Tyre_Normal.png.meta                  |   96 +
+ Assets/Configuration.meta                          |    8 +
+ Assets/Configuration/Input.meta                    |    8 +
+ Assets/Configuration/Input/GameInput.inputactions  |  129 +
+ .../Input/GameInput.inputactions.meta              |   14 +
+ Assets/New Terrain 1.asset                         |  Bin 0 -> 557364 bytes
+ Assets/New Terrain 1.asset.meta                    |    8 +
+ Assets/New Terrain.asset                           |  Bin 0 -> 557360 bytes
+ Assets/New Terrain.asset.meta                      |    8 +
+ Assets/Scenes/DebugRoom.unity                      | 3405 +++++++++
+ ...SampleScene.unity.meta => DebugRoom.unity.meta} |    2 +-
+ Assets/Scenes/{SampleScene.unity => Level 1.unity} |  237 +-
+ Assets/Scenes/Level 1.unity.meta                   |    7 +
+ Assets/Scenes/MainScene.unity                      | 1217 +++
+ Assets/Scenes/MainScene.unity.meta                 |    7 +
+ Assets/Scripts.meta                                |    8 +
+ Assets/Scripts/CarBehavior.cs                      |  126 +
+ Assets/Scripts/CarBehavior.cs.meta                 |   11 +
+ Assets/Scripts/Core.meta                           |    8 +
+ Assets/Scripts/Core/Framework.meta                 |    8 +
+ Assets/Scripts/Core/Framework/CarHandler.cs        |   39 +
+ Assets/Scripts/Core/Framework/CarHandler.cs.meta   |   11 +
+ Assets/Scripts/GameManager.cs                      |   22 +
+ Assets/Scripts/GameManager.cs.meta                 |   11 +
+ Assets/Scripts/Public.meta                         |    8 +
+ Assets/Scripts/Public/GameInput.cs                 |  282 +
+ Assets/Scripts/Public/GameInput.cs.meta            |   11 +
+ Assets/Scripts/Public/Setup.cs                     |   28 +
+ Assets/Scripts/Public/Setup.cs.meta                |   11 +
+ Assets/TextMesh Pro.meta                           |    8 +
+ Assets/TextMesh Pro/Documentation.meta             |    8 +
+ .../Documentation/TextMesh Pro User Guide 2016.pdf |  Bin 0 -> 694398 bytes
+ .../TextMesh Pro User Guide 2016.pdf.meta          |    7 +
+ Assets/TextMesh Pro/Fonts.meta                     |    8 +
+ Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt |   46 +
+ .../Fonts/LiberationSans - OFL.txt.meta            |    8 +
+ Assets/TextMesh Pro/Fonts/LiberationSans.ttf       |  Bin 0 -> 350200 bytes
+ Assets/TextMesh Pro/Fonts/LiberationSans.ttf.meta  |   19 +
+ Assets/TextMesh Pro/Resources.meta                 |    8 +
+ .../TextMesh Pro/Resources/Fonts & Materials.meta  |    9 +
+ .../LiberationSans SDF - Drop Shadow.mat           |  106 +
+ .../LiberationSans SDF - Drop Shadow.mat.meta      |    8 +
+ .../LiberationSans SDF - Fallback.asset            |  343 +
+ .../LiberationSans SDF - Fallback.asset.meta       |    8 +
+ .../LiberationSans SDF - Outline.mat               |  104 +
+ .../LiberationSans SDF - Outline.mat.meta          |    8 +
+ .../Fonts & Materials/LiberationSans SDF.asset     | 7821 ++++++++++++++++++++
+ .../LiberationSans SDF.asset.meta                  |    8 +
+ .../LineBreaking Following Characters.txt          |    1 +
+ .../LineBreaking Following Characters.txt.meta     |    8 +
+ .../Resources/LineBreaking Leading Characters.txt  |    1 +
+ .../LineBreaking Leading Characters.txt.meta       |    8 +
+ Assets/TextMesh Pro/Resources/Sprite Assets.meta   |    9 +
+ .../Resources/Sprite Assets/EmojiOne.asset         |  659 ++
+ .../Resources/Sprite Assets/EmojiOne.asset.meta    |    8 +
+ Assets/TextMesh Pro/Resources/Style Sheets.meta    |    9 +
+ .../Style Sheets/Default Style Sheet.asset         |   68 +
+ .../Style Sheets/Default Style Sheet.asset.meta    |    8 +
+ Assets/TextMesh Pro/Resources/TMP Settings.asset   |   46 +
+ .../TextMesh Pro/Resources/TMP Settings.asset.meta |    8 +
+ Assets/TextMesh Pro/Shaders.meta                   |    8 +
+ .../Shaders/TMP_Bitmap-Custom-Atlas.shader         |  143 +
+ .../Shaders/TMP_Bitmap-Custom-Atlas.shader.meta    |    9 +
+ .../TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader  |  145 +
+ .../Shaders/TMP_Bitmap-Mobile.shader.meta          |    9 +
+ Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader      |  143 +
+ Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader.meta |    9 +
+ Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader |  317 +
+ .../Shaders/TMP_SDF Overlay.shader.meta            |    9 +
+ Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader     |  310 +
+ .../TextMesh Pro/Shaders/TMP_SDF SSD.shader.meta   |    9 +
+ .../Shaders/TMP_SDF-Mobile Masking.shader          |  247 +
+ .../Shaders/TMP_SDF-Mobile Masking.shader.meta     |    9 +
+ .../Shaders/TMP_SDF-Mobile Overlay.shader          |  240 +
+ .../Shaders/TMP_SDF-Mobile Overlay.shader.meta     |    9 +
+ .../TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader |  106 +
+ .../Shaders/TMP_SDF-Mobile SSD.shader.meta         |    9 +
+ Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader  |  240 +
+ .../Shaders/TMP_SDF-Mobile.shader.meta             |    9 +
+ .../Shaders/TMP_SDF-Surface-Mobile.shader          |  138 +
+ .../Shaders/TMP_SDF-Surface-Mobile.shader.meta     |    9 +
+ Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader |  158 +
+ .../Shaders/TMP_SDF-Surface.shader.meta            |    9 +
+ Assets/TextMesh Pro/Shaders/TMP_SDF.shader         |  317 +
+ Assets/TextMesh Pro/Shaders/TMP_SDF.shader.meta    |    9 +
+ Assets/TextMesh Pro/Shaders/TMP_Sprite.shader      |  116 +
+ Assets/TextMesh Pro/Shaders/TMP_Sprite.shader.meta |    9 +
+ Assets/TextMesh Pro/Shaders/TMPro.cginc            |   84 +
+ Assets/TextMesh Pro/Shaders/TMPro.cginc.meta       |    9 +
+ Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc     |  157 +
+ .../TextMesh Pro/Shaders/TMPro_Mobile.cginc.meta   |    9 +
+ Assets/TextMesh Pro/Shaders/TMPro_Properties.cginc |   85 +
+ .../Shaders/TMPro_Properties.cginc.meta            |    9 +
+ Assets/TextMesh Pro/Shaders/TMPro_Surface.cginc    |  101 +
+ .../TextMesh Pro/Shaders/TMPro_Surface.cginc.meta  |    9 +
+ Assets/TextMesh Pro/Sprites.meta                   |    8 +
+ .../TextMesh Pro/Sprites/EmojiOne Attribution.txt  |    3 +
+ .../Sprites/EmojiOne Attribution.txt.meta          |    7 +
+ Assets/TextMesh Pro/Sprites/EmojiOne.json          |  156 +
+ Assets/TextMesh Pro/Sprites/EmojiOne.json.meta     |    8 +
+ Assets/TextMesh Pro/Sprites/EmojiOne.png           |  Bin 0 -> 112319 bytes
+ Assets/TextMesh Pro/Sprites/EmojiOne.png.meta      |  431 ++
+ Packages/manifest.json                             |    1 +
+ Packages/packages-lock.json                        |    9 +
+ ProjectSettings/EditorBuildSettings.asset          |   14 +-
+ ProjectSettings/EditorSettings.asset               |   29 +-
+ ProjectSettings/InputManager.asset                 |  291 +-
+ ProjectSettings/ProjectSettings.asset              |    5 +-
+ ProjectSettings/QualitySettings.asset              |  124 +-
+ ProjectSettings/SceneTemplateSettings.json         |  121 +
+ ProjectSettings/TimelineSettings.asset             |   16 +
+ 166 files changed, 25877 insertions(+), 413 deletions(-)
+
+commit 34e3c4eb810363cc936d55c024824a3b23e367a1
+Author: HexDrifter <42625632+HexDrifter@users.noreply.github.com>
+Date:   Sat Aug 17 19:04:05 2024 -0400
+
+    Initial Commit
+
+ .vsconfig                                          |   6 +
+ Assets/3d Models.meta                              |   8 +
+ Assets/3d Models/ClownCarBeta.blend                | Bin 0 -> 950152 bytes
+ Assets/3d Models/ClownCarBeta.blend.meta           | 109 +++
+ Assets/3d Models/ClownCarBeta.blend1               | Bin 0 -> 950160 bytes
+ Assets/3d Models/ClownCarBeta.blend1.meta          |   7 +
+ Assets/Scenes.meta                                 |   8 +
+ Assets/Scenes/SampleScene.unity                    | 267 +++++++
+ Assets/Scenes/SampleScene.unity.meta               |   7 +
+ Packages/manifest.json                             |  41 ++
+ Packages/packages-lock.json                        | 382 ++++++++++
+ ProjectSettings/AudioManager.asset                 |  19 +
+ ProjectSettings/ClusterInputManager.asset          |   6 +
+ ProjectSettings/DynamicsManager.asset              |  34 +
+ ProjectSettings/EditorBuildSettings.asset          |   8 +
+ ProjectSettings/EditorSettings.asset               |  30 +
+ ProjectSettings/GraphicsSettings.asset             |  63 ++
+ ProjectSettings/InputManager.asset                 | 295 ++++++++
+ ProjectSettings/MemorySettings.asset               |  35 +
+ ProjectSettings/NavMeshAreas.asset                 |  91 +++
+ ProjectSettings/PackageManagerSettings.asset       |  35 +
+ .../com.unity.testtools.codecoverage/Settings.json |   5 +
+ ProjectSettings/Physics2DSettings.asset            |  56 ++
+ ProjectSettings/PresetManager.asset                |   7 +
+ ProjectSettings/ProjectSettings.asset              | 767 +++++++++++++++++++++
+ ProjectSettings/ProjectVersion.txt                 |   2 +
+ ProjectSettings/QualitySettings.asset              | 234 +++++++
+ ProjectSettings/TagManager.asset                   |  43 ++
+ ProjectSettings/TimeManager.asset                  |   9 +
+ ProjectSettings/UnityConnectSettings.asset         |  36 +
+ ProjectSettings/VFXManager.asset                   |  12 +
+ ProjectSettings/VersionControlSettings.asset       |   8 +
+ ProjectSettings/XRSettings.asset                   |  10 +
+ 33 files changed, 2640 insertions(+)
+
+commit dbad1f9da517671a41f5d82af00a2b6dad7f4929
+Author: HexDrifter <42625632+HexDrifter@users.noreply.github.com>
+Date:   Sat Aug 17 18:58:04 2024 -0400
+
+    Initial commit
+
+ .gitattributes |  2 ++
+ .gitignore     | 72 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 74 insertions(+)
