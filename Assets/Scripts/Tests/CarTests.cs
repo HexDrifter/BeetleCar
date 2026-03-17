@@ -136,15 +136,16 @@ public class CarTests : InputTestFixture
     {
         GameObject carInstance = GameObject.Instantiate(_character, new Vector3(0f, 1f, 0f), Quaternion.identity);
         initializeTest();
+        var gear = _carHandler.CarBehavior.Engine.CurrentGear;
         yield return new WaitForSeconds(1f);
         PressAndRelease(_gamepad.buttonNorth);
         yield return new WaitForSeconds(1f);
-        Assert.AreEqual(_carHandler.CarBehavior.currentGear, 1);
+        Assert.AreEqual(gear, 1);
         Set(_gamepad.rightTrigger, .5f);
         yield return new WaitForSeconds(1f);
         PressAndRelease(_gamepad.buttonSouth);
         yield return null;
-        Assert.AreEqual(_carHandler.CarBehavior.currentGear, 0);
+        Assert.AreEqual(gear, 0);
         yield return new WaitForSeconds(1f);
         PressAndRelease(_gamepad.buttonWest);
         yield return null;
@@ -152,16 +153,16 @@ public class CarTests : InputTestFixture
         yield return null;
         
 
-        Assert.AreEqual(_carHandler.CarBehavior.currentGear, 2);
+        Assert.AreEqual(gear, 2);
         PressAndRelease(_gamepad.buttonWest);
         yield return new WaitForSeconds(1f);
-        Assert.AreEqual(_carHandler.CarBehavior.currentGear, 3);
+        Assert.AreEqual(gear, 3);
         PressAndRelease(_gamepad.buttonWest);
         yield return new WaitForSeconds(1f);
-        Assert.AreEqual(_carHandler.CarBehavior.currentGear, 4);
+        Assert.AreEqual(gear, 4);
         PressAndRelease(_gamepad.buttonWest);
         yield return new WaitForSeconds(1f);
-        Assert.AreEqual(_carHandler.CarBehavior.currentGear, 5);
+        Assert.AreEqual(gear, 5);
         yield return new WaitForSeconds(1f);
         yield return null;
     }

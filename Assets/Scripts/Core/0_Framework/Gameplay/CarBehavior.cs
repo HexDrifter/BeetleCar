@@ -2,6 +2,7 @@ using Beetle.Domain;
 using Beetle.Entities;
 using Beetle.SystemUtilities;
 using System;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,45 +15,34 @@ namespace Beetle.Framework
     public class CarBehavior : MonoBehaviour
     {
         protected StateMachine _stateMachine;
-
-        private int _currentGear = 1;
-        private int _maxGear = 5;
-        private float[] _gearRatios = { -3.6f, 0f, 3.8f, 2.06f, 1.32f, 0.89f };
-        private float _finalDriveRatio = 4.12f;
-        private float _engineRPM;
-        private float _carSpeed;
-        private float _minRPM = 800f;
-        private float _maxRPM = 6000f;
-        private float steerAngle;
-        private bool _inputEngineIgnition;
-        private CarEngine _engine = new CarEngine();
-
-
+        [Header("Debug")]
+        public float Damping;
         //Input variables
         private Vector2 _inputDirection;
         private float _inputAcceleration;
         private float _inputBrake;
         private float _inputClutch = 1f;
+        private float _carSpeed;
+        private float _steerAngle;
+        private bool _inputEngineIgnition;
+        private CarEngine _engine = new CarEngine(new float[] { -3.6f, 0f, 3.8f, 2.06f, 1.32f, 0.89f }, 4.12f);
 
         [Header("Config")]
-        [SerializeField] public float engineTorque;
         [SerializeField] public float brakeForce;
         [SerializeField] public float maxAngle;
         [SerializeField] public float steerSpeed;
+        [SerializeField] private bool autoShift = true;
         [SerializeField] private AnimationCurve _torqueCurve;
 
         public Vector2 inputDirection => _inputDirection;
+        public float steerAngle => _steerAngle;
         public float inputAcceleration => _inputAcceleration;
         public float inputBrake => _inputBrake;
-        public float engineRPM => _engineRPM;
-        public int currentGear => _currentGear;
+        public float inputClutch => _inputClutch;
         public float carSpeed => _carSpeed;
-        public float maxRPM => _maxRPM;
-        public float minRPM => _minRPM;
-        public float[] gearRatios => _gearRatios;
-        public float finalDriveRatio => _finalDriveRatio;
         public AnimationCurve torqueCurve => _torqueCurve;
         public bool inputEngineIgnition => _inputEngineIgnition;
+        public CarEngine Engine => _engine;
 
         [Header("Wheel Colliders")]
         [SerializeField] public WheelCollider frontLeftWheelCollider;
@@ -86,16 +76,16 @@ namespace Beetle.Framework
             {
                 if (maxAngle * _inputDirection.x > steerAngle)
                 {
-                    steerAngle += steerSpeed * Time.deltaTime * 10;
+                    _steerAngle += steerSpeed * Time.deltaTime * 10;
                 }
                 else if (maxAngle * _inputDirection.x < steerAngle)
                 {
-                    steerAngle -= steerSpeed * Time.deltaTime * 10;
+                    _steerAngle -= steerSpeed * Time.deltaTime * 10;
                 }
             }
             else
             {
-                steerAngle = Mathf.Lerp(steerAngle, 0, Time.deltaTime * steerSpeed);
+                _steerAngle = Mathf.Lerp(steerAngle, 0, Time.deltaTime * steerSpeed);
             }
             frontLeftWheelCollider.steerAngle = steerAngle;
             frontRightWheelCollider.steerAngle = steerAngle;
@@ -114,22 +104,21 @@ namespace Beetle.Framework
 
         public void SetRPM(float rpm)
         {
-            _engineRPM = rpm;
             try
             {
-                ServiceLocator.Instance.GetService<SetRpmUseCase>().SetRpmValue(_engineRPM);
+                ServiceLocator.Instance.GetService<SetRpmUseCase>().SetRpmValue(rpm);
             }
             catch { }
         }
 
         public float GetRPM()
         {
-            return _engineRPM;
+            return _engine.FlyWheelAngularVelocity * 9.5493f;
         }
 
         public float GetCurrentGearRatio()
         {
-            float gearRatio = _gearRatios[_currentGear];
+            float gearRatio = _engine.GearRatios[_engine.CurrentGear];
             return gearRatio;
         }
 
@@ -146,28 +135,30 @@ namespace Beetle.Framework
         }
         public float GetGearNetRatio()
         {
-            float gearNetRatio = GetCurrentGearRatio() * _finalDriveRatio;
-            return gearNetRatio;
+            return _engine.CurrentGearRatio * _engine.FinalDriveRatio;
         }
+
         public float GetCurrentTransmissionOmega()
         {
-            float wheelOmega = GetWheelRPM() * 0.10472f;//(2 * Mathf.PI / 60f);
-            return wheelOmega * GetCurrentGearRatio() * _finalDriveRatio;
+            return GetWheelRPM() * 0.10472f * GetGearNetRatio();//(2 * Mathf.PI / 60f);
         }
+
         public float GetLoadTorque()
         {
-            if (GetCurrentGearRatio() == 0f)
+            float gearNetRatio = GetGearNetRatio();
+            if (gearNetRatio == 0)
                 return 0f;
 
-            float damping = 1.1f; // Coeficiente de amortiguamiento para simular la resistencia del motor
-
-            float loadTorque = (_engine.FlyWheelAngularVelocity - GetCurrentTransmissionOmega()) * _inputClutch * damping;
-            return loadTorque;
+            //float damping = 1.0f; // Coeficiente de amortiguamiento para simular la resistencia del motor
+            float transmissionOmega = GetCurrentTransmissionOmega();
+            float difference = _engine.FlyWheelAngularVelocity - transmissionOmega;
+            float loadTorque = difference * _inputClutch * Damping;
+            return Mathf.Clamp(loadTorque, -2000f, 2000f);
         }
 
         public float GetFrictionTorque()
         {
-            float frictionTorque = _engine.FlyWheelAngularVelocity * 0.05f;
+            float frictionTorque = _engine.FlyWheelAngularVelocity * 0.1f;
             return frictionTorque;
         }
 
@@ -185,14 +176,24 @@ namespace Beetle.Framework
 
         public void SetEngineOmega(float accelerationInput, float extraTorque = 0f)
         {
-            float combustionTorque = GetCombustionTorque(accelerationInput) + extraTorque;
+            _engine.EnginePhase += _engine.FlyWheelAngularVelocity * Time.deltaTime;
+
+            float explosionStroke = Mathf.Pow(Mathf.Abs(Mathf.Sin(_engine.EnginePhase)), 8f);
+
+            float combustionTorque = GetCombustionTorque(accelerationInput) * explosionStroke * 3.5f;
+            combustionTorque += extraTorque;
 
             float netTorque = combustionTorque - GetFrictionTorque() - GetLoadTorque();
-
+            Debug.Log($"Combustion Torque: {combustionTorque}, Friction Torque: {GetFrictionTorque()}, Net Torque: {netTorque}");
             float accelerationTorque = netTorque / _engine.inertia;
             _engine.FlyWheelAngularVelocity += accelerationTorque * Time.deltaTime;
-            _engine.FlyWheelAngularVelocity = Mathf.Max(0f, _engine.FlyWheelAngularVelocity);
 
+            if (_engine.FlyWheelAngularVelocity < 0.1f || float.IsNaN(_engine.FlyWheelAngularVelocity))
+            {
+                _engine.FlyWheelAngularVelocity = 0f;
+            }
+
+            _engine.FlyWheelAngularVelocity = Mathf.Clamp(_engine.FlyWheelAngularVelocity, 0f, 1000f);
 
             float currentRPM = _engine.FlyWheelAngularVelocity * 9.5493f;// (60/(2 * Mathf.PI));
             SetRPM(currentRPM);
@@ -205,8 +206,9 @@ namespace Beetle.Framework
 
         public void SetWheelTorque(float torque)
         {
-            rearLeftWheelCollider.motorTorque = torque/2f;
-            rearRightWheelCollider.motorTorque = torque/2f;
+            float smoothedTorque = Mathf.Lerp(rearLeftWheelCollider.motorTorque, torque / 2f, Time.deltaTime * 10f);
+            rearLeftWheelCollider.motorTorque = smoothedTorque;
+            rearRightWheelCollider.motorTorque = smoothedTorque;
         }
 
         internal void SetInputBrake(float inputBrake)
@@ -226,30 +228,36 @@ namespace Beetle.Framework
 
         internal void ShiftUp()
         {
-            if (_currentGear < _maxGear)
+            if (_engine.CurrentGear < _engine.MaxGears)
             {
-                _currentGear++;
-                if (_gearRatios[_currentGear] != 0f)
-                {
-                    float wheelRPM = (rearLeftWheelCollider.rpm + rearRightWheelCollider.rpm) / 2f;
-                    _engineRPM = Mathf.Clamp(wheelRPM * _gearRatios[_currentGear] * _finalDriveRatio, _minRPM, _maxRPM);
-                }
-                ServiceLocator.Instance.GetService<SetGearUseCase>().SetGearValue(_currentGear);
+                Debug.Log("Cambiando a marcha: " + (_engine.CurrentGear + 1));
+                ExcecuteShift(_engine.CurrentGear + 1);
             }
-            Debug.Log("Shift Up");
         }
 
         internal void ShiftDown()
         {
-            if (_currentGear > 0)
+            if (_engine.CurrentGear > 0)
             {
-                if (GetCurrentGearRatio() != 0)
-                    _engineRPM = Mathf.Clamp(_engineRPM * 1.5f, _minRPM, _maxRPM);
-                _currentGear--;
-
+                Debug.Log("Reduciendo a marcha: " + (_engine.CurrentGear - 1));
+                ExcecuteShift(_engine.CurrentGear - 1);
             }
-            ServiceLocator.Instance.GetService<SetGearUseCase>().SetGearValue(_currentGear);
-            Debug.Log("Shift Down");
+        }
+
+        private void ExcecuteShift(int targetGear)
+        {
+            if (autoShift)
+            {
+                _inputClutch = 0f;
+                _engine.CurrentGear = targetGear;
+                ServiceLocator.Instance.GetService<SetGearUseCase>().SetGearValue(_engine.CurrentGear);
+
+                DOTween.To(() => _inputClutch, x => _inputClutch = x, 1f, 0.5f).SetEase(Ease.OutQuad)
+                    .OnComplete(() =>
+                    {
+                        Debug.Log("Embrague Liberado");
+                    });
+            }
         }
 
         internal void SetCarUISpeed()
@@ -280,9 +288,7 @@ namespace Beetle.Framework
         internal void Tick()
         {
             SetCarDirection();
-            //SetCarAcceleration();
             SetCarBrake();
-            //SetEngineRPM();
             SetCarUISpeed();
 
         }

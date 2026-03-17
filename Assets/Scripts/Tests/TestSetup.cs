@@ -26,7 +26,7 @@ public class TestSetup : MonoBehaviour
         _carHandler = new CarHandler();
         _playerGameplayUIView = GameObject.FindAnyObjectByType<PlayerGameplayUIView>();
         var player = _carHandler.CarBehavior;
-        var playerViewModel = new PlayerViewModel(player.engineRPM, player.currentGear, player.carSpeed);
+        var playerViewModel = new PlayerViewModel(player.Engine.CurrentRPM, player.Engine.CurrentGear, player.carSpeed);
         var playerPresenter = new PlayerPresenter(playerViewModel);
         var setRpmUseCase = new SetRpmUseCase(playerPresenter);
         _playerGameplayUIView.SetModel(playerViewModel);

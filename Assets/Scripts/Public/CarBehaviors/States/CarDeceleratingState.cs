@@ -19,23 +19,6 @@ public class CarDeceleratingState : CarEngineState
         Owner.SetEngineOmega(0f);
         float wheelTorque = Owner.GetLoadTorque() * Owner.GetGearNetRatio();
         Owner.SetWheelTorque(wheelTorque);
-        /*
-        if (Owner.gearRatios[Owner.currentGear] != 0f)
-        {
-            float calculatedRPM = Owner.GetWheelRPM() * Owner.GetCurrentGearRatio() * Owner.finalDriveRatio;
-            Owner.SetRPM(Mathf.Lerp(
-                            Owner.GetRPM(),
-                            calculatedRPM,Time.deltaTime * 5f
-                            ));
-            Owner.SetWheelTorque(-70f);
-        }
-        else
-        {
-            Owner.SetRPM(Mathf.Lerp(
-                        Owner.engineRPM,
-                        0f, Time.deltaTime *2f
-                        ));
-        }
-        */
+
     }
 }

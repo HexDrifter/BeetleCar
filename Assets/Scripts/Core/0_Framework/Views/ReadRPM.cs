@@ -17,6 +17,6 @@ public class ReadRPM : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rpmText.text = "RPM:" + car.engineRPM;
+        rpmText.text = "RPM:" + car.Engine.CurrentRPM;
     }
 }

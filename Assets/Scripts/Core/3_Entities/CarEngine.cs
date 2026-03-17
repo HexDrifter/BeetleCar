@@ -4,72 +4,36 @@ namespace Beetle.Entities
 {
     public class CarEngine
     {
-        public float CurrentRPM { get; private set; }
-        public int CurrentGear { get; private set; }
-        public float[] GearRatios { get; }
-        public float FinalDriveRatio { get; }
-        public float MinRPM { get; }
-        public float MaxRPM { get; }
+        //Datos dinÃ¡micos
         public float FlyWheelAngularVelocity { get; set; }
-        private float _inertia;
-        private float _torque;
-        public float inertia => _inertia;
-        public CarEngine()
-        {
-            _inertia = .25f;
-            CurrentRPM = 0f;
-        }
+        public float EnginePhase { get; set; }
+        public int CurrentGear { get; set; }
 
-        public CarEngine(float[] gearRatios, float finalDriveRatio, float minRPM, float maxRPM, float inertia)
+        //Datos maestros
+        public float inertia { get; private set; }
+        public float[] GearRatios { get; private set; }
+        public float FinalDriveRatio { get; private set; }
+        public float MinRPM { get; private set; }
+        public float MaxRPM { get; private set; }
+
+        //Propiedades calculadas
+        public float CurrentRPM => FlyWheelAngularVelocity * 9.5493f;
+        public int MaxGears => GearRatios.Length -1;
+
+        //Atajo para obtener ratio actual
+        public float CurrentGearRatio => GearRatios[CurrentGear];
+        public CarEngine(float[] ratios, float finalRatio, float inertiaValue = 0.75f, float minRev = 850f, float maxRev = 6000f)
         {
-            GearRatios = gearRatios;
-            FinalDriveRatio = finalDriveRatio;
-            MinRPM = minRPM;
-            MaxRPM = maxRPM;
-            _inertia = inertia;
+            GearRatios = ratios;
+            FinalDriveRatio = finalRatio;
+            inertia = inertiaValue;
+            MinRPM = minRev;
+            MaxRPM = maxRev;
+
             CurrentGear = 1;
-            CurrentRPM = minRPM;
+            FlyWheelAngularVelocity = 0f;
+            EnginePhase = 0f;
+
         }
-
-        /*
-        public void SetEngineRPM(float throttleInput, float gearRatio, float finalDriveRatio, float currentWheelRPM, int currentGear)
-        {
-            // Configuración del torque del motor
-            _torque = (throttleInput * _inertia * 1000f) - 50f;
-
-            // Cálculo de las RPM del motor basadas en la relación de cambio (gear ratio)
-            if (gearRatio != 0f)
-            {
-                EngineRPM = currentWheelRPM * (gearRatio * finalDriveRatio);
-            }
-            else
-            {
-                // En caso de que el vehículo esté en neutral, las RPM del motor siguen la entrada de aceleración directamente
-                EngineRPM = Mathf.Clamp(EngineRPM + _torque, 0f, MaxRPM);
-            }
-
-            // Control de la velocidad de las RPM del motor según el cambio de marcha
-            // Aceleración y desaceleración
-            if (currentGear != 1) // Solo si no está en neutral
-            {
-                // Aplicar el torque de la aceleración, pero clamped por el máximo de RPM
-                EngineRPM = Mathf.Clamp(EngineRPM + _torque, 0f, MaxRPM);
-            }
-            else // En neutral, el motor sigue acelerando de acuerdo al input
-            {
-                // Aceleración en neutral
-                EngineRPM = Mathf.Clamp(EngineRPM + _torque, 0f, MaxRPM);
-            }
-        }
-
-        public float GetEngineRPM()
-        {
-            return EngineRPM;
-        }
-
-        public float GetWheelTorque()
-        {
-            return _torque * GearRatios[CurrentGear] * FinalDriveRatio;
-        }*/
     }
 }

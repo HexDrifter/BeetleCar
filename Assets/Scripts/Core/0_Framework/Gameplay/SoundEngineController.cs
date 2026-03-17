@@ -12,7 +12,8 @@ namespace Beetle.Framework
 
         public void SetPitch()
         {
-            _pitch = (_carBehavior.engineRPM / _carBehavior.maxRPM);
+            var engine = _carBehavior.Engine;
+            _pitch = (engine.CurrentRPM / engine.MaxRPM);
             _audio.pitch = _minPitch + _pitch * _maxPitch;
         }
 

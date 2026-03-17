@@ -16,7 +16,7 @@ public class CarEngineOffState : CarEngineState
     public override void Tick()
     {
         base.Tick();
-        float compressionResistance = Owner.GetFrictionTorque() * 3f;
+        float compressionResistance = Owner.Engine.FlyWheelAngularVelocity * 3f;
         Owner.SetEngineOmega(0f, -compressionResistance);
 
         float wheelTorque = Owner.GetLoadTorque() * Owner.GetGearNetRatio();

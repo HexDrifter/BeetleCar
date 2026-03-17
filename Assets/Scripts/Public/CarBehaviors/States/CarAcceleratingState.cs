@@ -18,33 +18,6 @@ public class CarAcceleratingState : CarEngineState
     {
         base.Tick();
         
-        /*float torque;
-
-
-        if (Owner.GetCurrentGearRatio() != 0f)
-        {
-            float calculatedRPM = Owner.GetWheelRPM() * Owner.GetCurrentGearRatio() * Owner.finalDriveRatio;
-            Owner.SetRPM(Mathf.Lerp(
-                            Owner.GetRPM(),
-                            Mathf.Clamp(calculatedRPM + (Owner.engineTorque * Owner.inputAcceleration),
-                                   Owner.minRPM,
-                                   Owner.maxRPM),
-                                   Time.deltaTime * 5f
-                            ));
-            torque = Owner.torqueCurve.Evaluate(Owner.GetRPM() / Owner.maxRPM) * Owner.inputAcceleration * Owner.GetCurrentGearRatio();
-            
-        }
-        else
-        {
-            Owner.SetRPM(Mathf.Clamp(
-                        Owner.engineRPM + (Owner.engineTorque * Owner.inputAcceleration * Time.deltaTime * 10),
-                        Owner.minRPM, Owner.maxRPM
-                        ));
-            torque = 0f;
-        }
-        Owner.SetWheelTorque(torque);
-        */
-
         Owner.SetEngineOmega(Owner.inputAcceleration);
         float wheelTorque = Owner.GetLoadTorque() * Owner.GetGearNetRatio();
         Owner.SetWheelTorque(wheelTorque);

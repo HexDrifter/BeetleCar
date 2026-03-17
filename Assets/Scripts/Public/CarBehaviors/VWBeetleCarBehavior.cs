@@ -14,13 +14,13 @@ public class VWBeetleCarBehavior : CarBehavior
         var startingState = new CarStartingState(this);
 
         AtEngineState(engineOffState, startingState, () => inputEngineIgnition == true);
-        AtEngineState(startingState, idleState, () => engineRPM >= 550f);
+        AtEngineState(startingState, idleState, () => Engine.CurrentRPM >= 410f);
 
         AtEngineState(idleState, acceleratingState, () => inputAcceleration >= 0.1f);
         AtEngineState(acceleratingState, deceleratingState, () => inputAcceleration < 0.1f);
-        AtEngineState(deceleratingState,idleState, () => engineRPM < minRPM);
+        AtEngineState(deceleratingState,idleState, () => Engine.CurrentRPM < Engine.MinRPM);
         AtEngineState(deceleratingState, acceleratingState, () => inputAcceleration > 0.1f);
-        AtEngineState(idleState, engineOffState, () => engineRPM < 500f);
+        AtEngineState(idleState, engineOffState, () => Engine.CurrentRPM < 400f);
 
         AtEngineState(startingState, engineOffState, () => inputEngineIgnition == false);
 

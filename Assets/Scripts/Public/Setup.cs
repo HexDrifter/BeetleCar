@@ -26,7 +26,7 @@ public class Setup : MonoBehaviour
         _carAnimator = FindAnyObjectByType<CarAnimator>();
         _carHandler = new CarHandler();
         var player = _carHandler.CarBehavior;
-        var playerViewModel = new PlayerViewModel(player.engineRPM,player.currentGear, player.carSpeed);
+        var playerViewModel = new PlayerViewModel(player.Engine.CurrentRPM,player.Engine.CurrentGear, player.carSpeed);
         var playerPresenter = new PlayerPresenter(playerViewModel);
         var setRpmUseCase = new SetRpmUseCase(playerPresenter);
         _playerGameplayUIView.SetModel(playerViewModel);
