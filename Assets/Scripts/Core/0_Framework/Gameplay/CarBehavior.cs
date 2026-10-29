@@ -174,6 +174,24 @@ namespace Beetle.Framework
             return accelerationTorque;
         }
 
+        public float GetWheelAngularVelocity(WheelCollider wheel)
+        {
+            return wheel.rotationSpeed * 0.10472f;//(2 * Mathf.PI / 60f);
+        }
+
+        public float GetDifferentialOmega()
+        {
+            float leftWheelOmega = GetWheelAngularVelocity(rearLeftWheelCollider);
+            float rightWheelOmega = GetWheelAngularVelocity(rearRightWheelCollider);
+            return (leftWheelOmega + rightWheelOmega) / 2f;
+        }
+
+        public float GetEngineTargetVelocity()
+        {
+            float differentialOmega = GetDifferentialOmega();
+
+            return differentialOmega * GetGearNetRatio();
+        }
         public void SetEngineOmega(float accelerationInput, float extraTorque = 0f)
         {
             _engine.EnginePhase += _engine.FlyWheelAngularVelocity * Time.deltaTime;
