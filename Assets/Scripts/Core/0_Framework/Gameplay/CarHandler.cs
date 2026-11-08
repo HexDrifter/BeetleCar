@@ -11,8 +11,9 @@ namespace Beetle.Framework
         private Vector2 _inputDirection;
         private float _inputAcceleration;
         private float _inputBrake;
+        private float _inputClutch;
         private bool _inputEngineIgnition;
-    
+
         private CarBehavior _carBehavior;
 
         public CarBehavior CarBehavior => _carBehavior;
@@ -37,6 +38,11 @@ namespace Beetle.Framework
             _inputBrake = inputBrake;
         }
 
+        public void SetInputClutch(float inputClutch)
+        {
+            _inputClutch = inputClutch;
+        }
+
         public void SetEngineIgnition(bool ignition)
         {
             _inputEngineIgnition = ignition;
@@ -47,6 +53,7 @@ namespace Beetle.Framework
             _carBehavior.SetInputDirection(_inputDirection);
             _carBehavior.SetInputAcceleration(_inputAcceleration);
             _carBehavior.SetInputBrake(_inputBrake);
+            _carBehavior.SetInputClutch(_inputClutch);
             _carBehavior.SetInputEngineIgnition(_inputEngineIgnition);
             _carBehavior.Tick();
         }

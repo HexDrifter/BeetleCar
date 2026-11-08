@@ -2,7 +2,7 @@ using UnityEngine;
 using Beetle.Framework;
 public class CarStartingState : CarEngineState
 {
-    private float _starterTorque = 10f;
+    private readonly float _starterTorque = 35f;
     public CarStartingState(CarBehavior owner) : base(owner)
     {
     }
@@ -10,13 +10,11 @@ public class CarStartingState : CarEngineState
     {
         base.OnEnter();
         Debug.Log("Arrancando");
-        Owner.SetEngineOmega(0f, 100f);
+        // OnEnter no integra fisica: la simulacion ocurre una sola vez por paso fijo.
     }
     public override void Tick()
     {
-        Owner.SetEngineOmega(0f, _starterTorque);
-        float wheelTorque = Owner.GetLoadTorque() * Owner.GetGearNetRatio();
-        Owner.SetWheelTorque(wheelTorque);
+        Owner.SimulatePowertrain(0f, _starterTorque);
 
 
     }

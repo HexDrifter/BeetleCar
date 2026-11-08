@@ -51,6 +51,7 @@ public class Setup : MonoBehaviour
         _carHandler.SetInputDirection(_gameInput.Actor.Direction.ReadValue<Vector2>());
         _carHandler.SetInputAcceleration(_gameInput.Actor.Acceleration.ReadValue<float>());
         _carHandler.SetInputBrake(_gameInput.Actor.Brake.ReadValue<float>());
+        _carHandler.SetInputClutch(_gameInput.Actor.Clutch.ReadValue<float>());
         _carHandler.SetInputGearUp(_gameInput.Actor.ShiftUp.triggered);
         _carHandler.SetInputGearDown(_gameInput.Actor.ShiftDown.triggered);
         _carAnimator.OpenCloseRearHood(_gameInput.Actor.OpenRearHood.triggered);

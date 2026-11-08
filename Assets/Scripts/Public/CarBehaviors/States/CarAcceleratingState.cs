@@ -18,9 +18,7 @@ public class CarAcceleratingState : CarEngineState
     {
         base.Tick();
         
-        Owner.SetEngineOmega(Owner.inputAcceleration);
-        float wheelTorque = Owner.GetLoadTorque() * Owner.GetGearNetRatio();
-        Owner.SetWheelTorque(wheelTorque);
+        Owner.SimulatePowertrain(Owner.inputAcceleration);
 
     }
 }

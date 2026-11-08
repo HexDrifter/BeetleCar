@@ -1,0 +1,416 @@
+using Beetle.Domain;
+using Beetle.Entities;
+using Beetle.SystemUtilities;
+using System;
+using DG.Tweening;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
+
+namespace Beetle.Framework
+{
+
+    public class CarBehavior : MonoBehaviour
+    {
+        protected StateMachine _stateMachine;
+        [Header("Powertrain")]
+        [Tooltip("Coeficiente de acoplamiento viscoso del embrague (N·m por rad/s).")]
+        [Min(0f)] public float Damping = 15f;
+        [Tooltip("Torque máximo que puede transmitir el embrague completamente acoplado, en N·m.")]
+        [SerializeField, Min(0f)] private float clutchTorqueCapacity = 180f;
+        [Tooltip("Coeficiente de resistencia de compresión con el motor apagado.")]
+        [SerializeField, Min(0f)] private float engineOffDragCoefficient = 3f;
+        //Input variables
+        private Vector2 _inputDirection;
+        private float _inputAcceleration;
+        private float _inputBrake;
+        private float _inputClutch = 1f;
+        private float _carSpeed;
+        private float _steerAngle;
+        private bool _inputEngineIgnition;
+        private CarEngine _engine = new CarEngine(new float[] { -3.6f, 0f, 3.8f, 2.06f, 1.32f, 0.89f }, 4.12f);
+
+        [Header("Config")]
+        [SerializeField] public float brakeForce;
+        [SerializeField] public float maxAngle;
+        [SerializeField] public float steerSpeed;
+        [SerializeField] private bool autoShift = true;
+        [SerializeField] private AnimationCurve _torqueCurve;
+
+        public Vector2 inputDirection => _inputDirection;
+        public float steerAngle => _steerAngle;
+        public float inputAcceleration => _inputAcceleration;
+        public float inputBrake => _inputBrake;
+        public float inputClutch => _inputClutch;
+        public float carSpeed => _carSpeed;
+        public AnimationCurve torqueCurve => _torqueCurve;
+        public bool inputEngineIgnition => _inputEngineIgnition;
+        public CarEngine Engine => _engine;
+
+        [Header("Wheel Colliders")]
+        [SerializeField] public WheelCollider frontLeftWheelCollider;
+        [SerializeField] public WheelCollider frontRightWheelCollider;
+        [SerializeField] public WheelCollider rearLeftWheelCollider;
+        [SerializeField] public WheelCollider rearRightWheelCollider;
+
+        protected string AtEngineState(IState from, IState to, Func<bool> condition) => _stateMachine.AddTransition(from, to, condition);
+
+        public virtual void Initialize()
+        {
+            _stateMachine = new StateMachine();
+            if (_stateMachine != null)
+            {
+                Debug.Log("Maquina de estado inicializada" + (_stateMachine != null));
+            }
+            else
+            {
+                Debug.Log("Maquina de estado NO inicializada");
+            }
+        }
+
+        internal void SetInputDirection(Vector2 inputDirection)
+        {
+            _inputDirection = inputDirection;
+        }
+
+        internal void SetCarDirection()
+        {
+            if (_inputDirection.magnitude > 0)
+            {
+                if (maxAngle * _inputDirection.x > steerAngle)
+                {
+                    _steerAngle += steerSpeed * Time.deltaTime * 10;
+                }
+                else if (maxAngle * _inputDirection.x < steerAngle)
+                {
+                    _steerAngle -= steerSpeed * Time.deltaTime * 10;
+                }
+            }
+            else
+            {
+                _steerAngle = Mathf.Lerp(steerAngle, 0, Time.deltaTime * steerSpeed);
+            }
+            frontLeftWheelCollider.steerAngle = steerAngle;
+            frontRightWheelCollider.steerAngle = steerAngle;
+        }
+
+        internal void SetInputAcceleration(float inputAcceleration)
+        {
+
+            _inputAcceleration = inputAcceleration;
+        }
+
+        internal void SetInputEngineIgnition(bool inputEngineIgnition)
+        {
+            _inputEngineIgnition = inputEngineIgnition;
+        }
+
+        public void SetRPM(float rpm)
+        {
+            try
+            {
+                ServiceLocator.Instance.GetService<SetRpmUseCase>().SetRpmValue(rpm);
+            }
+            catch { }
+        }
+
+        private const float RpmToRadiansPerSecond = 0.10471976f;
+
+        public float GetRPM()
+        {
+            return _engine.CurrentRPM;
+        }
+
+        public float GetCurrentGearRatio()
+        {
+            return _engine.CurrentGearRatio;
+        }
+
+        public float GetWheelRPM()
+        {
+            return (rearLeftWheelCollider.rpm + rearRightWheelCollider.rpm) * 0.5f;
+        }
+
+        /// <summary>
+        /// Torque medio del motor a las RPM actuales, escalado por la apertura del acelerador.
+        /// La curva ya representa el torque medio: no debe volver a multiplicarse por una onda
+        /// artificial de combustión.
+        /// </summary>
+        public float GetCombustionTorque(float acceleration)
+        {
+            if (_torqueCurve == null || _torqueCurve.length == 0)
+                return 0f;
+
+            float throttle = Mathf.Clamp01(acceleration);
+            return _torqueCurve.Evaluate(GetRPM()) * throttle;
+        }
+
+        public float GetGearNetRatio()
+        {
+            return _engine.CurrentGearRatio * _engine.FinalDriveRatio;
+        }
+
+        /// <summary>
+        /// Velocidad angular equivalente en el lado de entrada de la transmisión.
+        /// Las RPM de las ruedas se convierten a rad/s antes de aplicar la relación total.
+        /// </summary>
+        public float GetCurrentTransmissionOmega()
+        {
+            return GetWheelRPM() * RpmToRadiansPerSecond * GetGearNetRatio();
+        }
+
+        /// <summary>
+        /// Torque transmitido por el embrague hacia la transmisión, referido al eje del motor.
+        /// El signo se obtiene de la diferencia de velocidades: puede impulsar o frenar el motor.
+        /// </summary>
+        public float GetLoadTorque()
+        {
+            float gearRatio = GetGearNetRatio();
+            float clutchEngagement = Mathf.Clamp01(_inputClutch);
+
+            if (Mathf.Approximately(gearRatio, 0f) || clutchEngagement <= 0f)
+                return 0f;
+
+            float engineOmega = _engine.FlyWheelAngularVelocity;
+            float transmissionOmega = GetCurrentTransmissionOmega();
+            float relativeOmega = engineOmega - transmissionOmega;
+
+            float coupling = Mathf.Max(0f, Damping);
+            float requestedTorque = relativeOmega * coupling;
+            float availableTorque = Mathf.Max(0f, clutchTorqueCapacity) * clutchEngagement;
+
+            // La capacidad finita representa el límite mecánico del embrague, no un límite
+            // numérico arbitrario aplicado al torque de todo el motor.
+            return Mathf.Clamp(requestedTorque, -availableTorque, availableTorque);
+        }
+
+        public float GetFrictionTorque()
+        {
+            // Modelo inicial de fricción viscosa interna. El torque se opone al giro positivo.
+            return _engine.FlyWheelAngularVelocity * 0.1f;
+        }
+
+        public float GetNetTorque(float acceleration, float additionalTorque = 0f)
+        {
+            return GetCombustionTorque(acceleration)
+                   + additionalTorque
+                   - GetFrictionTorque()
+                   - GetLoadTorque();
+        }
+
+        public float GetAccelerationTorque(float acceleration, float additionalTorque = 0f)
+        {
+            if (_engine.inertia <= 0f)
+                return 0f;
+
+            return GetNetTorque(acceleration, additionalTorque) / _engine.inertia;
+        }
+
+        public float GetWheelAngularVelocity(WheelCollider wheel)
+        {
+            return wheel.rpm * RpmToRadiansPerSecond;
+        }
+
+        public float GetDifferentialOmega()
+        {
+            float leftWheelOmega = GetWheelAngularVelocity(rearLeftWheelCollider);
+            float rightWheelOmega = GetWheelAngularVelocity(rearRightWheelCollider);
+            return (leftWheelOmega + rightWheelOmega) * 0.5f;
+        }
+
+        public float GetEngineTargetVelocity()
+        {
+            return GetDifferentialOmega() * GetGearNetRatio();
+        }
+
+        /// <summary>
+        /// Avanza el motor y aplica a las ruedas el mismo torque de embrague usado en el balance
+        /// del cigüeñal. Debe llamarse una vez por paso de física.
+        /// </summary>
+        public void SimulatePowertrain(
+            float accelerationInput,
+            float additionalTorque = 0f,
+            bool combustionEnabled = true)
+        {
+            float deltaTime = Time.fixedDeltaTime;
+            if (deltaTime <= 0f)
+                return;
+
+            float clutchTorque = AdvanceEngine(
+                accelerationInput,
+                additionalTorque,
+                combustionEnabled,
+                deltaTime);
+
+            SetWheelTorque(clutchTorque * GetGearNetRatio());
+        }
+
+        /// <summary>
+        /// Integra la dinámica angular del motor. Devuelve el torque de embrague calculado
+        /// antes de integrar, para que ese mismo valor se aplique al lado de las ruedas.
+        /// </summary>
+        private float AdvanceEngine(
+            float accelerationInput,
+            float additionalTorque,
+            bool combustionEnabled,
+            float deltaTime)
+        {
+            float clutchTorque = GetLoadTorque();
+            float previousOmega = _engine.FlyWheelAngularVelocity;
+
+            float engineTorque = combustionEnabled ? GetCombustionTorque(accelerationInput) : 0f;
+            float stateTorque = additionalTorque;
+
+            // La decisión de apagar el motor viene del estado; la resistencia mecánica se calcula aquí.
+            if (!combustionEnabled)
+                stateTorque -= previousOmega * engineOffDragCoefficient;
+
+            float netTorque = engineTorque
+                              + stateTorque
+                              - GetFrictionTorque()
+                              - clutchTorque;
+
+            if (_engine.inertia <= 0f)
+            {
+                Debug.LogError("CarEngine.inertia debe ser mayor que cero. Se omitió el paso del motor.", this);
+                return clutchTorque;
+            }
+
+            float angularAcceleration = netTorque / _engine.inertia;
+            float nextOmega = previousOmega + angularAcceleration * deltaTime;
+
+            // Un motor convencional no continúa integrándose hacia una velocidad de giro negativa.
+            // No se impone un mínimo artificial de RPM ni el antiguo límite fijo de 1000 rad/s.
+            nextOmega = Mathf.Max(0f, nextOmega);
+
+            if (float.IsNaN(nextOmega) || float.IsInfinity(nextOmega))
+            {
+                Debug.LogError("La simulación del motor produjo una velocidad angular no finita.", this);
+                return clutchTorque;
+            }
+
+            // Integración trapezoidal del ángulo, más precisa que usar solo la velocidad inicial.
+            _engine.EnginePhase += (previousOmega + nextOmega) * 0.5f * deltaTime;
+            _engine.FlyWheelAngularVelocity = nextOmega;
+
+            SetRPM(_engine.CurrentRPM);
+            return clutchTorque;
+        }
+
+        public void SetWheelTorque(float torque)
+        {
+            // El torque de transmisión se calcula una sola vez por paso; no se vuelve a suavizar
+            // aquí porque ese retraso desincronizaba la reacción del motor y la de las ruedas.
+            float torquePerWheel = torque * 0.5f;
+            rearLeftWheelCollider.motorTorque = torquePerWheel;
+            rearRightWheelCollider.motorTorque = torquePerWheel;
+        }
+
+        internal void SetInputBrake(float inputBrake)
+        {
+            _inputBrake = inputBrake;
+        }
+
+        internal void SetInputClutch(float inputClutch)
+        {
+            _inputClutch = inputClutch;
+        }
+        internal void SetCarBrake()
+        {
+            float brakeTorque = brakeForce * _inputBrake;
+            frontLeftWheelCollider.brakeTorque = brakeTorque;
+            frontRightWheelCollider.brakeTorque = brakeTorque;
+            rearLeftWheelCollider.brakeTorque = brakeTorque;
+            rearRightWheelCollider.brakeTorque = brakeTorque;
+        }
+
+
+        internal void ShiftUp()
+        {
+            if (_engine.CurrentGear < _engine.MaxGears)
+            {
+                Debug.Log("Cambiando a marcha: " + (_engine.CurrentGear + 1));
+                ExcecuteShift(_engine.CurrentGear + 1);
+            }
+        }
+
+        internal void ShiftDown()
+        {
+            if (_engine.CurrentGear > 0)
+            {
+                Debug.Log("Reduciendo a marcha: " + (_engine.CurrentGear - 1));
+                ExcecuteShift(_engine.CurrentGear - 1);
+            }
+        }
+
+        private void ExcecuteShift(int targetGear)
+        {
+            if (autoShift)
+            {
+                _inputClutch = 0f;
+                _engine.CurrentGear = targetGear;
+                ServiceLocator.Instance.GetService<SetGearUseCase>().SetGearValue(_engine.CurrentGear);
+
+                DOTween.To(() => _inputClutch, x => _inputClutch = x, 1f, 0.5f).SetEase(Ease.OutQuad)
+                    .OnComplete(() =>
+                    {
+                        Debug.Log("Embrague Liberado");
+                    });
+            }
+        }
+
+        internal void SetCarUISpeed()
+        {
+
+            float frontWheelRPM = (frontLeftWheelCollider.rpm + frontRightWheelCollider.rpm) / 2f;
+            //float wheelCircumference = 2 * Mathf.PI * frontLeftWheelCollider.radius;
+            float wheelCircumference = 2 * Mathf.PI * 0.41f;
+            float speed = (frontWheelRPM * wheelCircumference * 60f) / 1000f;
+            try
+            {
+                ServiceLocator.Instance.GetService<SetSpeedUseCase>().SetSpeedValue(speed);
+            }
+            catch { }
+        }
+
+        public float GetCarSpeed()
+        {
+            float frontWheelRPM = (frontLeftWheelCollider.rpm + frontRightWheelCollider.rpm) / 2f;
+            float wheelCircumference = 2 * Mathf.PI * 0.41f;
+            float speed = (frontWheelRPM * wheelCircumference * 60f) / 1000f;
+            return speed;
+        }
+        internal void setGlobalSpeed()
+        {
+
+        }
+        internal void Tick()
+        {
+            SetCarDirection();
+            SetCarBrake();
+            SetCarUISpeed();
+
+        }
+        internal void FixedTick()
+        {
+            _stateMachine.Tick();
+        }
+        
+        public void GetInputAcceleration(float inputAcceleration)
+        {
+            _inputAcceleration = inputAcceleration;
+        }
+
+        public void GetInputBrake(float inputBrake)
+        {
+            _inputBrake = inputBrake;
+        }
+
+        public void GetInputClutch(float inputClutch)
+        {
+            _inputClutch = inputClutch;
+        }
+    }
+}

@@ -10,7 +10,7 @@ public class CarIdleState : CarEngineState
     public override void OnEnter()
     {
         base.OnEnter();
-        Debug.Log("Ralent�");
+        Debug.Log("Ralentí");
         //Owner.SetRPM(450);
     }
 
@@ -19,17 +19,19 @@ public class CarIdleState : CarEngineState
         base.Tick();
 
         float idleError = Owner.Engine.MinRPM - Owner.Engine.CurrentRPM;
-        float idleTorque = 0f;
 
-        if (idleError > 0)
-        {
-            idleTorque = Mathf.Min(50f, idleError * 0.2f);
-        }
+        // El estado decide cuánto acelerador necesita el ralentí. Los torques mecánicos se
+        // consultan a CarBehavior; el cálculo del giro y la transmisión sigue centralizado allí.
+        float requiredTorque = Owner.GetFrictionTorque() + Owner.GetLoadTorque();
+        float idleCorrectionTorque = idleError * 0.2f;
+        requiredTorque = Mathf.Max(0f, requiredTorque + idleCorrectionTorque);
 
-        Owner.SetEngineOmegaFromIdle(idleTorque);
+        float fullThrottleTorque = Owner.GetCombustionTorque(1f);
+        float idleThrottle = fullThrottleTorque > 0.01f
+            ? Mathf.Clamp01(requiredTorque / fullThrottleTorque)
+            : 0f;
 
-        float wheelTorque = Owner.GetLoadTorque() * Owner.GetGearNetRatio();
-        Owner.SetWheelTorque(wheelTorque);
+        Owner.SimulatePowertrain(idleThrottle);
         
 
     }

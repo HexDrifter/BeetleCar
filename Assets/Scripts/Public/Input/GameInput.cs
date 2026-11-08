@@ -113,6 +113,16 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                     ""priority"": 0
                 },
                 {
+                    ""name"": ""Clutch"",
+                    ""type"": ""Value"",
+                    ""id"": ""adede8be-f8bb-4607-8a6a-f123bad6954c"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true,
+                    ""priority"": 0
+                },
+                {
                     ""name"": ""Brake"",
                     ""type"": ""Value"",
                     ""id"": ""8eef8f83-6c2a-4c95-8d24-0cec3783a65a"",
@@ -307,6 +317,28 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""c51f0a80-e1f7-4cc8-9d26-77f977fda8a8"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Clutch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b738d12d-b76f-4de1-8712-59b9712f0a53"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Clutch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""ec084fa1-12ae-4235-b391-151bb40215f2"",
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
@@ -413,6 +445,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         m_Actor = asset.FindActionMap("Actor", throwIfNotFound: true);
         m_Actor_Direction = m_Actor.FindAction("Direction", throwIfNotFound: true);
         m_Actor_Acceleration = m_Actor.FindAction("Acceleration", throwIfNotFound: true);
+        m_Actor_Clutch = m_Actor.FindAction("Clutch", throwIfNotFound: true);
         m_Actor_Brake = m_Actor.FindAction("Brake", throwIfNotFound: true);
         m_Actor_ShiftUp = m_Actor.FindAction("ShiftUp", throwIfNotFound: true);
         m_Actor_ShiftDown = m_Actor.FindAction("ShiftDown", throwIfNotFound: true);
@@ -502,6 +535,7 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
     private List<IActorActions> m_ActorActionsCallbackInterfaces = new List<IActorActions>();
     private readonly InputAction m_Actor_Direction;
     private readonly InputAction m_Actor_Acceleration;
+    private readonly InputAction m_Actor_Clutch;
     private readonly InputAction m_Actor_Brake;
     private readonly InputAction m_Actor_ShiftUp;
     private readonly InputAction m_Actor_ShiftDown;
@@ -528,6 +562,10 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Actor/Acceleration".
         /// </summary>
         public InputAction @Acceleration => m_Wrapper.m_Actor_Acceleration;
+        /// <summary>
+        /// Provides access to the underlying input action "Actor/Clutch".
+        /// </summary>
+        public InputAction @Clutch => m_Wrapper.m_Actor_Clutch;
         /// <summary>
         /// Provides access to the underlying input action "Actor/Brake".
         /// </summary>
@@ -588,6 +626,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Acceleration.started += instance.OnAcceleration;
             @Acceleration.performed += instance.OnAcceleration;
             @Acceleration.canceled += instance.OnAcceleration;
+            @Clutch.started += instance.OnClutch;
+            @Clutch.performed += instance.OnClutch;
+            @Clutch.canceled += instance.OnClutch;
             @Brake.started += instance.OnBrake;
             @Brake.performed += instance.OnBrake;
             @Brake.canceled += instance.OnBrake;
@@ -626,6 +667,9 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
             @Acceleration.started -= instance.OnAcceleration;
             @Acceleration.performed -= instance.OnAcceleration;
             @Acceleration.canceled -= instance.OnAcceleration;
+            @Clutch.started -= instance.OnClutch;
+            @Clutch.performed -= instance.OnClutch;
+            @Clutch.canceled -= instance.OnClutch;
             @Brake.started -= instance.OnBrake;
             @Brake.performed -= instance.OnBrake;
             @Brake.canceled -= instance.OnBrake;
@@ -701,6 +745,13 @@ public partial class @GameInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAcceleration(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Clutch" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnClutch(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Brake" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
